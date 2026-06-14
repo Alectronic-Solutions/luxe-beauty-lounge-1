@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found | Luxe Beauty Lounge</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@400;500&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #1C0B2E;
+      color: #FAF7F2;
+      font-family: 'DM Sans', sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 520px;
+    }
+
+    .eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #C8956C;
+      margin-bottom: 1.5rem;
+    }
+
+    .number {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(6rem, 20vw, 9rem);
+      line-height: 1;
+      color: rgba(245, 230, 200, 0.08);
+      margin-bottom: 0.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      line-height: 1.2;
+      color: #FAF7F2;
+      margin-bottom: 1rem;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: #C8956C;
+    }
+
+    p {
+      font-size: 0.9rem;
+      color: rgba(250, 247, 242, 0.5);
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+    }
+
+    .divider {
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #C8956C, transparent);
+      margin: 0 auto 2rem;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+
+    a.btn-primary {
+      display: inline-block;
+      padding: 0.875rem 2rem;
+      background: #C8956C;
+      color: #1C0B2E;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 9999px;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    a.btn-primary:hover {
+      background: #d4a47c;
+      transform: translateY(-1px);
+    }
+
+    a.btn-secondary {
+      display: inline-block;
+      padding: 0.875rem 2rem;
+      background: transparent;
+      color: rgba(250, 247, 242, 0.6);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 9999px;
+      border: 1px solid rgba(250, 247, 242, 0.15);
+      transition: color 0.2s, border-color 0.2s, transform 0.2s;
+    }
+
+    a.btn-secondary:hover {
+      color: #FAF7F2;
+      border-color: rgba(250, 247, 242, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0;
+      margin-bottom: 3rem;
+      text-decoration: none;
+    }
+
+    .logo-left {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.4rem;
+      letter-spacing: 0.03em;
+      color: #FAF7F2;
+    }
+
+    .logo-divider {
+      display: inline-block;
+      width: 1px;
+      height: 1.1rem;
+      background: rgba(200, 149, 108, 0.5);
+      margin: 0 0.5rem;
+      vertical-align: middle;
+    }
+
+    .logo-right {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 1.4rem;
+      letter-spacing: 0.02em;
+      color: #C8956C;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/luxe-beauty-lounge-1/" class="logo">
+      <span class="logo-left">Luxe</span>
+      <span class="logo-divider" aria-hidden="true"></span>
+      <span class="logo-right">Beauty</span>
+    </a>
+
+    <p class="eyebrow">404 — Page Not Found</p>
+    <div class="number">404</div>
+    <h1>This page took<br /><em>a different path.</em></h1>
+
+    <div class="divider"></div>
+
+    <p>The page you're looking for may have moved or no longer exists.<br />Let's get you somewhere beautiful.</p>
+
+    <div class="links">
+      <a href="/luxe-beauty-lounge-1/" class="btn-primary">Back to Home</a>
+      <a href="/luxe-beauty-lounge-1/booking/" class="btn-secondary">Book a Visit</a>
+    </div>
+  </div>
+</body>
+</html>
