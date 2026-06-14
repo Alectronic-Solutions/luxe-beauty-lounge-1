@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
-import { PageTransition } from "@/components/layout/PageTransition";
 import { FloatingBookButton } from "@/components/layout/FloatingBookButton";
 import { CustomCursor } from "@/components/ui/CustomCursor";
+import { assetPath } from "@/lib/assetPath";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -61,16 +61,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${cormorant.variable} ${dmSans.variable}`}>
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" type="image/x-icon" />
-        <link rel="shortcut icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/favicon.png" />
+        <link rel="icon" href={assetPath("/favicon.ico")} sizes="16x16 32x32 48x48" type="image/x-icon" />
+        <link rel="shortcut icon" href={assetPath("/favicon.ico")} />
+        <link rel="apple-touch-icon" href={assetPath("/favicon.png")} />
       </head>
       <body className="font-body antialiased bg-ivory text-charcoal">
         <CustomCursor />
         <AnnouncementBar />
-        <PageTransition>
-          {children}
-        </PageTransition>
+        {children}
         <FloatingBookButton />
       </body>
     </html>
