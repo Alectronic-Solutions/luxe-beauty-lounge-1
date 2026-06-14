@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SERVICES } from "@/lib/constants";
 import { staggerContainer, viewportOnce } from "@/lib/animations";
+import { assetPath } from "@/lib/assetPath";
 
 const EASE: [number, number, number, number] = [0.25, 0, 0, 1];
 
@@ -24,7 +25,7 @@ const SERVICE_THEME: Record<
   "signature-facial": {
     bg: "linear-gradient(145deg, rgba(28,11,46,0.82) 0%, rgba(46,18,73,0.75) 50%, rgba(28,11,46,0.88) 100%)",
     accent: "#C8956C",
-    photo: "/images/services-signature-facial.jpg",
+    photo: assetPath("/images/services-signature-facial.jpg"),
     photoOpacity: 0.55,
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -37,7 +38,7 @@ const SERVICE_THEME: Record<
   "balayage-color": {
     bg: "linear-gradient(145deg, rgba(26,26,26,0.78) 0%, rgba(45,32,32,0.72) 55%, rgba(26,18,16,0.85) 100%)",
     accent: "#E8C49A",
-    photo: "/images/services-balayage.jpg",
+    photo: assetPath("/images/services-balayage.jpg"),
     photoOpacity: 0.5,
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -49,7 +50,7 @@ const SERVICE_THEME: Record<
   "bridal-packages": {
     bg: "linear-gradient(145deg, rgba(200,149,108,0.72) 0%, rgba(168,117,80,0.78) 40%, rgba(80,40,20,0.88) 100%)",
     accent: "#FAF7F2",
-    photo: "/images/services-bridal.jpg",
+    photo: assetPath("/images/services-bridal.jpg"),
     photoOpacity: 0.45,
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -60,7 +61,7 @@ const SERVICE_THEME: Record<
   "brow-lash": {
     bg: "linear-gradient(145deg, rgba(46,18,73,0.80) 0%, rgba(28,11,46,0.82) 60%, rgba(14,5,23,0.90) 100%)",
     accent: "#F5E6C8",
-    photo: "/images/services-brow-lash.jpg",
+    photo: assetPath("/images/services-brow-lash.jpg"),
     photoOpacity: 0.45,
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -73,7 +74,7 @@ const SERVICE_THEME: Record<
   "body-treatments": {
     bg: "linear-gradient(145deg, rgba(42,26,14,0.75) 0%, rgba(26,16,8,0.80) 60%, rgba(13,8,4,0.90) 100%)",
     accent: "#C8956C",
-    photo: "/images/services-body-treatments.jpg",
+    photo: assetPath("/images/services-body-treatments.jpg"),
     photoOpacity: 0.5,
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -85,7 +86,7 @@ const SERVICE_THEME: Record<
   "nail-artistry": {
     bg: "linear-gradient(145deg, rgba(139,74,42,0.75) 0%, rgba(200,149,108,0.70) 50%, rgba(100,60,30,0.88) 100%)",
     accent: "#FAF7F2",
-    photo: "/images/services-nail-artistry.jpg",
+    photo: assetPath("/images/services-nail-artistry.jpg"),
     photoOpacity: 0.5,
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -262,7 +263,7 @@ export function ServicesGrid() {
       {/* Marble texture — very subtle, tinted out by the ivory overlay */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden>
         <Image
-          src="/images/services-hero.jpg"
+          src={assetPath("/images/services-hero.jpg")}
           alt=""
           fill
           sizes="100vw"

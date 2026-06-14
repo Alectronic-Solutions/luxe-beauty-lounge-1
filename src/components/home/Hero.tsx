@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { assetPath } from "@/lib/assetPath";
 
 const EASE: [number, number, number, number] = [0.25, 0, 0, 1];
 
@@ -46,7 +47,7 @@ export function Hero() {
       >
         {/* Static photo — always present, video overlays it on desktop */}
         <Image
-          src="/images/hero-bg.jpg"
+          src={assetPath("/images/hero-bg.jpg")}
           alt=""
           fill
           priority

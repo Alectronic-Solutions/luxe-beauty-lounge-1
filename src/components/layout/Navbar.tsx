@@ -6,6 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS } from "@/lib/constants";
+import { assetPath } from "@/lib/assetPath";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -52,7 +53,7 @@ export function Navbar() {
             aria-label="Luxe Beauty Lounge — home"
           >
             <Image
-              src="/images/logo.png"
+              src={assetPath("/images/logo.png")}
               alt="Luxe Beauty Lounge"
               width={52}
               height={52}
@@ -223,7 +224,7 @@ export function Navbar() {
                 (555) 820-4400
               </p>
               <Image
-                src="/images/logo.png"
+                src={assetPath("/images/logo.png")}
                 alt="Luxe Beauty Lounge"
                 width={36}
                 height={36}

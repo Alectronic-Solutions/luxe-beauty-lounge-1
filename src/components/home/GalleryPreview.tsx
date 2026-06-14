@@ -6,6 +6,7 @@ import type { Variants } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { viewportOnce } from "@/lib/animations";
+import { assetPath } from "@/lib/assetPath";
 
 const EASE: [number, number, number, number] = [0.25, 0, 0, 1];
 
@@ -21,15 +22,15 @@ interface GalleryItem {
 }
 
 const ITEMS: GalleryItem[] = [
-  { id: 1, label: "Signature Facial",  category: "Skin",        aspectPct: "133%", bg: "linear-gradient(155deg,#2e1249 0%,#1C0B2E 45%,#0e0517 100%)",   lightX: "40%", lightY: "35%", src: "/images/gallery/gallery-1.jpg" },
-  { id: 2, label: "Balayage & Color",  category: "Hair",        aspectPct: "75%",  bg: "linear-gradient(145deg,#1a1010 0%,#2a1a0e 55%,#1a0c08 100%)",   lightX: "65%", lightY: "25%", src: "/images/gallery/gallery-2.jpg" },
-  { id: 3, label: "Bridal Morning",    category: "Bridal",      aspectPct: "120%", bg: "linear-gradient(160deg,#8B4A2A 0%,#C8956C 40%,#A87550 100%)",   lightX: "50%", lightY: "20%", src: "/images/gallery/gallery-3.jpg" },
-  { id: 4, label: "Brow Lamination",   category: "Brow & Lash", aspectPct: "100%", bg: "linear-gradient(150deg,#3d1a63 0%,#2e1249 50%,#1C0B2E 100%)",   lightX: "30%", lightY: "60%", src: "/images/gallery/gallery-4.jpg" },
-  { id: 5, label: "Body Treatment",    category: "Body",        aspectPct: "145%", bg: "linear-gradient(165deg,#1a1a1a 0%,#2d1a10 50%,#120a06 100%)",   lightX: "55%", lightY: "40%", src: "/images/gallery/gallery-5.jpg" },
-  { id: 6, label: "Nail Artistry",     category: "Nails",       aspectPct: "80%",  bg: "linear-gradient(135deg,#C8956C 0%,#8B4A2A 50%,#5a2e14 100%)",   lightX: "70%", lightY: "30%", src: "/images/gallery/gallery-6.jpg" },
-  { id: 7, label: "Color Correction",  category: "Hair",        aspectPct: "110%", bg: "linear-gradient(155deg,#1C0B2E 0%,#3d1a2e 55%,#1a0a1a 100%)",   lightX: "45%", lightY: "45%", src: "/images/gallery/gallery-7.jpg" },
-  { id: 8, label: "Lash Lift",         category: "Brow & Lash", aspectPct: "90%",  bg: "linear-gradient(140deg,#0e0517 0%,#2e1249 60%,#1C0B2E 100%)",   lightX: "60%", lightY: "20%", src: "/images/gallery/gallery-8.jpg" },
-  { id: 9, label: "Gel Extensions",    category: "Nails",       aspectPct: "125%", bg: "linear-gradient(150deg,#E8C49A 0%,#C8956C 45%,#8B4A2A 100%)",   lightX: "35%", lightY: "30%", src: "/images/gallery/gallery-9.jpg" },
+  { id: 1, label: "Signature Facial",  category: "Skin",        aspectPct: "133%", bg: "linear-gradient(155deg,#2e1249 0%,#1C0B2E 45%,#0e0517 100%)",   lightX: "40%", lightY: "35%", src: assetPath("/images/gallery/gallery-1.jpg") },
+  { id: 2, label: "Balayage & Color",  category: "Hair",        aspectPct: "75%",  bg: "linear-gradient(145deg,#1a1010 0%,#2a1a0e 55%,#1a0c08 100%)",   lightX: "65%", lightY: "25%", src: assetPath("/images/gallery/gallery-2.jpg") },
+  { id: 3, label: "Bridal Morning",    category: "Bridal",      aspectPct: "120%", bg: "linear-gradient(160deg,#8B4A2A 0%,#C8956C 40%,#A87550 100%)",   lightX: "50%", lightY: "20%", src: assetPath("/images/gallery/gallery-3.jpg") },
+  { id: 4, label: "Brow Lamination",   category: "Brow & Lash", aspectPct: "100%", bg: "linear-gradient(150deg,#3d1a63 0%,#2e1249 50%,#1C0B2E 100%)",   lightX: "30%", lightY: "60%", src: assetPath("/images/gallery/gallery-4.jpg") },
+  { id: 5, label: "Body Treatment",    category: "Body",        aspectPct: "145%", bg: "linear-gradient(165deg,#1a1a1a 0%,#2d1a10 50%,#120a06 100%)",   lightX: "55%", lightY: "40%", src: assetPath("/images/gallery/gallery-5.jpg") },
+  { id: 6, label: "Nail Artistry",     category: "Nails",       aspectPct: "80%",  bg: "linear-gradient(135deg,#C8956C 0%,#8B4A2A 50%,#5a2e14 100%)",   lightX: "70%", lightY: "30%", src: assetPath("/images/gallery/gallery-6.jpg") },
+  { id: 7, label: "Color Correction",  category: "Hair",        aspectPct: "110%", bg: "linear-gradient(155deg,#1C0B2E 0%,#3d1a2e 55%,#1a0a1a 100%)",   lightX: "45%", lightY: "45%", src: assetPath("/images/gallery/gallery-7.jpg") },
+  { id: 8, label: "Lash Lift",         category: "Brow & Lash", aspectPct: "90%",  bg: "linear-gradient(140deg,#0e0517 0%,#2e1249 60%,#1C0B2E 100%)",   lightX: "60%", lightY: "20%", src: assetPath("/images/gallery/gallery-8.jpg") },
+  { id: 9, label: "Gel Extensions",    category: "Nails",       aspectPct: "125%", bg: "linear-gradient(150deg,#E8C49A 0%,#C8956C 45%,#8B4A2A 100%)",   lightX: "35%", lightY: "30%", src: assetPath("/images/gallery/gallery-9.jpg") },
 ];
 
 const CATEGORIES = ["All", "Skin", "Hair", "Bridal", "Brow & Lash", "Body", "Nails"] as const;

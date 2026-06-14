@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import type { Variants } from "framer-motion";
+import { assetPath } from "@/lib/assetPath";
 import Link from "next/link";
 import { viewportOnce } from "@/lib/animations";
 
@@ -176,7 +177,7 @@ export function AboutPreview() {
               {/* Founder portrait */}
               <div className="aspect-[3/4] w-full relative">
                 <Image
-                  src="/images/about-founder.jpg"
+                  src={assetPath("/images/about-founder.jpg")}
                   alt="Isabelle Laurent, Founder and Creative Director of Luxe Beauty Lounge"
                   fill
                   sizes="(max-width: 1024px) 100vw, 420px"

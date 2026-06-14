@@ -7,6 +7,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { SERVICES } from "@/lib/constants";
+import { assetPath } from "@/lib/assetPath";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 const VP = { once: true, amount: 0.15 } as const;
@@ -73,7 +74,7 @@ export default function ServicesPage() {
               >
                 {/* Real photo behind the gradient */}
                 <Image
-                  src="/images/services-facial.jpg"
+                  src={assetPath("/images/services-facial.jpg")}
                   alt=""
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"

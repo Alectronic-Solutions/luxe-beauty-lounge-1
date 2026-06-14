@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { PageHeader } from "@/components/layout/PageHeader";
+import { assetPath } from "@/lib/assetPath";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 const VP = { once: true, amount: 0.15 } as const;
@@ -27,12 +28,12 @@ const VALUES = [
 ];
 
 const TEAM = [
-  { name: "Isabelle Laurent",    role: "Founder & Creative Director",  specialty: "Advanced Skin Treatments",        years: "12+ yrs",  bg: "linear-gradient(155deg,#2e1249 0%,#1C0B2E 50%,#0e0517 100%)",  src: "/images/team/team-1.jpg" },
-  { name: "Maelle Fontaine",     role: "Senior Colorist",              specialty: "Balayage & Color Correction",     years: "9 yrs",    bg: "linear-gradient(145deg,#1a1010 0%,#2d2020 55%,#1a1210 100%)",  src: "/images/team/team-2.jpg" },
-  { name: "Suki Nakamura",       role: "Brow & Lash Artist",           specialty: "Brow Architecture & Lash Lifting",years: "7 yrs",   bg: "linear-gradient(145deg,#2e1249 0%,#1C0B2E 60%,#0e0517 100%)",  src: "/images/team/team-3.jpg" },
-  { name: "Dominique Castillo",  role: "Nail Artist",                  specialty: "Gel & Hard Gel Extensions",       years: "6 yrs",   bg: "linear-gradient(135deg,#8B4A2A 0%,#C8956C 50%,#E8C49A 100%)",  src: "/images/team/team-4.jpg" },
-  { name: "Rania Khalil",        role: "Body & Wellness Specialist",   specialty: "Wraps, Firming & Lymphatics",     years: "5 yrs",   bg: "linear-gradient(145deg,#2a1a0e 0%,#1a1008 60%,#0d0804 100%)",  src: "/images/team/team-5.jpg" },
-  { name: "Celine Moreau",       role: "Skin Therapist",               specialty: "Chemical Peels & Acne Protocols", years: "4 yrs",   bg: "linear-gradient(155deg,#2e1249 0%,#3d1a2e 55%,#1a0a1a 100%)",  src: "/images/team/team-6.jpg" },
+  { name: "Isabelle Laurent",    role: "Founder & Creative Director",  specialty: "Advanced Skin Treatments",        years: "12+ yrs",  bg: "linear-gradient(155deg,#2e1249 0%,#1C0B2E 50%,#0e0517 100%)",  src: assetPath("/images/team/team-1.jpg") },
+  { name: "Maelle Fontaine",     role: "Senior Colorist",              specialty: "Balayage & Color Correction",     years: "9 yrs",    bg: "linear-gradient(145deg,#1a1010 0%,#2d2020 55%,#1a1210 100%)",  src: assetPath("/images/team/team-2.jpg") },
+  { name: "Suki Nakamura",       role: "Brow & Lash Artist",           specialty: "Brow Architecture & Lash Lifting",years: "7 yrs",   bg: "linear-gradient(145deg,#2e1249 0%,#1C0B2E 60%,#0e0517 100%)",  src: assetPath("/images/team/team-3.jpg") },
+  { name: "Dominique Castillo",  role: "Nail Artist",                  specialty: "Gel & Hard Gel Extensions",       years: "6 yrs",   bg: "linear-gradient(135deg,#8B4A2A 0%,#C8956C 50%,#E8C49A 100%)",  src: assetPath("/images/team/team-4.jpg") },
+  { name: "Rania Khalil",        role: "Body & Wellness Specialist",   specialty: "Wraps, Firming & Lymphatics",     years: "5 yrs",   bg: "linear-gradient(145deg,#2a1a0e 0%,#1a1008 60%,#0d0804 100%)",  src: assetPath("/images/team/team-5.jpg") },
+  { name: "Celine Moreau",       role: "Skin Therapist",               specialty: "Chemical Peels & Acne Protocols", years: "4 yrs",   bg: "linear-gradient(155deg,#2e1249 0%,#3d1a2e 55%,#1a0a1a 100%)",  src: assetPath("/images/team/team-6.jpg") },
 ];
 
 export default function AboutPage() {
@@ -67,7 +68,7 @@ export default function AboutPage() {
                 <div className="relative rounded-[24px] overflow-hidden" style={{ boxShadow: "0 0 0 1px rgba(200,149,108,0.55), 0 0 0 4px rgba(200,149,108,0.07), 0 24px 48px rgba(28,11,46,0.18)" }}>
                   <div className="aspect-[3/4] w-full relative">
                     <Image
-                      src="/images/about-founder.jpg"
+                      src={assetPath("/images/about-founder.jpg")}
                       alt="Isabelle Laurent, Founder and Creative Director of Luxe Beauty Lounge"
                       fill
                       sizes="(max-width: 1024px) 100vw, 440px"
