@@ -7,6 +7,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { assetPath } from "@/lib/assetPath";
+import { TEAM as TEAM_DATA } from "@/lib/constants";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 const VP = { once: true, amount: 0.15 } as const;
@@ -27,14 +28,7 @@ const VALUES = [
   { num: "04", title: "Individuality", body: "There is no standard protocol. Every client receives a consultation, and every treatment is built around what they actually need — not what's easiest to deliver." },
 ];
 
-const TEAM = [
-  { name: "Isabelle Laurent",    role: "Founder & Creative Director",  specialty: "Advanced Skin Treatments",        years: "12+ yrs",  bg: "linear-gradient(155deg,#2e1249 0%,#1C0B2E 50%,#0e0517 100%)",  src: assetPath("/images/team/team-1.jpg") },
-  { name: "Maelle Fontaine",     role: "Senior Colorist",              specialty: "Balayage & Color Correction",     years: "9 yrs",    bg: "linear-gradient(145deg,#1a1010 0%,#2d2020 55%,#1a1210 100%)",  src: assetPath("/images/team/team-2.jpg") },
-  { name: "Suki Nakamura",       role: "Brow & Lash Artist",           specialty: "Brow Architecture & Lash Lifting",years: "7 yrs",   bg: "linear-gradient(145deg,#2e1249 0%,#1C0B2E 60%,#0e0517 100%)",  src: assetPath("/images/team/team-3.jpg") },
-  { name: "Dominique Castillo",  role: "Nail Artist",                  specialty: "Gel & Hard Gel Extensions",       years: "6 yrs",   bg: "linear-gradient(135deg,#8B4A2A 0%,#C8956C 50%,#E8C49A 100%)",  src: assetPath("/images/team/team-4.jpg") },
-  { name: "Rania Khalil",        role: "Body & Wellness Specialist",   specialty: "Wraps, Firming & Lymphatics",     years: "5 yrs",   bg: "linear-gradient(145deg,#2a1a0e 0%,#1a1008 60%,#0d0804 100%)",  src: assetPath("/images/team/team-5.jpg") },
-  { name: "Celine Moreau",       role: "Skin Therapist",               specialty: "Chemical Peels & Acne Protocols", years: "4 yrs",   bg: "linear-gradient(155deg,#2e1249 0%,#3d1a2e 55%,#1a0a1a 100%)",  src: assetPath("/images/team/team-6.jpg") },
-];
+const TEAM = TEAM_DATA.map((member) => ({ ...member, src: assetPath(member.src) }));
 
 export default function AboutPage() {
   const rm = useReducedMotion();
@@ -74,7 +68,7 @@ export default function AboutPage() {
                       sizes="(max-width: 1024px) 100vw, 440px"
                       className="object-cover object-top"
                       priority
-            unoptimized
+                      unoptimized
                     />
                     <div className="absolute bottom-0 inset-x-0 p-6" style={{ background: "linear-gradient(to top,rgba(28,11,46,0.92) 0%,rgba(28,11,46,0.5) 60%,transparent 100%)" }}>
                       <p className="font-display text-lg font-light text-ivory">Isabelle Laurent</p>
@@ -221,7 +215,7 @@ export default function AboutPage() {
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
-            unoptimized
+                      unoptimized
                     />
                     {/* Years badge */}
                     <div className="absolute top-4 right-4 z-10">

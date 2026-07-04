@@ -1,10 +1,12 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { assetPath } from "@/lib/assetPath";
+import { NoiseOverlay } from "@/components/ui/NoiseOverlay";
+import { HERO_VIDEOS } from "@/lib/constants";
 
 const EASE: [number, number, number, number] = [0.25, 0, 0, 1];
 
@@ -14,6 +16,20 @@ const LINE_2 = ["demands", "to", "be", "noticed."];
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const shouldReduceMotion = useReducedMotion();
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const [activeVideo, setActiveVideo] = useState(0);
+
+  useEffect(() => {
+    videoRefs.current.forEach((video, i) => {
+      if (!video) return;
+      if (i === activeVideo) {
+        video.currentTime = 0;
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+  }, [activeVideo]);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -39,13 +55,13 @@ export function Hero() {
       style={{ background: "#100620" }}
       aria-labelledby="hero-headline"
     >
-      {/* ── Background: video on desktop, photo fallback on mobile ── */}
+      {/* ── Background photo with parallax ── */}
       <motion.div
         style={{ y: bgY }}
         className="absolute inset-0 will-change-transform"
         aria-hidden
       >
-        {/* Static photo — always present, video overlays it on desktop */}
+        {/* Static photo background */}
         <Image
           src={assetPath("/images/hero-bg.jpg")}
           alt=""
@@ -53,21 +69,34 @@ export function Hero() {
           priority
           sizes="100vw"
           className="object-cover object-center"
-            unoptimized
+          unoptimized
         />
 
-        {/* Video loop — desktop only (autoplay unreliable on iOS) */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          className="hidden md:block absolute inset-0 w-full h-full object-cover object-center"
-          aria-hidden
-        >
-          <source src="/video/hero-loop.mp4" type="video/mp4" />
-        </video>
+        {/* Video crossfade — desktop only (autoplay unreliable on iOS) */}
+        <div className="hidden md:block absolute inset-0" aria-hidden>
+          {HERO_VIDEOS.map((src, i) => (
+            <motion.video
+              key={src}
+              ref={(el) => {
+                videoRefs.current[i] = el;
+              }}
+              muted
+              playsInline
+              preload="metadata"
+              onEnded={() =>
+                setActiveVideo((prev) => (prev + 1) % HERO_VIDEOS.length)
+              }
+              className="absolute inset-0 w-full h-full object-cover object-center"
+              animate={{ opacity: i === activeVideo ? 1 : 0 }}
+              transition={{
+                duration: shouldReduceMotion ? 0 : 1.2,
+                ease: EASE,
+              }}
+            >
+              <source src={src} type="video/mp4" />
+            </motion.video>
+          ))}
+        </div>
 
         {/* Deep plum color wash — blends photo into brand palette */}
         <div
@@ -102,13 +131,7 @@ export function Hero() {
         />
 
         {/* Noise grain for photographic texture */}
-        <div
-          className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-            backgroundSize: "128px 128px",
-          }}
-        />
+        <NoiseOverlay />
       </motion.div>
 
       {/* ── Decorative geometry ── */}
@@ -141,7 +164,7 @@ export function Hero() {
           initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2, ease: EASE }}
-          className="flex items-center gap-4 mb-12"
+          className="flex items-center gap-4 mb-8 sm:mb-12"
         >
           <div className="w-6 h-px bg-rose-gold" />
           <p className="font-body text-[0.7rem] tracking-[0.35em] uppercase text-rose-gold">
@@ -151,7 +174,7 @@ export function Hero() {
 
         {/* Frosted glass card */}
         <div
-          className="rounded-2xl p-6 sm:p-10 md:p-16 max-w-3xl"
+          className="rounded-2xl p-5 sm:p-10 md:p-16 max-w-3xl"
           style={{
             background: "rgba(255,255,255,0.05)",
             backdropFilter: "blur(20px) saturate(140%)",
@@ -164,7 +187,7 @@ export function Hero() {
           <h1
             id="hero-headline"
             className="font-display font-light text-ivory leading-[0.95] tracking-[-0.02em]"
-            style={{ fontSize: "clamp(3.5rem, 7vw, 6rem)" }}
+            style={{ fontSize: "clamp(2.25rem, 12vw, 6rem)" }}
             aria-label="Beauty that demands to be noticed."
           >
             {/* Line 1 */}
@@ -216,7 +239,7 @@ export function Hero() {
             initial={{ scaleX: 0, opacity: 0 }}
             animate={{ scaleX: 1, opacity: 1 }}
             transition={{ duration: 0.6, delay: 1.1, ease: EASE }}
-            className="mt-10 mb-8 flex items-center gap-3 origin-left"
+            className="mt-6 mb-6 sm:mt-10 sm:mb-8 flex items-center gap-3 origin-left"
             aria-hidden
           >
             <div className="h-px w-10 bg-rose-gold/50" />
@@ -240,7 +263,7 @@ export function Hero() {
             initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.3, ease: EASE }}
-            className="mt-10 flex flex-col sm:flex-row gap-3"
+            className="mt-6 sm:mt-10 flex flex-col sm:flex-row gap-3"
           >
             <HeroCTA href="/booking" primary>
               Reserve Your Visit
@@ -256,7 +279,7 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 0.8 }}
-          className="mt-10 font-body text-xs tracking-[0.2em] text-ivory/28"
+          className="mt-6 sm:mt-10 font-body text-xs tracking-[0.2em] text-ivory/28"
         >
           Westfield, NJ &nbsp;·&nbsp; By appointment
         </motion.p>

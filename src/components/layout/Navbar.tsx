@@ -1,17 +1,20 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS } from "@/lib/constants";
 import { assetPath } from "@/lib/assetPath";
+import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(72);
   const pathname = usePathname();
+  const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 56);
@@ -31,17 +34,36 @@ export function Navbar() {
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
+  // Track the header's real rendered height (announcement bar + nav row) so
+  // the mobile menu, and any page content that needs to sit below the fixed
+  // header (e.g. a sticky sub-nav), can stay in sync with the announcement
+  // bar's open/close animation instead of a stale hardcoded offset.
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const update = () => {
+      const h = el.getBoundingClientRect().height;
+      setHeaderHeight(h);
+      document.documentElement.style.setProperty("--nav-h", `${h}px`);
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   return (
     <>
       <motion.header
+        ref={headerRef}
         initial={{ y: -90, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed inset-x-0 z-50 transition-all duration-500 ease-in-out ${
+        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ease-in-out ${
           scrolled ? "nav-solid" : "bg-transparent"
         }`}
-        style={{ top: "var(--bar-h, 0px)" }}
       >
+        <AnnouncementBar />
         <nav
           className="container-luxury h-[72px] flex items-center justify-between"
           aria-label="Main navigation"
@@ -162,7 +184,7 @@ export function Navbar() {
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="fixed inset-x-0 bottom-0 z-40 flex flex-col bg-plum md:hidden overflow-y-auto"
-            style={{ top: "calc(var(--bar-h, 0px) + 72px)" }}
+            style={{ top: headerHeight }}
             role="dialog"
             aria-modal="true"
             aria-label="Navigation menu"

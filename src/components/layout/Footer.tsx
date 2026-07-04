@@ -106,7 +106,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 pb-14 border-b border-ivory/[0.07]">
 
           {/* Col 1: Logo + tagline + social */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 flex flex-col items-center md:items-start text-center md:text-left">
             <Link
               href="/"
               className="group inline-flex items-baseline gap-0 mb-5 focus-visible:outline-none"
@@ -121,12 +121,12 @@ export function Footer() {
               </span>
             </Link>
 
-            <p className="font-body text-[0.82rem] text-ivory/50 leading-[1.75] max-w-[220px]">
+            <p className="font-body text-[0.82rem] text-ivory/50 leading-[1.75] max-w-[220px] mx-auto md:mx-0">
               An elevated beauty experience crafted for those who expect the exceptional.
             </p>
 
             {/* Social icons */}
-            <div className="flex items-center gap-3 mt-7">
+            <div className="flex items-center justify-center md:justify-start gap-3 mt-7">
               {SOCIAL_LINKS.map(({ label, href, icon }) => {
                 const Icon = ICON_MAP[icon];
                 return (
@@ -146,7 +146,7 @@ export function Footer() {
             </div>
 
             {/* Rating indicator */}
-            <div className="flex items-center gap-2 mt-6">
+            <div className="flex items-center justify-center md:justify-start gap-2 mt-6">
               {Array.from({ length: 5 }).map((_, i) => (
                 <svg key={i} width="10" height="10" viewBox="0 0 10 10" fill="#C8956C" aria-hidden>
                   <path d="M5 1l.96 2.96H9.1L6.52 5.72l.95 2.96L5 6.9l-2.47 1.78.95-2.96L.9 3.96H4.04L5 1Z" />
@@ -157,7 +157,7 @@ export function Footer() {
           </div>
 
           {/* Col 2: Navigation */}
-          <div>
+          <div className="text-center md:text-left pt-8 border-t border-ivory/[0.07] md:pt-0 md:border-t-0">
             <p className="font-body text-[0.62rem] tracking-[0.28em] uppercase text-rose-gold/70 mb-5">
               Navigate
             </p>
@@ -168,7 +168,7 @@ export function Footer() {
                     href={href}
                     className="group inline-flex items-center gap-2 font-body text-[0.85rem] text-ivory/55 hover:text-ivory transition-colors duration-300"
                   >
-                    <span className="w-3 h-px bg-rose-gold/0 group-hover:bg-rose-gold/70 transition-all duration-300 group-hover:w-4" aria-hidden />
+                    <span className="hidden md:inline-block w-3 h-px bg-rose-gold/0 group-hover:bg-rose-gold/70 transition-all duration-300 group-hover:w-4" aria-hidden />
                     {label}
                   </Link>
                 </li>
@@ -178,7 +178,7 @@ export function Footer() {
                   href="/booking"
                   className="group inline-flex items-center gap-2 font-body text-[0.85rem] text-rose-gold hover:text-rose-gold-light transition-colors duration-300 mt-1"
                 >
-                  <span className="w-3 h-px bg-rose-gold/50 group-hover:bg-rose-gold transition-all duration-300 group-hover:w-4" aria-hidden />
+                  <span className="hidden md:inline-block w-3 h-px bg-rose-gold/50 group-hover:bg-rose-gold transition-all duration-300 group-hover:w-4" aria-hidden />
                   Book Now
                 </Link>
               </li>
@@ -186,7 +186,7 @@ export function Footer() {
           </div>
 
           {/* Col 3: Services */}
-          <div>
+          <div className="text-center md:text-left pt-8 border-t border-ivory/[0.07] md:pt-0 md:border-t-0">
             <p className="font-body text-[0.62rem] tracking-[0.28em] uppercase text-rose-gold/70 mb-5">
               Services
             </p>
@@ -197,7 +197,7 @@ export function Footer() {
                     href={`/services#${s.id}`}
                     className="group inline-flex items-center gap-2 font-body text-[0.85rem] text-ivory/55 hover:text-ivory transition-colors duration-300"
                   >
-                    <span className="w-3 h-px bg-rose-gold/0 group-hover:bg-rose-gold/70 transition-all duration-300 group-hover:w-4" aria-hidden />
+                    <span className="hidden md:inline-block w-3 h-px bg-rose-gold/0 group-hover:bg-rose-gold/70 transition-all duration-300 group-hover:w-4" aria-hidden />
                     {s.name}
                   </Link>
                 </li>
@@ -206,7 +206,7 @@ export function Footer() {
           </div>
 
           {/* Col 4: Contact + hours */}
-          <div>
+          <div className="text-center md:text-left pt-8 border-t border-ivory/[0.07] md:pt-0 md:border-t-0">
             <p className="font-body text-[0.62rem] tracking-[0.28em] uppercase text-rose-gold/70 mb-5">
               Find Us
             </p>
@@ -265,7 +265,7 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[0.72rem]">
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[0.72rem] text-center sm:text-left">
           <p className="text-ivory/50 tracking-wide">
             &copy; {new Date().getFullYear()} Luxe Beauty Lounge. All rights reserved.
           </p>

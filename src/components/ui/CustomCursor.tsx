@@ -18,6 +18,7 @@ export function CustomCursor() {
 
   useEffect(() => {
     if (rm) return;
+    if (!window.matchMedia("(pointer: fine)").matches) return;
 
     const onMove = (e: MouseEvent) => {
       rawX.set(e.clientX);

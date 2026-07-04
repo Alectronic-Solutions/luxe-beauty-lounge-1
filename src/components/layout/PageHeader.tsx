@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import { NoiseOverlay } from "@/components/ui/NoiseOverlay";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -32,13 +33,7 @@ export function PageHeader({ eyebrow, title, subtitle, children }: PageHeaderPro
           style={{ background: "radial-gradient(circle, #F5E6C8 0%, transparent 70%)", filter: "blur(80px)" }}
         />
         {/* Grain */}
-        <div
-          className="absolute inset-0 opacity-[0.03] mix-blend-overlay"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-            backgroundSize: "128px 128px",
-          }}
-        />
+        <NoiseOverlay />
       </div>
 
       {/* Left accent rule */}

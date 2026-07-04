@@ -182,7 +182,7 @@ export function AboutPreview() {
                   fill
                   sizes="(max-width: 1024px) 100vw, 420px"
                   className="object-cover object-top"
-            unoptimized
+                  unoptimized
                 />
 
                 {/* Name plate gradient */}
@@ -205,11 +205,11 @@ export function AboutPreview() {
 
             {/* Floating stats chip — bottom-left overflow */}
             <motion.div
-              initial={rm ? undefined : { opacity: 0, y: 16, x: -8 }}
+              initial={rm ? undefined : { opacity: 0, y: 16, x: 8 }}
               whileInView={rm ? undefined : { opacity: 1, y: 0, x: 0 }}
               viewport={viewportOnce}
               transition={{ delay: 0.55, duration: 0.6, ease: EASE }}
-              className="absolute -bottom-6 -left-6 rounded-[14px] py-4 px-5 z-10"
+              className="absolute -bottom-6 -right-6 rounded-[14px] py-4 px-5 z-10"
               style={{
                 background: "rgba(28,11,46,0.92)",
                 backdropFilter: "blur(12px)",

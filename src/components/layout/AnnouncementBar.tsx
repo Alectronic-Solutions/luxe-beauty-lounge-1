@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
@@ -8,7 +8,6 @@ const LS_KEY = "lbl-announcement-dismissed-v1";
 
 export function AnnouncementBar() {
   const [dismissed, setDismissed] = useState(false);
-  const barRef = useRef<HTMLDivElement>(null);
 
   // Hydrate from localStorage after mount (avoids SSR mismatch)
   useEffect(() => {
@@ -22,20 +21,7 @@ export function AnnouncementBar() {
     localStorage.setItem(LS_KEY, "true");
   }
 
-  // Keep --bar-h CSS variable in sync so Navbar can offset itself
-  useEffect(() => {
-    const update = () => {
-      const h = dismissed ? 0 : (barRef.current?.getBoundingClientRect().height ?? 0);
-      document.documentElement.style.setProperty("--bar-h", `${h}px`);
-    };
-    update();
-    const ro = new ResizeObserver(update);
-    if (barRef.current) ro.observe(barRef.current);
-    return () => ro.disconnect();
-  }, [dismissed]);
-
   return (
-    <div ref={barRef}>
     <AnimatePresence initial={false}>
       {!dismissed && (
         <motion.div
@@ -89,6 +75,5 @@ export function AnnouncementBar() {
         </motion.div>
       )}
     </AnimatePresence>
-    </div>
   );
 }

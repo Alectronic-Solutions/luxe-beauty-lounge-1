@@ -80,7 +80,7 @@ export default function ServicesPage() {
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover object-center"
                   aria-hidden
-            unoptimized
+                  unoptimized
                 />
                 {/* Plum gradient overlay so text stays readable */}
                 <div className="absolute inset-0" style={{ background: "linear-gradient(145deg,rgba(28,11,46,0.82) 0%,rgba(46,18,73,0.70) 50%,rgba(28,11,46,0.78) 100%)" }} aria-hidden />

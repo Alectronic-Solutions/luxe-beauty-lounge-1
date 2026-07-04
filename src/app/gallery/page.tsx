@@ -97,8 +97,7 @@ function Lightbox({
         >
           {/* Image */}
           <div className="w-full relative" style={{ paddingBottom: "66.67%", background: item.bg }}>
-            {item.src && <Image src={item.src} alt={item.label} fill sizes="80vw" className="object-cover object-center"
-            unoptimized />}
+            {item.src && <Image src={item.src} alt={item.label} fill sizes="80vw" className="object-cover object-center" unoptimized />}
             {!item.src && <div className="absolute inset-0" style={{ backgroundImage: `radial-gradient(ellipse at ${item.lightX} ${item.lightY},rgba(245,230,200,0.25) 0%,rgba(200,149,108,0.12) 30%,transparent 65%)` }} />}
 
             {/* Prev / Next arrow overlays */}
@@ -198,7 +197,7 @@ export default function GalleryPage() {
         {/* ── Sticky category nav ── */}
         <nav
           className="sticky z-30 border-b"
-          style={{ top: "calc(var(--bar-h, 0px) + 72px)", background: "rgba(250,247,242,0.94)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)", borderColor: "rgba(232,208,160,0.4)" }}
+          style={{ top: "var(--nav-h, 72px)", background: "rgba(250,247,242,0.94)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)", borderColor: "rgba(232,208,160,0.4)" }}
           aria-label="Filter by category"
         >
           <div className="container-luxury">
@@ -258,8 +257,7 @@ export default function GalleryPage() {
                         style={item.src ? undefined : { background: item.bg }}
                       >
                         {item.src ? (
-                          <Image src={item.src} alt={item.label} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover object-center"
-            unoptimized />
+                          <Image src={item.src} alt={item.label} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover object-center" unoptimized />
                         ) : (
                           <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: `radial-gradient(ellipse at ${item.lightX} ${item.lightY},rgba(245,230,200,0.20) 0%,rgba(200,149,108,0.10) 30%,transparent 65%)` }} />
                         )}

@@ -7,6 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { viewportOnce } from "@/lib/animations";
 import { assetPath } from "@/lib/assetPath";
+import { NoiseOverlay } from "@/components/ui/NoiseOverlay";
+import { GALLERY_ITEMS } from "@/lib/constants";
 
 const EASE: [number, number, number, number] = [0.25, 0, 0, 1];
 
@@ -21,17 +23,10 @@ interface GalleryItem {
   src?: string;
 }
 
-const ITEMS: GalleryItem[] = [
-  { id: 1, label: "Signature Facial",  category: "Skin",        aspectPct: "133%", bg: "linear-gradient(155deg,#2e1249 0%,#1C0B2E 45%,#0e0517 100%)",   lightX: "40%", lightY: "35%", src: assetPath("/images/gallery/gallery-1.jpg") },
-  { id: 2, label: "Balayage & Color",  category: "Hair",        aspectPct: "75%",  bg: "linear-gradient(145deg,#1a1010 0%,#2a1a0e 55%,#1a0c08 100%)",   lightX: "65%", lightY: "25%", src: assetPath("/images/gallery/gallery-2.jpg") },
-  { id: 3, label: "Bridal Morning",    category: "Bridal",      aspectPct: "120%", bg: "linear-gradient(160deg,#8B4A2A 0%,#C8956C 40%,#A87550 100%)",   lightX: "50%", lightY: "20%", src: assetPath("/images/gallery/gallery-3.jpg") },
-  { id: 4, label: "Brow Lamination",   category: "Brow & Lash", aspectPct: "100%", bg: "linear-gradient(150deg,#3d1a63 0%,#2e1249 50%,#1C0B2E 100%)",   lightX: "30%", lightY: "60%", src: assetPath("/images/gallery/gallery-4.jpg") },
-  { id: 5, label: "Body Treatment",    category: "Body",        aspectPct: "145%", bg: "linear-gradient(165deg,#1a1a1a 0%,#2d1a10 50%,#120a06 100%)",   lightX: "55%", lightY: "40%", src: assetPath("/images/gallery/gallery-5.jpg") },
-  { id: 6, label: "Nail Artistry",     category: "Nails",       aspectPct: "80%",  bg: "linear-gradient(135deg,#C8956C 0%,#8B4A2A 50%,#5a2e14 100%)",   lightX: "70%", lightY: "30%", src: assetPath("/images/gallery/gallery-6.jpg") },
-  { id: 7, label: "Color Correction",  category: "Hair",        aspectPct: "110%", bg: "linear-gradient(155deg,#1C0B2E 0%,#3d1a2e 55%,#1a0a1a 100%)",   lightX: "45%", lightY: "45%", src: assetPath("/images/gallery/gallery-7.jpg") },
-  { id: 8, label: "Lash Lift",         category: "Brow & Lash", aspectPct: "90%",  bg: "linear-gradient(140deg,#0e0517 0%,#2e1249 60%,#1C0B2E 100%)",   lightX: "60%", lightY: "20%", src: assetPath("/images/gallery/gallery-8.jpg") },
-  { id: 9, label: "Gel Extensions",    category: "Nails",       aspectPct: "125%", bg: "linear-gradient(150deg,#E8C49A 0%,#C8956C 45%,#8B4A2A 100%)",   lightX: "35%", lightY: "30%", src: assetPath("/images/gallery/gallery-9.jpg") },
-];
+const ITEMS: GalleryItem[] = GALLERY_ITEMS.map((item) => ({
+  ...item,
+  src: assetPath(item.src),
+}));
 
 const CATEGORIES = ["All", "Skin", "Hair", "Bridal", "Brow & Lash", "Body", "Nails"] as const;
 type Category = (typeof CATEGORIES)[number];
@@ -101,12 +96,12 @@ function GalleryCard({
               fill
               sizes="(max-width: 768px) 50vw, 33vw"
               className="object-cover object-center"
-            unoptimized
+              unoptimized
             />
           ) : (
             <>
               <div className="absolute inset-0" aria-hidden style={{ backgroundImage: `radial-gradient(ellipse at ${item.lightX} ${item.lightY},rgba(245,230,200,0.20) 0%,rgba(200,149,108,0.10) 30%,transparent 65%)` }} />
-              <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`, backgroundSize: "120px 120px" }} aria-hidden />
+              <NoiseOverlay opacity={0.04} size={120} />
             </>
           )}
         </motion.div>
@@ -170,8 +165,7 @@ function Lightbox({ item, onClose }: { item: GalleryItem; onClose: () => void })
       >
         <div className="w-full" style={{ paddingBottom: "66.67%", background: item.bg, position: "relative" }}>
           {item.src ? (
-            <Image src={item.src} alt={item.label} fill sizes="80vw" className="object-cover object-center"
-            unoptimized />
+            <Image src={item.src} alt={item.label} fill sizes="80vw" className="object-cover object-center" unoptimized />
           ) : (
             <div className="absolute inset-0" style={{ backgroundImage: `radial-gradient(ellipse at ${item.lightX} ${item.lightY},rgba(245,230,200,0.25) 0%,rgba(200,149,108,0.12) 30%,transparent 65%)` }} />
           )}
