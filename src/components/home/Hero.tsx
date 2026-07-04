@@ -72,17 +72,18 @@ export function Hero() {
           unoptimized
         />
 
-        {/* Video crossfade — desktop only (autoplay unreliable on iOS) */}
-        <div className="hidden md:block absolute inset-0" aria-hidden>
+        {/* Video crossfade */}
+        <div className="absolute inset-0" aria-hidden>
           {HERO_VIDEOS.map((src, i) => (
             <motion.video
               key={src}
               ref={(el) => {
                 videoRefs.current[i] = el;
               }}
+              autoPlay
               muted
               playsInline
-              preload="metadata"
+              preload={i === 0 ? "auto" : "metadata"}
               onEnded={() =>
                 setActiveVideo((prev) => (prev + 1) % HERO_VIDEOS.length)
               }
