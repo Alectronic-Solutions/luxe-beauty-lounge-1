@@ -73,7 +73,7 @@ export function Footer() {
                 Stay in the know.{" "}
                 <span className="italic text-rose-gold">Seasonal updates, first access.</span>
               </p>
-              <p className="font-body text-sm text-ivory/40 mt-1.5">No noise. Just what matters. Unsubscribe any time.</p>
+              <p className="font-body text-sm text-ivory/55 mt-1.5">No noise. Just what matters. Unsubscribe any time.</p>
             </div>
             <form
               className="flex-shrink-0 w-full md:w-auto"
@@ -86,7 +86,7 @@ export function Footer() {
                   required
                   placeholder="Your email address"
                   aria-label="Email address for newsletter"
-                  className="flex-1 min-w-0 bg-transparent px-5 py-3 font-body text-sm text-ivory placeholder:text-ivory/25 outline-none"
+                  className="flex-1 min-w-0 bg-transparent px-5 py-3 font-body text-sm text-ivory placeholder:text-ivory/55 outline-none"
                 />
                 <button
                   type="submit"
@@ -136,7 +136,7 @@ export function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`Follow on ${label}`}
-                    className="flex items-center justify-center w-12 h-12 rounded-full text-ivory/40 hover:text-rose-gold border border-ivory/10 hover:border-rose-gold/30 transition-all duration-300 hover:scale-105"
+                    className="flex items-center justify-center w-12 h-12 rounded-full text-ivory/55 hover:text-rose-gold border border-ivory/10 hover:border-rose-gold/30 transition-all duration-300 hover:scale-105"
                     style={{ transition: "color 300ms,border-color 300ms,transform 200ms" }}
                   >
                     {Icon && <Icon />}
@@ -233,7 +233,7 @@ export function Footer() {
               <p>{CONTACT_INFO.hours.weekday}</p>
               <p>{CONTACT_INFO.hours.saturday}</p>
               <p>{CONTACT_INFO.hours.sunday}</p>
-              <p className="text-ivory/40">Closed Mondays</p>
+              <p className="text-ivory/55">Closed Mondays</p>
             </div>
           </div>
 
@@ -270,13 +270,13 @@ export function Footer() {
             &copy; {new Date().getFullYear()} Luxe Beauty Lounge. All rights reserved.
           </p>
 
-          <div className="flex items-center gap-5 text-ivory/40">
+          <div className="flex items-center gap-5 text-ivory/55">
             <Link href="/privacy-policy" className="hover:text-ivory/70 transition-colors duration-300">Privacy Policy</Link>
             <span aria-hidden>·</span>
             <Link href="/terms-of-service" className="hover:text-ivory/70 transition-colors duration-300">Terms of Service</Link>
           </div>
 
-          <p className="text-ivory/40">
+          <p className="text-ivory/55">
             Portfolio demo by{" "}
             <a href="https://alectronicsolutions.com" target="_blank" rel="noopener noreferrer" className="text-ivory/55 hover:text-champagne/80 transition-colors duration-300">
               Alectronic Solutions

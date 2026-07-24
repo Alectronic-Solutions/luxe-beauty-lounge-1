@@ -79,7 +79,7 @@ function GalleryCard({
         animate="rest"
         onClick={() => onOpen(item)}
         role="button"
-        aria-label={`View ${item.label} — ${item.category}`}
+        aria-label={`View ${item.label}, ${item.category}`}
         tabIndex={0}
         onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onOpen(item); }}
       >
@@ -216,7 +216,7 @@ export function GalleryPreview() {
         style={{ background: "#EDE8E0" }}
         aria-label="Gallery preview"
       >
-        {/* Section blend — bottom fades into Testimonials champagne */}
+        {/* Section blend, bottom fades into Testimonials champagne */}
         <div
           className="pointer-events-none absolute inset-x-0 bottom-0 h-24 z-10"
           style={{ background: "linear-gradient(to top, #F5E6C8 0%, transparent 100%)" }}
@@ -287,7 +287,7 @@ export function GalleryPreview() {
                   className={`shrink-0 font-body text-[0.7rem] tracking-[0.15em] uppercase px-4 py-1.5 rounded-pill transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-rose-gold ${
                     isActive
                       ? "bg-plum text-ivory"
-                      : "text-charcoal/50 hover:text-charcoal border border-charcoal/12 hover:border-charcoal/30 bg-transparent"
+                      : "text-charcoal/65 hover:text-charcoal border border-charcoal/12 hover:border-charcoal/30 bg-transparent"
                   }`}
                 >
                   {cat}
@@ -307,7 +307,7 @@ export function GalleryPreview() {
 
           {filtered.length === 0 && (
             <div className="text-center py-16">
-              <p className="font-display font-light text-plum/40 text-xl">No works in this category yet.</p>
+              <p className="font-display font-light text-plum/65 text-xl">No works in this category yet.</p>
             </div>
           )}
         </div>

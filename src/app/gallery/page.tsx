@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,6 +8,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { assetPath } from "@/lib/assetPath";
+import { useFocusTrap } from "@/lib/useFocusTrap";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 const VP = { once: true, amount: 0.08 } as const;
@@ -24,18 +25,18 @@ interface GalleryItem {
 }
 
 const GALLERY_ITEMS: GalleryItem[] = [
-  { id: 1,  label: "Signature Facial",             category: "Skin",        aspectPct: "133%", bg: "linear-gradient(155deg,#2e1249 0%,#1C0B2E 45%,#0e0517 100%)",   lightX: "40%", lightY: "35%", src: assetPath("/images/gallery/gallery-1.jpg") },
-  { id: 2,  label: "Balayage Transformation",       category: "Hair",        aspectPct: "75%",  bg: "linear-gradient(145deg,#1a1010 0%,#2a1a0e 55%,#1a0c08 100%)",   lightX: "65%", lightY: "25%", src: assetPath("/images/gallery/gallery-2.jpg") },
-  { id: 3,  label: "Bridal Morning Prep",           category: "Bridal",      aspectPct: "120%", bg: "linear-gradient(160deg,#8B4A2A 0%,#C8956C 40%,#A87550 100%)",   lightX: "50%", lightY: "20%", src: assetPath("/images/gallery/gallery-3.jpg") },
-  { id: 4,  label: "Brow Lamination",               category: "Brow & Lash", aspectPct: "100%", bg: "linear-gradient(150deg,#3d1a63 0%,#2e1249 50%,#1C0B2E 100%)",   lightX: "30%", lightY: "60%", src: assetPath("/images/gallery/gallery-4.jpg") },
-  { id: 5,  label: "Body Wrap Treatment",           category: "Body",        aspectPct: "145%", bg: "linear-gradient(165deg,#1a1a1a 0%,#2d1a10 50%,#120a06 100%)",   lightX: "55%", lightY: "40%", src: assetPath("/images/gallery/gallery-5.jpg") },
-  { id: 6,  label: "Gel Extension Set",             category: "Nails",       aspectPct: "80%",  bg: "linear-gradient(135deg,#C8956C 0%,#8B4A2A 50%,#5a2e14 100%)",   lightX: "70%", lightY: "30%", src: assetPath("/images/gallery/gallery-6.jpg") },
-  { id: 7,  label: "Color Correction",              category: "Hair",        aspectPct: "110%", bg: "linear-gradient(155deg,#1C0B2E 0%,#3d1a2e 55%,#1a0a1a 100%)",   lightX: "45%", lightY: "45%", src: assetPath("/images/gallery/gallery-7.jpg") },
-  { id: 8,  label: "Lash Lift & Tint",              category: "Brow & Lash", aspectPct: "90%",  bg: "linear-gradient(140deg,#0e0517 0%,#2e1249 60%,#1C0B2E 100%)",   lightX: "60%", lightY: "20%", src: assetPath("/images/gallery/gallery-8.jpg") },
-  { id: 9,  label: "Hard Gel Extensions",           category: "Nails",       aspectPct: "125%", bg: "linear-gradient(150deg,#E8C49A 0%,#C8956C 45%,#8B4A2A 100%)",   lightX: "35%", lightY: "30%", src: assetPath("/images/gallery/gallery-9.jpg") },
-  { id: 10, label: "Bridal Party Styling",          category: "Bridal",      aspectPct: "80%",  bg: "linear-gradient(145deg,#C8956C 0%,#A87550 50%,#6d3a22 100%)",   lightX: "55%", lightY: "50%", src: assetPath("/images/gallery/gallery-3.jpg") },
-  { id: 11, label: "Radiance Facial Protocol",      category: "Skin",        aspectPct: "115%", bg: "linear-gradient(160deg,#2e1249 0%,#1C0B2E 40%,#100620 100%)",   lightX: "45%", lightY: "30%", src: assetPath("/images/gallery/gallery-1.jpg") },
-  { id: 12, label: "Balayage, Warm Brunette",       category: "Hair",        aspectPct: "95%",  bg: "linear-gradient(145deg,#3d1a1a 0%,#2a1208 55%,#1a0c04 100%)",   lightX: "60%", lightY: "35%", src: assetPath("/images/gallery/gallery-2.jpg") },
+  { id: 1,  label: "Signature Facial",             category: "Skin",        aspectPct: "133%", bg: "linear-gradient(155deg,#2e1249 0%,#1C0B2E 45%,#0e0517 100%)",   lightX: "40%", lightY: "35%", src: assetPath("/images/gallery/gallery-1.webp") },
+  { id: 2,  label: "Balayage Transformation",       category: "Hair",        aspectPct: "75%",  bg: "linear-gradient(145deg,#1a1010 0%,#2a1a0e 55%,#1a0c08 100%)",   lightX: "65%", lightY: "25%", src: assetPath("/images/gallery/gallery-2.webp") },
+  { id: 3,  label: "Bridal Morning Prep",           category: "Bridal",      aspectPct: "120%", bg: "linear-gradient(160deg,#8B4A2A 0%,#C8956C 40%,#A87550 100%)",   lightX: "50%", lightY: "20%", src: assetPath("/images/gallery/gallery-3.webp") },
+  { id: 4,  label: "Brow Lamination",               category: "Brow & Lash", aspectPct: "100%", bg: "linear-gradient(150deg,#3d1a63 0%,#2e1249 50%,#1C0B2E 100%)",   lightX: "30%", lightY: "60%", src: assetPath("/images/gallery/gallery-4.webp") },
+  { id: 5,  label: "Body Wrap Treatment",           category: "Body",        aspectPct: "145%", bg: "linear-gradient(165deg,#1a1a1a 0%,#2d1a10 50%,#120a06 100%)",   lightX: "55%", lightY: "40%", src: assetPath("/images/gallery/gallery-5.webp") },
+  { id: 6,  label: "Gel Extension Set",             category: "Nails",       aspectPct: "80%",  bg: "linear-gradient(135deg,#C8956C 0%,#8B4A2A 50%,#5a2e14 100%)",   lightX: "70%", lightY: "30%", src: assetPath("/images/gallery/gallery-6.webp") },
+  { id: 7,  label: "Color Correction",              category: "Hair",        aspectPct: "110%", bg: "linear-gradient(155deg,#1C0B2E 0%,#3d1a2e 55%,#1a0a1a 100%)",   lightX: "45%", lightY: "45%", src: assetPath("/images/gallery/gallery-7.webp") },
+  { id: 8,  label: "Lash Lift & Tint",              category: "Brow & Lash", aspectPct: "90%",  bg: "linear-gradient(140deg,#0e0517 0%,#2e1249 60%,#1C0B2E 100%)",   lightX: "60%", lightY: "20%", src: assetPath("/images/gallery/gallery-8.webp") },
+  { id: 9,  label: "Hard Gel Extensions",           category: "Nails",       aspectPct: "125%", bg: "linear-gradient(150deg,#E8C49A 0%,#C8956C 45%,#8B4A2A 100%)",   lightX: "35%", lightY: "30%", src: assetPath("/images/gallery/gallery-9.webp") },
+  { id: 10, label: "Bridal Party Styling",          category: "Bridal",      aspectPct: "80%",  bg: "linear-gradient(145deg,#C8956C 0%,#A87550 50%,#6d3a22 100%)",   lightX: "55%", lightY: "50%", src: assetPath("/images/gallery/gallery-3.webp") },
+  { id: 11, label: "Radiance Facial Protocol",      category: "Skin",        aspectPct: "115%", bg: "linear-gradient(160deg,#2e1249 0%,#1C0B2E 40%,#100620 100%)",   lightX: "45%", lightY: "30%", src: assetPath("/images/gallery/gallery-1.webp") },
+  { id: 12, label: "Balayage, Warm Brunette",       category: "Hair",        aspectPct: "95%",  bg: "linear-gradient(145deg,#3d1a1a 0%,#2a1208 55%,#1a0c04 100%)",   lightX: "60%", lightY: "35%", src: assetPath("/images/gallery/gallery-2.webp") },
 ];
 
 const CATEGORIES = ["All", "Skin", "Hair", "Bridal", "Brow & Lash", "Body", "Nails"] as const;
@@ -56,10 +57,13 @@ function Lightbox({
   onNext: () => void;
 }) {
   const currentIndex = items.findIndex((i) => i.id === item.id);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  // Trap focus in the lightbox and restore it to the triggering thumbnail on close.
+  useFocusTrap(dialogRef, true, onClose);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
       if (e.key === "ArrowLeft") onPrev();
       if (e.key === "ArrowRight") onNext();
     };
@@ -69,15 +73,17 @@ function Lightbox({
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
     };
-  }, [onClose, onPrev, onNext]);
+  }, [onPrev, onNext]);
 
   return (
     <motion.div
+      ref={dialogRef}
+      tabIndex={-1}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.25 }}
-      className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-12"
+      className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-12 outline-none"
       style={{ background: "rgba(16,6,32,0.92)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}
       onClick={onClose}
       role="dialog"
@@ -130,7 +136,7 @@ function Lightbox({
             <div>
               <p className="font-body text-[0.62rem] tracking-[0.25em] uppercase text-rose-gold mb-1">{item.category}</p>
               <p className="font-display text-2xl font-light text-ivory leading-tight">{item.label}</p>
-              <p className="font-body text-[0.7rem] text-ivory/30 mt-1">{currentIndex + 1} of {items.length}</p>
+              <p className="font-body text-[0.7rem] text-ivory/55 mt-1">{currentIndex + 1} of {items.length}</p>
             </div>
             <Link
               href="/booking"
@@ -187,7 +193,7 @@ export default function GalleryPage() {
   return (
     <>
       <Navbar />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <PageHeader
           eyebrow="Portfolio"
           title="Work that speaks for itself."
@@ -213,11 +219,11 @@ export default function GalleryPage() {
                     className={`shrink-0 font-body text-[0.7rem] tracking-[0.15em] uppercase px-4 py-1.5 rounded-pill transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-rose-gold ${
                       isActive
                         ? "bg-plum text-ivory"
-                        : "text-charcoal/50 hover:text-charcoal border border-charcoal/10 hover:border-charcoal/25 bg-transparent"
+                        : "text-charcoal/65 hover:text-charcoal border border-charcoal/10 hover:border-charcoal/25 bg-transparent"
                     }`}
                   >
                     {cat}
-                    <span className={`ml-1.5 text-[0.62rem] ${isActive ? "text-ivory/50" : "text-charcoal/30"}`}>
+                    <span className={`ml-1.5 text-[0.62rem] ${isActive ? "text-ivory/50" : "text-charcoal/65"}`}>
                       {count}
                     </span>
                   </button>
@@ -249,7 +255,7 @@ export default function GalleryPage() {
                     <button
                       className="group relative overflow-hidden rounded-[18px] w-full cursor-pointer block focus-visible:outline focus-visible:outline-2 focus-visible:outline-rose-gold"
                       style={{ paddingBottom: item.aspectPct }}
-                      aria-label={`View ${item.label} — ${item.category}`}
+                      aria-label={`View ${item.label}, ${item.category}`}
                       onClick={() => openLightbox(item)}
                     >
                       <div
@@ -286,7 +292,7 @@ export default function GalleryPage() {
 
             {filtered.length === 0 && (
               <div className="text-center py-20">
-                <p className="font-display font-light text-plum/40 text-2xl">No works in this category yet.</p>
+                <p className="font-display font-light text-plum/65 text-2xl">No works in this category yet.</p>
               </div>
             )}
           </div>
@@ -303,7 +309,7 @@ export default function GalleryPage() {
         >
           <div className="container-luxury max-w-2xl mx-auto">
             <p className="font-display text-xl font-light italic text-plum/70">&ldquo;Real work. Real clients. Real results.&rdquo;</p>
-            <p className="font-body text-sm text-charcoal/40 mt-4 leading-relaxed">
+            <p className="font-body text-sm text-charcoal/65 mt-4 leading-relaxed">
               All work shown is produced in-house by the Luxe Beauty Lounge team.
             </p>
             <motion.div whileHover={rm ? undefined : { scale: 1.03 }} whileTap={rm ? undefined : { scale: 0.97 }} style={{ display: "inline-flex" }} className="mt-8">

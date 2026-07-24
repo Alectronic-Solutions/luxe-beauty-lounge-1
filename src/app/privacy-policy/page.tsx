@@ -8,7 +8,7 @@ import { Footer } from "@/components/layout/Footer";
 const SECTIONS = [
   {
     title: "Information We Collect",
-    body: `When you submit a booking inquiry or contact form on our website, we collect the information you provide — such as your name, email address, phone number, and any notes about the services you're interested in. We do not collect payment information through this website.`,
+    body: `When you submit a booking inquiry or contact form on our website, we collect the information you provide, such as your name, email address, phone number, and any notes about the services you're interested in. We do not collect payment information through this website.`,
   },
   {
     title: "How We Use Your Information",
@@ -53,7 +53,7 @@ export default function PrivacyPolicyPage() {
   return (
     <>
       <Navbar />
-      <main className="bg-ivory min-h-screen">
+      <main id="main-content" tabIndex={-1} className="bg-ivory min-h-screen">
         {/* Hero header */}
         <div className="relative pt-40 pb-20 overflow-hidden" style={{ background: "#1C0B2E" }}>
           <div
@@ -83,7 +83,7 @@ export default function PrivacyPolicyPage() {
               initial={rm ? undefined : { opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="font-body text-sm text-ivory/35 mt-4"
+              className="font-body text-sm text-ivory/55 mt-4"
             >
               Effective date: June 2026
             </motion.p>
@@ -120,7 +120,7 @@ export default function PrivacyPolicyPage() {
                   <span className="font-display font-light text-rose-gold/40 leading-none mt-1" style={{ fontSize: "1.1rem" }}>{String(i + 1).padStart(2, "0")}</span>
                   <h2 className="font-display font-light text-plum" style={{ fontSize: "clamp(1.15rem, 1.8vw, 1.4rem)" }}>{s.title}</h2>
                 </div>
-                <p className="font-body text-charcoal/60 leading-[1.85] pl-10">{s.body}</p>
+                <p className="font-body text-charcoal/65 leading-[1.85] pl-10">{s.body}</p>
               </motion.div>
             ))}
           </div>
@@ -139,7 +139,7 @@ export default function PrivacyPolicyPage() {
               </svg>
               Back to Home
             </Link>
-            <Link href="/terms-of-service" className="font-body text-sm text-charcoal/40 hover:text-charcoal/70 transition-colors duration-300">
+            <Link href="/terms-of-service" className="font-body text-sm text-charcoal/65 hover:text-charcoal/70 transition-colors duration-300">
               Terms of Service →
             </Link>
           </motion.div>

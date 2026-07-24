@@ -12,7 +12,7 @@ export function CustomCursor() {
   const rawX = useMotionValue(-100);
   const rawY = useMotionValue(-100);
 
-  // Spring lag — 80ms feel
+  // Spring lag, 80ms feel
   const x = useSpring(rawX, { stiffness: 500, damping: 40, mass: 0.4 });
   const y = useSpring(rawY, { stiffness: 500, damping: 40, mass: 0.4 });
 
@@ -48,8 +48,10 @@ export function CustomCursor() {
     window.addEventListener("mouseover",  onHoverIn,  { passive: true });
     window.addEventListener("mouseout",   onHoverOut, { passive: true });
 
-    // Hide native cursor sitewide
-    document.documentElement.style.cursor = "none";
+    // NOTE: we deliberately do NOT hide the native OS cursor. The rose-gold
+    // dot/ring is purely additive decoration layered over the real pointer, so
+    // low-vision, motor-impaired, and magnifier users keep the cursor they rely
+    // on (WCAG 1.4.1 / pointer visibility).
 
     return () => {
       window.removeEventListener("mousemove",  onMove);
@@ -59,7 +61,6 @@ export function CustomCursor() {
       document.removeEventListener("mouseenter", onEnter);
       window.removeEventListener("mouseover",  onHoverIn);
       window.removeEventListener("mouseout",   onHoverOut);
-      document.documentElement.style.cursor = "";
     };
   }, [rm, rawX, rawY, visible]);
 
@@ -68,7 +69,7 @@ export function CustomCursor() {
 
   return (
     <>
-      {/* Outer ring — slow follower */}
+      {/* Outer ring, slow follower */}
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[9999] hidden md:block"
         style={{
@@ -91,7 +92,7 @@ export function CustomCursor() {
         />
       </motion.div>
 
-      {/* Inner dot — tight spring, instant */}
+      {/* Inner dot, tight spring, instant */}
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[9999] hidden md:block"
         style={{

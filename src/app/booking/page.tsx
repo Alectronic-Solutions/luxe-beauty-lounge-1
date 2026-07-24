@@ -21,7 +21,7 @@ const item = {
 };
 
 const ChevronSvg = () => (
-  <svg width="10" height="6" viewBox="0 0 10 6" fill="none" className="absolute right-0 bottom-3.5 pointer-events-none text-charcoal/30" aria-hidden>
+  <svg width="10" height="6" viewBox="0 0 10 6" fill="none" className="absolute right-0 bottom-3.5 pointer-events-none text-charcoal/65" aria-hidden>
     <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
@@ -63,7 +63,7 @@ function FaqItem({ faq, isOpen, onToggle, index }: { faq: typeof FAQS[number]; i
         <motion.span
           animate={{ rotate: isOpen ? 45 : 0 }}
           transition={{ duration: 0.25, ease: "easeOut" }}
-          className="shrink-0 mt-1.5 w-5 h-5 flex items-center justify-center rounded-full border border-ivory/15 text-ivory/40 group-hover:border-rose-gold/40 group-hover:text-rose-gold transition-colors duration-200"
+          className="shrink-0 mt-1.5 w-5 h-5 flex items-center justify-center rounded-full border border-ivory/15 text-ivory/55 group-hover:border-rose-gold/40 group-hover:text-rose-gold transition-colors duration-200"
           aria-hidden
         >
           <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
@@ -102,7 +102,7 @@ export default function BookingPage() {
   return (
     <>
       <Navbar />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <PageHeader
           eyebrow="Reservations"
           title="Your visit starts with a conversation."
@@ -144,7 +144,7 @@ export default function BookingPage() {
                         <p>{CONTACT_INFO.hours.weekday}</p>
                         <p>{CONTACT_INFO.hours.saturday}</p>
                         <p>{CONTACT_INFO.hours.sunday}</p>
-                        <p className="text-charcoal/35 text-xs mt-1">Closed Mondays</p>
+                        <p className="text-charcoal/65 text-xs mt-1">Closed Mondays</p>
                       </div>
                     </div>
                   </address>
@@ -202,8 +202,8 @@ export default function BookingPage() {
                   {/* Card footer */}
                   <div className="bg-ivory px-5 py-4 flex items-center justify-between gap-3 border-t border-champagne-dark/30">
                     <div>
-                      <p className="font-body text-[0.72rem] text-charcoal/60">{CONTACT_INFO.address}</p>
-                      <p className="font-body text-[0.72rem] text-charcoal/40">{CONTACT_INFO.city}</p>
+                      <p className="font-body text-[0.72rem] text-charcoal/65">{CONTACT_INFO.address}</p>
+                      <p className="font-body text-[0.72rem] text-charcoal/65">{CONTACT_INFO.city}</p>
                     </div>
                     <a
                       href={`https://maps.google.com/?q=${encodeURIComponent(CONTACT_INFO.address + " " + CONTACT_INFO.city)}`}
@@ -234,7 +234,7 @@ export default function BookingPage() {
                   </div>
                   <div>
                     <p className="font-body text-[0.75rem] font-medium text-charcoal tracking-wide">Response within 24 hours</p>
-                    <p className="font-body text-[0.72rem] text-charcoal/50 mt-0.5 leading-snug">We personally review every inquiry and follow up by phone or email.</p>
+                    <p className="font-body text-[0.72rem] text-charcoal/65 mt-0.5 leading-snug">We personally review every inquiry and follow up by phone or email.</p>
                   </div>
                 </motion.div>
               </motion.div>
@@ -251,22 +251,22 @@ export default function BookingPage() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                     <div>
-                      <label htmlFor="pg-name" className="block font-body text-[0.6rem] tracking-[0.28em] uppercase text-charcoal/40 mb-3">Full Name *</label>
-                      <input id="pg-name" type="text" name="name" required autoComplete="name" placeholder="Your full name" className="w-full bg-transparent border-0 border-b border-charcoal/15 focus:border-rose-gold outline-none py-2.5 font-body text-[0.9375rem] text-charcoal placeholder:text-charcoal/25 transition-colors duration-300" />
+                      <label htmlFor="pg-name" className="block font-body text-[0.6rem] tracking-[0.28em] uppercase text-charcoal/65 mb-3">Full Name *</label>
+                      <input id="pg-name" type="text" name="name" required aria-required="true" autoComplete="name" placeholder="Your full name" className="w-full bg-transparent border-0 border-b border-charcoal/15 focus:border-rose-gold outline-none py-2.5 font-body text-[0.9375rem] text-charcoal placeholder:text-charcoal/65 transition-colors duration-300" />
                     </div>
                     <div>
-                      <label htmlFor="pg-phone" className="block font-body text-[0.6rem] tracking-[0.28em] uppercase text-charcoal/40 mb-3">Phone</label>
-                      <input id="pg-phone" type="tel" name="phone" autoComplete="tel" placeholder="(555) 000-0000" className="w-full bg-transparent border-0 border-b border-charcoal/15 focus:border-rose-gold outline-none py-2.5 font-body text-[0.9375rem] text-charcoal placeholder:text-charcoal/25 transition-colors duration-300" />
+                      <label htmlFor="pg-phone" className="block font-body text-[0.6rem] tracking-[0.28em] uppercase text-charcoal/65 mb-3">Phone</label>
+                      <input id="pg-phone" type="tel" name="phone" autoComplete="tel" placeholder="(555) 000-0000" className="w-full bg-transparent border-0 border-b border-charcoal/15 focus:border-rose-gold outline-none py-2.5 font-body text-[0.9375rem] text-charcoal placeholder:text-charcoal/65 transition-colors duration-300" />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="pg-email" className="block font-body text-[0.6rem] tracking-[0.28em] uppercase text-charcoal/40 mb-3">Email Address *</label>
-                    <input id="pg-email" type="email" name="email" required autoComplete="email" placeholder="your@email.com" className="w-full bg-transparent border-0 border-b border-charcoal/15 focus:border-rose-gold outline-none py-2.5 font-body text-[0.9375rem] text-charcoal placeholder:text-charcoal/25 transition-colors duration-300" />
+                    <label htmlFor="pg-email" className="block font-body text-[0.6rem] tracking-[0.28em] uppercase text-charcoal/65 mb-3">Email Address *</label>
+                    <input id="pg-email" type="email" name="email" required autoComplete="email" placeholder="your@email.com" className="w-full bg-transparent border-0 border-b border-charcoal/15 focus:border-rose-gold outline-none py-2.5 font-body text-[0.9375rem] text-charcoal placeholder:text-charcoal/65 transition-colors duration-300" />
                   </div>
 
                   <div>
-                    <label htmlFor="pg-service" className="block font-body text-[0.6rem] tracking-[0.28em] uppercase text-charcoal/40 mb-3">Service of Interest</label>
+                    <label htmlFor="pg-service" className="block font-body text-[0.6rem] tracking-[0.28em] uppercase text-charcoal/65 mb-3">Service of Interest</label>
                     <div className="relative">
                       <select id="pg-service" name="service" className="w-full bg-transparent border-0 border-b border-charcoal/15 focus:border-rose-gold outline-none py-2.5 font-body text-[0.9375rem] text-charcoal/70 appearance-none cursor-pointer transition-colors duration-300 pr-5">
                         <option value="">Select a service</option>
@@ -278,13 +278,13 @@ export default function BookingPage() {
                   </div>
 
                   <div>
-                    <label htmlFor="pg-timing" className="block font-body text-[0.6rem] tracking-[0.28em] uppercase text-charcoal/40 mb-3">Preferred Days / Times</label>
-                    <input id="pg-timing" type="text" name="preferred_time" placeholder="e.g. Weekday mornings, Saturday afternoons" className="w-full bg-transparent border-0 border-b border-charcoal/15 focus:border-rose-gold outline-none py-2.5 font-body text-[0.9375rem] text-charcoal placeholder:text-charcoal/25 transition-colors duration-300" />
+                    <label htmlFor="pg-timing" className="block font-body text-[0.6rem] tracking-[0.28em] uppercase text-charcoal/65 mb-3">Preferred Days / Times</label>
+                    <input id="pg-timing" type="text" name="preferred_time" placeholder="e.g. Weekday mornings, Saturday afternoons" className="w-full bg-transparent border-0 border-b border-charcoal/15 focus:border-rose-gold outline-none py-2.5 font-body text-[0.9375rem] text-charcoal placeholder:text-charcoal/65 transition-colors duration-300" />
                   </div>
 
                   <div>
-                    <label htmlFor="pg-message" className="block font-body text-[0.6rem] tracking-[0.28em] uppercase text-charcoal/40 mb-3">Anything else we should know?</label>
-                    <textarea id="pg-message" name="message" rows={4} placeholder="Skin concerns, hair history, questions..." className="w-full bg-transparent border-0 border-b border-charcoal/15 focus:border-rose-gold outline-none py-2.5 font-body text-[0.9375rem] text-charcoal placeholder:text-charcoal/25 transition-colors duration-300 resize-none leading-[1.7]" />
+                    <label htmlFor="pg-message" className="block font-body text-[0.6rem] tracking-[0.28em] uppercase text-charcoal/65 mb-3">Anything else we should know?</label>
+                    <textarea id="pg-message" name="message" rows={4} placeholder="Skin concerns, hair history, questions..." className="w-full bg-transparent border-0 border-b border-charcoal/15 focus:border-rose-gold outline-none py-2.5 font-body text-[0.9375rem] text-charcoal placeholder:text-charcoal/65 transition-colors duration-300 resize-none leading-[1.7]" />
                   </div>
 
                   <div className="pt-2">
@@ -297,7 +297,7 @@ export default function BookingPage() {
                         <path d="M1 5H11M7 1L11 5L7 9" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </button>
-                    <p className="text-center font-body text-xs text-charcoal/30 mt-4 tracking-wide">We respond to all inquiries within one business day.</p>
+                    <p className="text-center font-body text-xs text-charcoal/65 mt-4 tracking-wide">We respond to all inquiries within one business day.</p>
                   </div>
                 </form>
               </motion.div>
@@ -335,7 +335,7 @@ export default function BookingPage() {
               whileInView={rv ? { opacity: 1 } : undefined}
               viewport={VP}
               transition={{ delay: 0.4, duration: 0.5 }}
-              className="mt-12 font-body text-sm text-ivory/30 text-center leading-relaxed"
+              className="mt-12 font-body text-sm text-ivory/55 text-center leading-relaxed"
             >
               Still have questions? Call us at{" "}
               <a href={`tel:${CONTACT_INFO.phone}`} className="text-ivory/50 hover:text-ivory transition-colors duration-200">

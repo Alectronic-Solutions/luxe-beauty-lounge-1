@@ -22,10 +22,10 @@ const item = {
 };
 
 const VALUES = [
-  { num: "01", title: "Precision",     body: "We don't rush. Every service is given the time it deserves, and every detail is attended to — because the details are what make the difference." },
+  { num: "01", title: "Precision",     body: "We don't rush. Every service is given the time it deserves, and every detail is attended to, because the details are what make the difference." },
   { num: "02", title: "Discretion",    body: "Our space is calm by design. We attract clients who value quiet focus over social buzz, and we protect that environment fiercely." },
-  { num: "03", title: "Education",     body: "Our team holds continued certifications and trains annually with the world's leading product houses. Expertise isn't optional here — it's foundational." },
-  { num: "04", title: "Individuality", body: "There is no standard protocol. Every client receives a consultation, and every treatment is built around what they actually need — not what's easiest to deliver." },
+  { num: "03", title: "Education",     body: "Our team holds continued certifications and trains annually with the world's leading product houses. Expertise isn't optional here, it's foundational." },
+  { num: "04", title: "Individuality", body: "There is no standard protocol. Every client receives a consultation, and every treatment is built around what they actually need, not what's easiest to deliver." },
 ];
 
 const TEAM = TEAM_DATA.map((member) => ({ ...member, src: assetPath(member.src) }));
@@ -38,7 +38,7 @@ export default function AboutPage() {
   return (
     <>
       <Navbar />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <PageHeader
           eyebrow="Our Story"
           title={<>Built with intention.<span className="italic text-rose-gold"> Run with conviction.</span></>}
@@ -62,7 +62,7 @@ export default function AboutPage() {
                 <div className="relative rounded-[24px] overflow-hidden" style={{ boxShadow: "0 0 0 1px rgba(200,149,108,0.55), 0 0 0 4px rgba(200,149,108,0.07), 0 24px 48px rgba(28,11,46,0.18)" }}>
                   <div className="aspect-[3/4] w-full relative">
                     <Image
-                      src={assetPath("/images/about-founder.jpg")}
+                      src={assetPath("/images/about-founder.webp")}
                       alt="Isabelle Laurent, Founder and Creative Director of Luxe Beauty Lounge"
                       fill
                       sizes="(max-width: 1024px) 100vw, 440px"
@@ -102,16 +102,16 @@ export default function AboutPage() {
                 <motion.div variants={rm ? undefined : item} className="space-y-5 font-body font-light text-charcoal/65 leading-[1.8]" style={{ fontSize: "clamp(0.9rem,1.1vw,1rem)" }}>
                   <p>
                     <span aria-hidden className="float-left font-display font-light text-rose-gold leading-[0.8] select-none mr-2 mt-1" style={{ fontSize: "clamp(4rem,6vw,5.5rem)" }}>I</span>
-                    <span className="sr-only">I</span>sabelle Laurent spent eleven years working across New York and Paris — first as a facialist at a destination resort in the Hudson Valley, then as creative director for a luxury cosmetics house in Saint-Germain. She understood, intimately, what made a beauty experience truly elevated: it wasn&apos;t the product. It was the practitioner&apos;s attention.
+                    <span className="sr-only">I</span>sabelle Laurent spent eleven years working across New York and Paris, first as a facialist at a destination resort in the Hudson Valley, then as creative director for a luxury cosmetics house in Saint-Germain. She understood, intimately, what made a beauty experience truly elevated: it wasn&apos;t the product. It was the practitioner&apos;s attention.
                   </p>
-                  <p>When she returned to New Jersey to be closer to family, she noticed that the suburb she grew up in had everything — except a place that took beauty seriously. Not as performance, not as trend, but as craft.</p>
-                  <p>Luxe Beauty Lounge opened in 2013 in a converted Victorian brownstone on Meridian Avenue. The waiting list began the third week. Today, the team has grown to eight practitioners — each hand-selected and trained to Isabelle&apos;s specifications — and the list hasn&apos;t gotten shorter.</p>
+                  <p>When she returned to New Jersey to be closer to family, she noticed that the suburb she grew up in had everything, except a place that took beauty seriously. Not as performance, not as trend, but as craft.</p>
+                  <p>Luxe Beauty Lounge opened in 2013 in a converted Victorian brownstone on Meridian Avenue. The waiting list began the third week. Today, the team has grown to eight practitioners, each hand-selected and trained to Isabelle&apos;s specifications, and the list hasn&apos;t gotten shorter.</p>
                 </motion.div>
                 <motion.blockquote variants={rm ? undefined : item} className="mt-10 pl-5 border-l-2 border-rose-gold/50">
                   <p className="font-display italic text-plum/65 leading-snug" style={{ fontSize: "clamp(1.1rem,1.8vw,1.3rem)" }}>
                     &ldquo;Offer fewer things than you could, and do every one of them better than anyone else.&rdquo;
                   </p>
-                  <footer className="mt-3 font-body text-xs tracking-[0.18em] uppercase text-charcoal/40">— Isabelle Laurent</footer>
+                  <footer className="mt-3 font-body text-xs tracking-[0.18em] uppercase text-charcoal/65">Isabelle Laurent</footer>
                 </motion.blockquote>
                 <motion.div variants={rm ? undefined : item} whileHover={rm ? undefined : { x: 3 }} transition={{ duration: 0.2 }}>
                   <Link
@@ -145,7 +145,7 @@ export default function AboutPage() {
               ].map((s, i) => (
                 <motion.div key={s.label} variants={rm ? undefined : item} className={`text-center ${i !== 0 ? "md:pl-8" : ""}`}>
                   <p className="font-display font-light text-plum" style={{ fontSize: "clamp(2rem,4vw,3rem)" }}>{s.num}</p>
-                  <p className="font-body text-xs tracking-[0.18em] uppercase text-charcoal/50 mt-2">{s.label}</p>
+                  <p className="font-body text-xs tracking-[0.18em] uppercase text-charcoal/65 mt-2">{s.label}</p>
                 </motion.div>
               ))}
             </motion.div>
@@ -230,7 +230,7 @@ export default function AboutPage() {
                     <p className="font-body text-[0.7rem] text-rose-gold tracking-[0.1em] mt-1">{member.role}</p>
                     <div className="mt-3 pt-3 border-t border-champagne-dark/50 flex items-center gap-2">
                       <div className="w-1 h-1 rounded-full bg-rose-gold/50 shrink-0" aria-hidden />
-                      <p className="font-body text-[0.72rem] text-charcoal/50 leading-snug">{member.specialty}</p>
+                      <p className="font-body text-[0.72rem] text-charcoal/65 leading-snug">{member.specialty}</p>
                     </div>
                   </div>
                 </motion.div>

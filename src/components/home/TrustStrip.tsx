@@ -74,7 +74,7 @@ export function TrustStrip() {
         aria-hidden
       />
 
-      {/* Top blend — overlaps Testimonials champagne fade */}
+      {/* Top blend, overlaps Testimonials champagne fade */}
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-16 z-10"
         style={{ background: "linear-gradient(to bottom, rgba(245,230,200,0.12) 0%, transparent 100%)" }}

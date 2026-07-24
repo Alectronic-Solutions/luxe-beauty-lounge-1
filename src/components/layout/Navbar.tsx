@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS } from "@/lib/constants";
 import { assetPath } from "@/lib/assetPath";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
+import { useFocusTrap } from "@/lib/useFocusTrap";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -15,6 +16,11 @@ export function Navbar() {
   const [headerHeight, setHeaderHeight] = useState(72);
   const pathname = usePathname();
   const headerRef = useRef<HTMLElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Trap focus in the open mobile menu, close on Escape, and return focus to
+  // the hamburger button when it closes.
+  useFocusTrap(menuRef, menuOpen, () => setMenuOpen(false));
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 56);
@@ -72,10 +78,10 @@ export function Navbar() {
           <Link
             href="/"
             className="group flex items-center gap-3 focus-visible:outline-none"
-            aria-label="Luxe Beauty Lounge — home"
+            aria-label="Luxe Beauty Lounge, home"
           >
             <Image
-              src={assetPath("/images/logo.png")}
+              src={assetPath("/images/logo.webp")}
               alt="Luxe Beauty Lounge"
               width={52}
               height={52}
@@ -107,7 +113,7 @@ export function Navbar() {
                     }`}
                   >
                     {label}
-                    {/* Underline — always rendered, width animated via CSS */}
+                    {/* Underline, always rendered, width animated via CSS */}
                     <span
                       aria-hidden
                       className={`absolute -bottom-1.5 left-0 h-px bg-rose-gold origin-left transition-transform duration-300 ease-out w-full ${
@@ -177,6 +183,7 @@ export function Navbar() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
+            ref={menuRef}
             id="mobile-menu"
             key="mobile-menu"
             initial={{ opacity: 0, y: -12 }}
@@ -242,11 +249,11 @@ export function Navbar() {
               className="relative px-8 py-6 flex justify-between items-center border-t border-ivory/10"
               style={{ paddingBottom: "max(1.5rem, env(safe-area-inset-bottom, 1.5rem))" }}
             >
-              <p className="font-body text-xs text-ivory/40 tracking-widest">
+              <p className="font-body text-xs text-ivory/55 tracking-widest">
                 (555) 820-4400
               </p>
               <Image
-                src={assetPath("/images/logo.png")}
+                src={assetPath("/images/logo.webp")}
                 alt="Luxe Beauty Lounge"
                 width={36}
                 height={36}

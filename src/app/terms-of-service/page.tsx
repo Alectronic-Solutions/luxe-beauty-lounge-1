@@ -24,7 +24,7 @@ const SECTIONS = [
   },
   {
     title: "Intellectual Property",
-    body: `All content on this website — including text, images, graphics, logos, and design — is the property of Luxe Beauty Lounge and is protected by applicable copyright and trademark laws. You may not reproduce, distribute, or use any content without our express written permission.`,
+    body: `All content on this website, including text, images, graphics, logos, and design, is the property of Luxe Beauty Lounge and is protected by applicable copyright and trademark laws. You may not reproduce, distribute, or use any content without our express written permission.`,
   },
   {
     title: "Disclaimer of Warranties",
@@ -61,7 +61,7 @@ export default function TermsOfServicePage() {
   return (
     <>
       <Navbar />
-      <main className="bg-ivory min-h-screen">
+      <main id="main-content" tabIndex={-1} className="bg-ivory min-h-screen">
         {/* Hero header */}
         <div className="relative pt-40 pb-20 overflow-hidden" style={{ background: "#1C0B2E" }}>
           <div
@@ -91,7 +91,7 @@ export default function TermsOfServicePage() {
               initial={rm ? undefined : { opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="font-body text-sm text-ivory/35 mt-4"
+              className="font-body text-sm text-ivory/55 mt-4"
             >
               Effective date: June 2026
             </motion.p>
@@ -128,7 +128,7 @@ export default function TermsOfServicePage() {
                   <span className="font-display font-light text-rose-gold/40 leading-none mt-1" style={{ fontSize: "1.1rem" }}>{String(i + 1).padStart(2, "0")}</span>
                   <h2 className="font-display font-light text-plum" style={{ fontSize: "clamp(1.15rem, 1.8vw, 1.4rem)" }}>{s.title}</h2>
                 </div>
-                <p className="font-body text-charcoal/60 leading-[1.85] pl-10">{s.body}</p>
+                <p className="font-body text-charcoal/65 leading-[1.85] pl-10">{s.body}</p>
               </motion.div>
             ))}
           </div>
@@ -147,7 +147,7 @@ export default function TermsOfServicePage() {
               </svg>
               Back to Home
             </Link>
-            <Link href="/privacy-policy" className="font-body text-sm text-charcoal/40 hover:text-charcoal/70 transition-colors duration-300">
+            <Link href="/privacy-policy" className="font-body text-sm text-charcoal/65 hover:text-charcoal/70 transition-colors duration-300">
               ← Privacy Policy
             </Link>
           </motion.div>

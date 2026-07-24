@@ -18,18 +18,37 @@ export function Hero() {
   const shouldReduceMotion = useReducedMotion();
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const [activeVideo, setActiveVideo] = useState(0);
+  // Videos are only mounted after this flips true, so the poster photo is the
+  // LCP, and we never autoplay under reduced-motion or Data Saver.
+  const [allowVideo, setAllowVideo] = useState(false);
+  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
+    if (shouldReduceMotion) return;
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    if (conn?.saveData) return;
+    setAllowVideo(true);
+  }, [shouldReduceMotion]);
+
+  // Restart a clip from the top when it becomes active (not on pause/resume).
+  useEffect(() => {
+    if (!allowVideo) return;
+    const active = videoRefs.current[activeVideo];
+    if (active) active.currentTime = 0;
+  }, [activeVideo, allowVideo]);
+
+  // Play the active clip and pause the rest; respect the pause control.
+  useEffect(() => {
+    if (!allowVideo) return;
     videoRefs.current.forEach((video, i) => {
       if (!video) return;
-      if (i === activeVideo) {
-        video.currentTime = 0;
+      if (i === activeVideo && !paused) {
         video.play().catch(() => {});
       } else {
         video.pause();
       }
     });
-  }, [activeVideo]);
+  }, [activeVideo, allowVideo, paused]);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -63,7 +82,7 @@ export function Hero() {
       >
         {/* Static photo background */}
         <Image
-          src={assetPath("/images/hero-bg.jpg")}
+          src={assetPath("/images/hero-bg.webp")}
           alt=""
           fill
           priority
@@ -72,40 +91,44 @@ export function Hero() {
           unoptimized
         />
 
-        {/* Video crossfade */}
-        <div className="absolute inset-0" aria-hidden>
-          {HERO_VIDEOS.map((src, i) => (
-            <motion.video
-              key={src}
-              ref={(el) => {
-                videoRefs.current[i] = el;
-              }}
-              autoPlay
-              muted
-              playsInline
-              preload={i === 0 ? "auto" : "metadata"}
-              onEnded={() =>
-                setActiveVideo((prev) => (prev + 1) % HERO_VIDEOS.length)
-              }
-              className="absolute inset-0 w-full h-full object-cover object-center"
-              animate={{ opacity: i === activeVideo ? 1 : 0 }}
-              transition={{
-                duration: shouldReduceMotion ? 0 : 1.2,
-                ease: EASE,
-              }}
-            >
-              <source src={src} type="video/mp4" />
-            </motion.video>
-          ))}
-        </div>
+        {/* Video crossfade, mounted only when motion is allowed (not under
+            reduced-motion / Data Saver). The poster photo above is the LCP. */}
+        {allowVideo && (
+          <div className="absolute inset-0" aria-hidden>
+            {HERO_VIDEOS.map((src, i) => (
+              <motion.video
+                key={src}
+                ref={(el) => {
+                  videoRefs.current[i] = el;
+                }}
+                autoPlay
+                muted
+                playsInline
+                poster={assetPath("/images/hero-bg.webp")}
+                preload={i === 0 ? "auto" : "none"}
+                onEnded={() =>
+                  setActiveVideo((prev) => (prev + 1) % HERO_VIDEOS.length)
+                }
+                className="absolute inset-0 w-full h-full object-cover object-center"
+                animate={{ opacity: i === activeVideo ? 1 : 0 }}
+                transition={{
+                  duration: shouldReduceMotion ? 0 : 1.2,
+                  ease: EASE,
+                }}
+              >
+                <source src={assetPath(src)} type="video/mp4" />
+              </motion.video>
+            ))}
+          </div>
+        )}
 
-        {/* Deep plum color wash — blends photo into brand palette */}
+        {/* Deep plum color wash, blends photo into brand palette */}
         <div
           className="absolute inset-0"
           style={{ background: "rgba(16,6,32,0.52)", mixBlendMode: "multiply" }}
         />
 
-        {/* Left-side gradient — darkens behind the text card */}
+        {/* Left-side gradient, darkens behind the text card */}
         <div
           className="absolute inset-0"
           style={{
@@ -113,18 +136,18 @@ export function Hero() {
           }}
         />
 
-        {/* Top vignette — navbar readability */}
+        {/* Top vignette, navbar readability */}
         <div
           className="absolute inset-x-0 top-0 h-48"
           style={{ background: "linear-gradient(to bottom, rgba(16,6,32,0.7) 0%, transparent 100%)" }}
         />
 
-        {/* Bottom vignette — smooth transition to next section */}
+        {/* Bottom vignette, smooth transition to next section */}
         <div
           className="absolute inset-x-0 bottom-0 h-40"
           style={{ background: "linear-gradient(to top, rgba(16,6,32,0.65) 0%, transparent 100%)" }}
         />
-        {/* Section blend — fades into BrandStatement ivory */}
+        {/* Section blend, fades into BrandStatement ivory */}
         <div
           className="absolute inset-x-0 bottom-0 h-28 pointer-events-none"
           style={{ background: "linear-gradient(to top, #FAF7F2 0%, transparent 100%)" }}
@@ -205,7 +228,7 @@ export function Hero() {
                 </motion.span>
               ))}
             </span>
-            {/* Line 2 — "demands" gets the gradient, rest is ivory/90 */}
+            {/* Line 2, "demands" gets the gradient, rest is ivory/90 */}
             <span className="block overflow-hidden mt-1">
               {LINE_2.map((word, i) => {
                 const globalIndex = LINE_1.length + i;
@@ -280,11 +303,34 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 0.8 }}
-          className="mt-6 sm:mt-10 font-body text-xs tracking-[0.2em] text-ivory/28"
+          className="mt-6 sm:mt-10 font-body text-xs tracking-[0.2em] text-ivory/55"
         >
           Westfield, NJ &nbsp;·&nbsp; By appointment
         </motion.p>
       </motion.div>
+
+      {/* Pause/play control for the auto-playing background video (WCAG 2.2.2) */}
+      {allowVideo && (
+        <button
+          type="button"
+          onClick={() => setPaused((p) => !p)}
+          aria-pressed={paused}
+          aria-label={paused ? "Play background video" : "Pause background video"}
+          className="absolute bottom-5 right-5 z-20 flex items-center justify-center w-10 h-10 rounded-full text-ivory/80 hover:text-ivory border border-ivory/25 hover:border-ivory/50 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-champagne"
+          style={{ background: "rgba(16,6,32,0.45)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)" }}
+        >
+          {paused ? (
+            <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor" aria-hidden>
+              <path d="M1 1l10 6-10 6z" />
+            </svg>
+          ) : (
+            <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor" aria-hidden>
+              <rect x="1" y="1" width="3.5" height="12" rx="1" />
+              <rect x="7.5" y="1" width="3.5" height="12" rx="1" />
+            </svg>
+          )}
+        </button>
+      )}
 
     </section>
   );

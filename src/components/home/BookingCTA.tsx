@@ -46,7 +46,7 @@ const SelectChevron = () => (
     height="6"
     viewBox="0 0 10 6"
     fill="none"
-    className="absolute right-0 bottom-3 pointer-events-none text-ivory/35"
+    className="absolute right-0 bottom-3 pointer-events-none text-ivory/55"
     aria-hidden
   >
     <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
@@ -65,7 +65,7 @@ export function BookingCTA() {
       style={{ background: "#1C0B2E" }}
       aria-label="Book an appointment"
     >
-      {/* Ambient glow — keeps it from feeling flat */}
+      {/* Ambient glow, keeps it from feeling flat */}
       <div
         className="pointer-events-none absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-[0.07]"
         style={{
@@ -87,7 +87,7 @@ export function BookingCTA() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 xl:gap-24 items-start">
 
           {/* ═══════════════════════════════════════
-              LEFT — Editorial text + contact info
+              LEFT, Editorial text + contact info
           ═══════════════════════════════════════ */}
           <motion.div
             variants={rm ? undefined : leftStagger}
@@ -126,14 +126,14 @@ export function BookingCTA() {
             {/* ── Large italic pull quote ── */}
             <motion.p
               variants={rm ? undefined : leftChild}
-              className="mt-10 font-display italic leading-snug text-ivory/25"
+              className="mt-10 font-display italic leading-snug text-ivory/55"
               style={{ fontSize: "clamp(1.5rem, 2.5vw, 2.25rem)" }}
               aria-hidden
             >
               &ldquo;The details are never small.&rdquo;
             </motion.p>
 
-            {/* ── Contact info — two-row layout ── */}
+            {/* ── Contact info, two-row layout ── */}
             <motion.div
               variants={rm ? undefined : leftChild}
               className="mt-12"
@@ -196,7 +196,7 @@ export function BookingCTA() {
           </motion.div>
 
           {/* ═══════════════════════════════════════
-              RIGHT — Form
+              RIGHT, Form
           ═══════════════════════════════════════ */}
           <motion.div
             initial={rm ? undefined : { opacity: 0, y: 32 }}
@@ -204,7 +204,7 @@ export function BookingCTA() {
             viewport={viewportOnce}
             transition={{ duration: 0.75, delay: 0.2, ease: EASE }}
           >
-            {/* Subtle inset card — slightly lighter plum to lift from bg */}
+            {/* Subtle inset card, slightly lighter plum to lift from bg */}
             <div
               className="rounded-[24px] p-8 lg:p-10"
               style={{
@@ -214,7 +214,7 @@ export function BookingCTA() {
               }}
             >
               {/* Form heading */}
-              <p className="font-body text-[0.68rem] tracking-[0.28em] uppercase text-ivory/35 mb-8">
+              <p className="font-body text-[0.68rem] tracking-[0.28em] uppercase text-ivory/55 mb-8">
                 Inquiry Form
               </p>
 
@@ -224,7 +224,7 @@ export function BookingCTA() {
                 onSubmit={(e) => { e.preventDefault(); setModalOpen(true); }}
               >
 
-                {/* Name + Phone — 2-col */}
+                {/* Name + Phone, 2-col */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-7">
                   <FloatField label="Name *" id="b-name">
                     <input id="b-name" type="text" name="name" required autoComplete="name" placeholder=" " />
@@ -239,7 +239,7 @@ export function BookingCTA() {
                   <input id="b-email" type="email" name="email" required autoComplete="email" placeholder=" " />
                 </FloatField>
 
-                {/* Service select — needs has-value class when chosen */}
+                {/* Service select, needs has-value class when chosen */}
                 <FloatField label="Service of Interest" id="b-service" hasValue={!!serviceVal}>
                   <div className="relative">
                     <select
@@ -281,7 +281,7 @@ export function BookingCTA() {
                   <span className="ml-2" aria-hidden>→</span>
                 </button>
 
-                <p className="text-center font-body text-[0.7rem] text-ivory/25 tracking-wide">
+                <p className="text-center font-body text-[0.7rem] text-ivory/55 tracking-wide">
                   We respond to all inquiries within one business day.
                 </p>
               </form>

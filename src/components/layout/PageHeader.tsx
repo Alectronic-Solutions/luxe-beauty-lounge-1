@@ -22,7 +22,7 @@ export function PageHeader({ eyebrow, title, subtitle, children }: PageHeaderPro
       style={{ background: "#1C0B2E", paddingTop: "clamp(7rem,14vw,11rem)", paddingBottom: "clamp(3.5rem,7vw,5.5rem)" }}
       aria-label="Page header"
     >
-      {/* Ambient mesh — lightweight version of hero blobs */}
+      {/* Ambient mesh, lightweight version of hero blobs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
         <div
           className="absolute -top-1/4 -right-1/4 w-[600px] h-[600px] rounded-full opacity-[0.09]"

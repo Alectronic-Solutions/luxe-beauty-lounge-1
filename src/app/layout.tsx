@@ -4,6 +4,8 @@ import "./globals.css";
 import { FloatingBookButton } from "@/components/layout/FloatingBookButton";
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { assetPath } from "@/lib/assetPath";
+import { SITE_URL, canonical } from "@/lib/site";
+import { CONTACT_INFO, SOCIAL_LINKS, TESTIMONIALS } from "@/lib/constants";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -20,8 +22,10 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
+const OG_IMAGE = canonical("/images/og.jpg");
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://luxebeautylounge.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Luxe Beauty Lounge | Luxury Day Spa & Salon",
     template: "%s | Luxe Beauty Lounge",
@@ -35,38 +39,86 @@ export const metadata: Metadata = {
     "bridal beauty",
     "signature facial",
     "beauty lounge",
+    "Westfield NJ salon",
   ],
+  alternates: {
+    canonical: canonical("/"),
+  },
   openGraph: {
     type: "website",
     siteName: "Luxe Beauty Lounge",
+    url: canonical("/"),
     title: "Luxe Beauty Lounge | Luxury Day Spa & Salon",
     description:
       "An elevated beauty experience crafted for those who expect the exceptional.",
     images: [
       {
-        url: "/images/hero-bg.jpg",
+        url: OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: "Luxe Beauty Lounge — Luxury Day Spa & Salon",
+        alt: "Luxe Beauty Lounge, Luxury Day Spa & Salon",
       },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Luxe Beauty Lounge | Luxury Day Spa & Salon",
+    description:
+      "An elevated beauty experience crafted for those who expect the exceptional.",
+    images: [OG_IMAGE],
   },
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "BeautySalon",
+  "@id": canonical("/#business"),
   name: "Luxe Beauty Lounge",
   description:
     "An elevated beauty experience crafted for those who expect the exceptional. Luxury facials, hair color, bridal packages, and more.",
-  image: "https://luxebeautylounge.com/images/hero-bg.jpg",
-  url: "https://luxebeautylounge.com",
+  image: OG_IMAGE,
+  url: canonical("/"),
+  telephone: "+1-555-820-4400",
   priceRange: "$$$",
   address: {
     "@type": "PostalAddress",
+    streetAddress: CONTACT_INFO.address,
     addressLocality: "Westfield",
     addressRegion: "NJ",
+    postalCode: "07090",
     addressCountry: "US",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 40.6501,
+    longitude: -74.3474,
+  },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "09:00",
+      closes: "19:00",
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: "Saturday",
+      opens: "09:00",
+      closes: "18:00",
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: "Sunday",
+      opens: "10:00",
+      closes: "16:00",
+    },
+  ],
+  sameAs: SOCIAL_LINKS.map((s) => s.href),
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "5.0",
+    bestRating: "5",
+    reviewCount: TESTIMONIALS.length,
   },
 };
 
@@ -87,6 +139,9 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased bg-ivory text-charcoal">
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
         <CustomCursor />
         {children}
         <FloatingBookButton />

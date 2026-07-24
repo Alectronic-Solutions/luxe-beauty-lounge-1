@@ -11,7 +11,7 @@ export default function ThankYouPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-ivory flex items-center justify-center px-6 py-32">
+      <main id="main-content" tabIndex={-1} className="min-h-screen bg-ivory flex items-center justify-center px-6 py-32">
         <div className="max-w-xl w-full text-center">
           {/* Icon */}
           <motion.div
@@ -54,7 +54,7 @@ export default function ThankYouPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: EASE }}
-            className="font-body text-charcoal/60 leading-relaxed"
+            className="font-body text-charcoal/65 leading-relaxed"
             style={{ fontSize: "clamp(1rem, 1.5vw, 1.125rem)" }}
           >
             Your inquiry has been received. A member of our team will reach out
@@ -65,7 +65,7 @@ export default function ThankYouPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="font-body text-sm text-charcoal/40 mt-3"
+            className="font-body text-sm text-charcoal/65 mt-3"
           >
             In the meantime, feel free to explore our services or follow us on Instagram.
           </motion.p>

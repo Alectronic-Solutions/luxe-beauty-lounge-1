@@ -1,6 +1,6 @@
 import type { Variants } from "framer-motion";
 
-/** The luxury easing — never use "easeInOut" or "linear" for UI motion */
+/** The luxury easing, never use "easeInOut" or "linear" for UI motion */
 export const EASE: [number, number, number, number] = [0.25, 0, 0, 1];
 
 export const fadeUp: Variants = {
@@ -76,7 +76,7 @@ export const slideInRight: Variants = {
   },
 };
 
-/** Viewport config — reveal when 20% of element is visible, only once, with margin */
+/** Viewport config, reveal when 20% of element is visible, only once, with margin */
 export const viewportOnce = { once: true, amount: 0.15, margin: "-80px 0px" } as const;
 
 /** Hover scale for cards */

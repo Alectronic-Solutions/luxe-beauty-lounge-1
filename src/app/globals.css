@@ -55,7 +55,7 @@
     line-height: 1.75;
   }
 
-  /* Focus styles — visible on keyboard nav, hidden on mouse */
+  /* Focus styles, visible on keyboard nav, hidden on mouse */
   :focus-visible {
     outline: 2px solid var(--color-rose-gold);
     outline-offset: 3px;
@@ -63,6 +63,33 @@
   }
   :focus:not(:focus-visible) {
     outline: none;
+  }
+
+  /* Skip link, hidden until focused, then pinned top-left */
+  .skip-link {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    transform: translateY(-120%);
+    margin: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-plum);
+    color: var(--color-ivory);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    box-shadow: 0 6px 20px rgba(28, 11, 46, 0.35);
+    transition: transform 200ms ease;
+  }
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .skip-link {
+      transition: none;
+    }
   }
 }
 
@@ -104,7 +131,7 @@
     border: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  /* Section spacing — luxury breathing room */
+  /* Section spacing, luxury breathing room */
   .section-py {
     padding-top: clamp(3.5rem, 8vw, 7rem);
     padding-bottom: clamp(3.5rem, 8vw, 7rem);
@@ -115,7 +142,7 @@
     padding-bottom: clamp(2rem, 5vw, 4rem);
   }
 
-  /* Container — max-w-7xl equivalent with generous gutter */
+  /* Container, max-w-7xl equivalent with generous gutter */
   .container-luxury {
     max-width: 1280px;
     margin-inline: auto;
@@ -175,7 +202,7 @@
     page-break-inside: avoid;
   }
 
-  /* ── Form fields — bottom-border-only style ── */
+  /* ── Form fields, bottom-border-only style ── */
   .field-underline {
     background: transparent;
     border: none;
@@ -196,7 +223,7 @@
   .field-underline:focus {
     border-bottom-color: #C8956C;
   }
-  /* Select needs extra care — remove system chrome */
+  /* Select needs extra care, remove system chrome */
   select.field-underline {
     appearance: none;
     -webkit-appearance: none;
@@ -272,7 +299,7 @@
 
 /* ── 3-D luxury button system ── */
 
-/* Primary filled button — rose-gold with 3D depth */
+/* Primary filled button, rose-gold with 3D depth */
 .btn-primary {
   position: relative;
   display: inline-flex;
@@ -345,7 +372,7 @@ button.btn-ghost {
   background-clip: padding-box;
 }
 
-/* Ghost / outline button — plum or ivory variant */
+/* Ghost / outline button, plum or ivory variant */
 .btn-ghost {
   position: relative;
   display: inline-flex;
@@ -379,7 +406,7 @@ button.btn-ghost {
   box-shadow: none;
 }
 
-/* Shimmer sweep — applies to both */
+/* Shimmer sweep, applies to both */
 @keyframes btn-shimmer {
   0%   { transform: translateX(-100%) skewX(-12deg); }
   100% { transform: translateX(250%) skewX(-12deg); }

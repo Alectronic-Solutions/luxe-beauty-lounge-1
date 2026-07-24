@@ -39,7 +39,7 @@ export function AboutPreview() {
       <div className="container-luxury">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 xl:gap-20 items-start">
 
-          {/* ═══ LEFT — Editorial text ═══ */}
+          {/* ═══ LEFT, Editorial text ═══ */}
           <motion.div
             variants={rm ? undefined : textStagger}
             initial={rm ? undefined : "hidden"}
@@ -115,8 +115,8 @@ export function AboutPreview() {
                 &ldquo;Offer fewer things than you could, and do every one of them better
                 than anyone else.&rdquo;
               </p>
-              <footer className="mt-3 font-body text-xs tracking-[0.18em] uppercase text-charcoal/40">
-                — Isabelle Laurent, Founder
+              <footer className="mt-3 font-body text-xs tracking-[0.18em] uppercase text-charcoal/65">
+                Isabelle Laurent, Founder
               </footer>
             </motion.blockquote>
 
@@ -143,7 +143,7 @@ export function AboutPreview() {
             </motion.div>
           </motion.div>
 
-          {/* ═══ RIGHT — Image with rose-gold border treatment ═══ */}
+          {/* ═══ RIGHT, Image with rose-gold border treatment ═══ */}
           <motion.div
             initial={rm ? undefined : { opacity: 0, x: 40 }}
             whileInView={rm ? undefined : { opacity: 1, x: 0 }}
@@ -177,7 +177,7 @@ export function AboutPreview() {
               {/* Founder portrait */}
               <div className="aspect-[3/4] w-full relative">
                 <Image
-                  src={assetPath("/images/about-founder.jpg")}
+                  src={assetPath("/images/about-founder.webp")}
                   alt="Isabelle Laurent, Founder and Creative Director of Luxe Beauty Lounge"
                   fill
                   sizes="(max-width: 1024px) 100vw, 420px"
@@ -203,7 +203,7 @@ export function AboutPreview() {
               </div>
             </div>
 
-            {/* Floating stats chip — bottom-left overflow */}
+            {/* Floating stats chip, bottom-left overflow */}
             <motion.div
               initial={rm ? undefined : { opacity: 0, y: 16, x: 8 }}
               whileInView={rm ? undefined : { opacity: 1, y: 0, x: 0 }}
@@ -229,7 +229,7 @@ export function AboutPreview() {
               </p>
             </motion.div>
 
-            {/* Corner bracket accent — top right of frame */}
+            {/* Corner bracket accent, top right of frame */}
             <motion.div
               initial={rm ? undefined : { opacity: 0, scale: 0.8 }}
               whileInView={rm ? undefined : { opacity: 1, scale: 1 }}
@@ -248,7 +248,7 @@ export function AboutPreview() {
       </div>
 
       <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-champagne-dark/60 to-transparent" aria-hidden />
-      {/* Section blend — fades into GalleryPreview warm bg */}
+      {/* Section blend, fades into GalleryPreview warm bg */}
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 h-24"
         style={{ background: "linear-gradient(to top, #EDE8E0 0%, transparent 100%)" }}

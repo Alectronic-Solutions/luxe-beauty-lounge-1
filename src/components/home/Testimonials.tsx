@@ -44,7 +44,7 @@ function TestimonialCard({ t }: { t: Testimonial }) {
       <footer className="mt-auto pt-4 border-t border-champagne-dark/40 flex items-center justify-between gap-3">
         <div>
           <p className="font-body font-medium text-charcoal text-sm leading-tight">{t.name}</p>
-          <p className="font-body text-[0.7rem] text-charcoal/40 mt-0.5">{t.location}</p>
+          <p className="font-body text-[0.7rem] text-charcoal/65 mt-0.5">{t.location}</p>
         </div>
         <span
           className="shrink-0 font-body text-[0.58rem] tracking-[0.18em] uppercase px-2.5 py-1 rounded-pill text-rose-gold"
@@ -74,7 +74,7 @@ export function Testimonials() {
       style={{ background: "#F5E6C8" }}
       aria-label="Client testimonials"
     >
-      {/* Section blend — fades into TrustStrip deep plum */}
+      {/* Section blend, fades into TrustStrip deep plum */}
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 h-32 z-10"
         style={{ background: "linear-gradient(to top, #1C0B2E 0%, transparent 100%)" }}
@@ -106,13 +106,13 @@ export function Testimonials() {
           whileInView={rm ? undefined : { opacity: 1, y: 0 }}
           viewport={viewportOnce}
           transition={{ duration: 0.55, delay: 0.17 }}
-          className="mt-4 font-body font-light text-charcoal/55 text-sm tracking-wide"
+          className="mt-4 font-body font-light text-charcoal/65 text-sm tracking-wide"
         >
           Real words from clients we know by name.
         </motion.p>
       </div>
 
-      {/* Marquee wrapper — hover pauses both rows */}
+      {/* Marquee wrapper, hover pauses both rows */}
       <motion.div
         initial={rm ? undefined : { opacity: 0 }}
         whileInView={rm ? undefined : { opacity: 1 }}
@@ -121,7 +121,7 @@ export function Testimonials() {
         className="marquee-wrapper flex flex-col gap-4 select-none"
         aria-hidden={rm ? undefined : "true"}
       >
-        {/* Row A — scrolls left */}
+        {/* Row A, scrolls left */}
         <div className="overflow-hidden">
           <div className={`marquee-track ${rm ? "" : "marquee-left"}`}>
             {TRACK_A.map((t, i) => (
@@ -130,7 +130,7 @@ export function Testimonials() {
           </div>
         </div>
 
-        {/* Row B — scrolls right */}
+        {/* Row B, scrolls right */}
         <div className="overflow-hidden">
           <div className={`marquee-track ${rm ? "" : "marquee-right"}`}>
             {TRACK_B.map((t, i) => (
@@ -140,7 +140,7 @@ export function Testimonials() {
         </div>
       </motion.div>
 
-      {/* Accessible static fallback — only shown to screen readers / reduced-motion */}
+      {/* Accessible static fallback, only shown to screen readers / reduced-motion */}
       <div className={`container-luxury mt-10 ${rm ? "" : "sr-only"}`} aria-live="polite">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {TESTIMONIALS.map((t) => (
@@ -155,7 +155,7 @@ export function Testimonials() {
           whileInView={rm ? undefined : { opacity: 1 }}
           viewport={viewportOnce}
           transition={{ delay: 0.5 }}
-          className="font-body text-sm text-charcoal/45 tracking-wide"
+          className="font-body text-sm text-charcoal/65 tracking-wide"
         >
           Join{" "}
           <span className="text-charcoal/70 font-medium">800+ clients</span>{" "}

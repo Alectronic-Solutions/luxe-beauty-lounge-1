@@ -23,7 +23,7 @@ const SERVICE_BG: Record<string, string> = {
 
 const PROCESS_STEPS = [
   { num: "01", label: "Consultation", body: "Every visit starts here. We listen before we touch." },
-  { num: "02", label: "Assessment",   body: "We read your skin, hair, or both — before deciding anything." },
+  { num: "02", label: "Assessment",   body: "We read your skin, hair, or both, before deciding anything." },
   { num: "03", label: "Treatment",    body: "Executed with precision, unhurried, and entirely focused on you." },
   { num: "04", label: "Aftercare",    body: "You leave with a plan, not just results from a single session." },
 ];
@@ -49,11 +49,11 @@ export default function ServicesPage() {
   return (
     <>
       <Navbar />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <PageHeader
           eyebrow="Our Offerings"
           title={<>Every service, crafted to<br className="hidden sm:block" /> an exacting standard.</>}
-          subtitle="We offer fewer services than most salons — deliberately. The ones we do, we do better than anyone."
+          subtitle="We offer fewer services than most salons, deliberately. The ones we do, we do better than anyone."
         />
 
         {/* ── Featured: Signature Facial ── */}
@@ -74,7 +74,7 @@ export default function ServicesPage() {
               >
                 {/* Real photo behind the gradient */}
                 <Image
-                  src={assetPath("/images/services-facial.jpg")}
+                  src={assetPath("/images/services-facial.webp")}
                   alt=""
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
@@ -97,16 +97,16 @@ export default function ServicesPage() {
                   </p>
                 </div>
                 <div className="relative z-10 mt-10">
-                  <p className="font-body text-[0.6rem] tracking-[0.2em] uppercase text-ivory/35 mb-1">Starting from</p>
+                  <p className="font-body text-[0.6rem] tracking-[0.2em] uppercase text-ivory/55 mb-1">Starting from</p>
                   <p className="font-display font-light text-champagne" style={{ fontSize: "clamp(1.75rem,3vw,2.5rem)" }}>{featured.priceFrom}</p>
-                  <p className="font-body text-xs text-ivory/40 mt-1">{featured.duration}</p>
+                  <p className="font-body text-xs text-ivory/55 mt-1">{featured.duration}</p>
                 </div>
               </div>
 
               <div className="p-10 md:p-14 bg-ivory flex flex-col justify-between">
                 <div className="space-y-5 text-charcoal/65 leading-[1.8]" style={{ fontSize: "clamp(0.875rem,1.1vw,1rem)" }}>
                   <p>{featured.description}</p>
-                  <p>This treatment begins with a comprehensive skin assessment, followed by a tailored protocol using pharmaceutical-grade actives. Deep cleanse, exfoliation, extractions, mask, and a lymphatic facial massage are standard — everything else is specific to you.</p>
+                  <p>This treatment begins with a comprehensive skin assessment, followed by a tailored protocol using pharmaceutical-grade actives. Deep cleanse, exfoliation, extractions, mask, and a lymphatic facial massage are standard, everything else is specific to you.</p>
                   <p>Results are visible from the first session. With regular monthly visits, clients report sustained improvements in texture, tone, and luminosity that no topical routine alone can achieve.</p>
                 </div>
                 <motion.div whileHover={rm ? undefined : { x: 3 }} transition={{ duration: 0.2 }} className="self-start mt-10">
@@ -147,7 +147,7 @@ export default function ServicesPage() {
                   <span className="font-display font-light text-rose-gold/50" style={{ fontSize: "2.25rem", lineHeight: 1 }}>{step.num}</span>
                   <div className="h-px w-8 bg-rose-gold/30" />
                   <h3 className="font-display font-light text-plum text-xl">{step.label}</h3>
-                  <p className="font-body text-sm text-charcoal/55 leading-relaxed">{step.body}</p>
+                  <p className="font-body text-sm text-charcoal/65 leading-relaxed">{step.body}</p>
                 </motion.div>
               ))}
             </motion.div>
@@ -168,7 +168,7 @@ export default function ServicesPage() {
                 <p className="font-body text-[0.65rem] tracking-[0.3em] uppercase text-rose-gold mb-3">Full Menu</p>
                 <h2 className="font-display font-light text-plum" style={{ fontSize: "clamp(1.75rem,3.5vw,2.75rem)" }}>All Services</h2>
               </div>
-              <p className="font-body text-sm text-charcoal/45 max-w-xs leading-relaxed">All services include a complimentary consultation.</p>
+              <p className="font-body text-sm text-charcoal/65 max-w-xs leading-relaxed">All services include a complimentary consultation.</p>
             </motion.div>
 
             <motion.div
@@ -194,14 +194,14 @@ export default function ServicesPage() {
                       <div>
                         <span className="font-body text-[0.62rem] tracking-[0.24em] uppercase text-rose-gold">{s.category}</span>
                         <h3 className="font-display font-light text-plum mt-1.5 leading-tight" style={{ fontSize: "clamp(1.3rem,2vw,1.75rem)" }}>{s.name}</h3>
-                        <p className="font-display italic text-charcoal/40 mt-1" style={{ fontSize: "clamp(0.875rem,1.1vw,1rem)" }}>{s.tagline}</p>
+                        <p className="font-display italic text-charcoal/65 mt-1" style={{ fontSize: "clamp(0.875rem,1.1vw,1rem)" }}>{s.tagline}</p>
                       </div>
                       <div className="text-right shrink-0 pt-0.5">
                         <p className="font-display font-light text-plum" style={{ fontSize: "clamp(1.35rem,2vw,1.75rem)" }}>{s.priceFrom}</p>
-                        <p className="font-body text-xs text-charcoal/35 mt-1">{s.duration}</p>
+                        <p className="font-body text-xs text-charcoal/65 mt-1">{s.duration}</p>
                       </div>
                     </div>
-                    <p className="font-body text-sm text-charcoal/60 leading-[1.75]">{s.description}</p>
+                    <p className="font-body text-sm text-charcoal/65 leading-[1.75]">{s.description}</p>
                     <div className="flex items-center justify-between pt-1">
                       <Link
                         href="/booking"

@@ -153,7 +153,7 @@ export function BrandStatement() {
         </span>
       </div>
 
-      {/* Section blend — bottom fades into ServicesGrid warm bg */}
+      {/* Section blend, bottom fades into ServicesGrid warm bg */}
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 h-24 z-10"
         style={{ background: "linear-gradient(to top, #F0EBE0 0%, transparent 100%)" }}
@@ -237,7 +237,7 @@ export function BrandStatement() {
           {/* Sub-copy */}
           <motion.p
             {...lineProps(0)}
-            className="mt-6 mx-auto max-w-2xl font-body font-light leading-[1.85] text-charcoal/60"
+            className="mt-6 mx-auto max-w-2xl font-body font-light leading-[1.85] text-charcoal/65"
             style={{ fontSize: "clamp(1rem, 1.4vw, 1.125rem)" }}
           >
             Every service begins with listening. We study your skin, your hair, your life
@@ -266,7 +266,7 @@ export function BrandStatement() {
                   {p.icon}
                 </div>
                 <p className="font-display font-light text-plum text-lg leading-tight">{p.title}</p>
-                <p className="font-body text-[0.82rem] text-charcoal/55 leading-[1.7]">{p.body}</p>
+                <p className="font-body text-[0.82rem] text-charcoal/65 leading-[1.7]">{p.body}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -285,7 +285,7 @@ export function BrandStatement() {
                   >
                     <CountUp target={stat.num} suffix={stat.suffix} />
                   </p>
-                  <p className="font-body text-xs tracking-[0.18em] uppercase text-charcoal/40 mt-1">
+                  <p className="font-body text-xs tracking-[0.18em] uppercase text-charcoal/65 mt-1">
                     {stat.label}
                   </p>
                 </div>
