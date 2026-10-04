@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { PageHeader } from "@/components/layout/PageHeader";
-import { CONTACT_INFO, SERVICES } from "@/lib/constants";
+import { CONTACT_INFO, SERVICES, AREA_MAP_EMBED, AREA_MAP_LINK } from "@/lib/constants";
 import { ThankYouModal } from "@/components/ui/ThankYouModal";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -19,6 +19,56 @@ const item = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
 };
+
+const LABEL = "block font-body text-[0.62rem] tracking-[0.26em] uppercase text-charcoal/70 mb-3";
+const FIELD =
+  "w-full bg-transparent border-0 border-b border-charcoal/20 focus:border-rose-gold outline-none py-2.5 font-body text-[0.9375rem] text-charcoal placeholder:text-charcoal/40 transition-colors duration-300";
+const EYEBROW = "font-body text-[0.6rem] tracking-[0.28em] uppercase text-rose-gold-deep mb-2";
+
+/* ── Service-area map: shows the town, not a street address ── */
+function AreaMap() {
+  return (
+    <div
+      className="rounded-[20px] overflow-hidden"
+      style={{ boxShadow: "0 4px 24px rgba(28,11,46,0.12), 0 1px 4px rgba(28,11,46,0.06)" }}
+    >
+      <div className="relative h-60 sm:h-72 lg:h-60 bg-champagne-light">
+        <iframe
+          src={AREA_MAP_EMBED}
+          title={`Map of ${CONTACT_INFO.area}`}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          className="absolute inset-0 w-full h-full border-0"
+          style={{ filter: "grayscale(0.4) sepia(0.15) saturate(0.85)" }}
+        />
+        <div
+          className="pointer-events-none absolute top-3 left-3 rounded-pill px-3 py-1.5 font-body text-[0.6rem] tracking-[0.2em] uppercase text-champagne"
+          style={{ background: "rgba(28,11,46,0.82)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)" }}
+        >
+          {CONTACT_INFO.areaShort} &middot; {CONTACT_INFO.region}
+        </div>
+      </div>
+      <div className="bg-ivory px-5 py-4 border-t border-champagne-dark/30">
+        <p className={EYEBROW}>Clients visit from</p>
+        <p className="font-body text-[0.8rem] text-charcoal/70 leading-relaxed">
+          {CONTACT_INFO.areasServed.join(" · ")} and beyond
+        </p>
+        <a
+          href={AREA_MAP_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-3 inline-flex items-center gap-1.5 py-1 font-body text-[0.68rem] tracking-[0.14em] uppercase text-rose-gold-dark hover:text-plum transition-colors duration-300"
+        >
+          Open in Google Maps
+          <span className="sr-only"> (opens in a new tab)</span>
+          <svg width="10" height="7" viewBox="0 0 10 7" fill="none" aria-hidden>
+            <path d="M1 3.5H9M6 1L9 3.5L6 6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  );
+}
 
 const ChevronSvg = () => (
   <svg width="10" height="6" viewBox="0 0 10 6" fill="none" className="absolute right-0 bottom-3.5 pointer-events-none text-charcoal/65" aria-hidden>
@@ -37,11 +87,9 @@ const FAQS = [
 
 /* ── FAQ Accordion Item ── */
 function FaqItem({ faq, isOpen, onToggle, index }: { faq: typeof FAQS[number]; isOpen: boolean; onToggle: () => void; index: number }) {
-  const rm = useReducedMotion();
-
   return (
     <motion.div
-      variants={rm ? undefined : item}
+      variants={item}
       className="border-b border-ivory/[0.08]"
     >
       <button
@@ -93,11 +141,17 @@ function FaqItem({ faq, isOpen, onToggle, index }: { faq: typeof FAQS[number]; i
 }
 
 export default function BookingPage() {
-  const rm = useReducedMotion();
-  const rv = rm ? undefined : "visible";
-  const rh = rm ? undefined : "hidden";
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [service, setService] = useState("");
+
+  // Pre-select the service when arriving from a "Book this" link
+  // (/booking/?service=brow-lash). Read on mount: static export, no server.
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("service");
+    const match = SERVICES.find((s) => s.id === id);
+    if (match) setService(match.name);
+  }, []);
 
   return (
     <>
@@ -112,163 +166,54 @@ export default function BookingPage() {
         {/* ── Main form section ── */}
         <section className="section-py" style={{ background: "#FAF7F2" }}>
           <div className="container-luxury">
-            <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] xl:grid-cols-[360px_1fr] gap-10 xl:gap-20 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] xl:grid-cols-[380px_1fr] gap-12 xl:gap-20 items-start">
 
-              {/* ── Left: contact info ── */}
+              {/* ── Form (first on phones, right column on desktop) ── */}
               <motion.div
-                variants={rm ? undefined : container}
-                initial={rh}
-                whileInView={rv}
-                viewport={VP}
-                className="lg:sticky lg:top-32 space-y-8"
-              >
-                <motion.div variants={rm ? undefined : item}>
-                  <h2 className="font-display font-light text-plum mb-6" style={{ fontSize: "clamp(1.5rem,2.5vw,2rem)" }}>Find us</h2>
-                  <address className="not-italic space-y-6 font-body text-sm text-charcoal/65 leading-relaxed">
-                    <div>
-                      <p className="font-body text-[0.6rem] tracking-[0.28em] uppercase text-rose-gold mb-2">Address</p>
-                      <p>{CONTACT_INFO.address}</p>
-                      <p>{CONTACT_INFO.city}</p>
-                    </div>
-                    <div>
-                      <p className="font-body text-[0.6rem] tracking-[0.28em] uppercase text-rose-gold mb-2">Phone</p>
-                      <a href={`tel:${CONTACT_INFO.phone}`} className="hover:text-plum transition-colors duration-300">{CONTACT_INFO.phone}</a>
-                    </div>
-                    <div>
-                      <p className="font-body text-[0.6rem] tracking-[0.28em] uppercase text-rose-gold mb-2">Email</p>
-                      <a href={`mailto:${CONTACT_INFO.email}`} className="hover:text-plum transition-colors duration-300 break-all">{CONTACT_INFO.email}</a>
-                    </div>
-                    <div>
-                      <p className="font-body text-[0.6rem] tracking-[0.28em] uppercase text-rose-gold mb-2">Hours</p>
-                      <div className="space-y-1">
-                        <p>{CONTACT_INFO.hours.weekday}</p>
-                        <p>{CONTACT_INFO.hours.saturday}</p>
-                        <p>{CONTACT_INFO.hours.sunday}</p>
-                        <p className="text-charcoal/65 text-xs mt-1">Closed Mondays</p>
-                      </div>
-                    </div>
-                  </address>
-                </motion.div>
-
-                {/* Premium location card */}
-                <motion.div
-                  variants={rm ? undefined : item}
-                  className="rounded-[20px] overflow-hidden"
-                  style={{ boxShadow: "0 4px 24px rgba(28,11,46,0.12), 0 1px 4px rgba(28,11,46,0.06)" }}
-                >
-                  {/* Decorative map illustration */}
-                  <div className="relative h-48 overflow-hidden" style={{ background: "linear-gradient(145deg,#1C0B2E 0%,#2e1249 55%,#1a0a2a 100%)" }}>
-                    {/* Abstract street grid */}
-                    <svg className="absolute inset-0 w-full h-full opacity-[0.12]" aria-hidden>
-                      <defs>
-                        <pattern id="bk-grid" width="32" height="32" patternUnits="userSpaceOnUse">
-                          <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#C8956C" strokeWidth="0.5" />
-                        </pattern>
-                      </defs>
-                      <rect width="100%" height="100%" fill="url(#bk-grid)" />
-                    </svg>
-                    {/* Diagonal accent streets */}
-                    <svg className="absolute inset-0 w-full h-full opacity-[0.08]" aria-hidden>
-                      <line x1="0" y1="80" x2="100%" y2="40" stroke="#F5E6C8" strokeWidth="1.5" />
-                      <line x1="0" y1="130" x2="100%" y2="90" stroke="#F5E6C8" strokeWidth="1" />
-                      <line x1="40%" y1="0" x2="60%" y2="100%" stroke="#F5E6C8" strokeWidth="1" />
-                    </svg>
-                    {/* Glow */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-24 h-24 rounded-full opacity-30" style={{ background: "radial-gradient(circle,#C8956C 0%,transparent 70%)", filter: "blur(16px)" }} aria-hidden />
-                    </div>
-                    {/* Pin */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
-                      <div className="relative">
-                        <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "#C8956C", boxShadow: "0 0 0 4px rgba(200,149,108,0.25), 0 4px 16px rgba(200,149,108,0.5)" }}>
-                          <svg width="14" height="18" viewBox="0 0 14 18" fill="none" aria-hidden>
-                            <path d="M7 0C3.13 0 0 3.13 0 7C0 12.25 7 18 7 18C7 18 14 12.25 14 7C14 3.13 10.87 0 7 0ZM7 9.5C5.62 9.5 4.5 8.38 4.5 7C4.5 5.62 5.62 4.5 7 4.5C8.38 4.5 9.5 5.62 9.5 7C9.5 8.38 8.38 9.5 7 9.5Z" fill="#FAF7F2" />
-                          </svg>
-                        </div>
-                        <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full opacity-30" style={{ background: "#C8956C", filter: "blur(3px)" }} aria-hidden />
-                      </div>
-                      <div className="text-center mt-1">
-                        <p className="font-display font-light text-ivory text-[0.9rem] leading-tight">Luxe Beauty Lounge</p>
-                        <p className="font-body text-[0.65rem] text-ivory/50 tracking-wide mt-0.5">Meridian Ave · Westfield, NJ</p>
-                      </div>
-                    </div>
-                    {/* Corner accent dots */}
-                    <div className="absolute top-3 right-3 flex gap-1" aria-hidden>
-                      <div className="w-1 h-1 rounded-full bg-rose-gold/40" />
-                      <div className="w-1.5 h-1.5 rounded-full bg-rose-gold/60" />
-                    </div>
-                  </div>
-
-                  {/* Card footer */}
-                  <div className="bg-ivory px-5 py-4 flex items-center justify-between gap-3 border-t border-champagne-dark/30">
-                    <div>
-                      <p className="font-body text-[0.72rem] text-charcoal/65">{CONTACT_INFO.address}</p>
-                      <p className="font-body text-[0.72rem] text-charcoal/65">{CONTACT_INFO.city}</p>
-                    </div>
-                    <a
-                      href={`https://maps.google.com/?q=${encodeURIComponent(CONTACT_INFO.address + " " + CONTACT_INFO.city)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="shrink-0 font-body text-[0.65rem] tracking-[0.14em] uppercase text-rose-gold hover:text-plum transition-colors duration-300 flex items-center gap-1.5"
-                      aria-label="Get directions (opens Google Maps)"
-                    >
-                      Directions
-                      <svg width="10" height="7" viewBox="0 0 10 7" fill="none" aria-hidden>
-                        <path d="M1 3.5H9M6 1L9 3.5L6 6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </a>
-                  </div>
-                </motion.div>
-
-                {/* Quick response promise */}
-                <motion.div
-                  variants={rm ? undefined : item}
-                  className="rounded-[16px] p-5 flex items-start gap-4"
-                  style={{ background: "rgba(200,149,108,0.08)", border: "1px solid rgba(200,149,108,0.18)" }}
-                >
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-rose-gold shrink-0 mt-0.5" style={{ background: "rgba(200,149,108,0.12)" }}>
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
-                      <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.1" />
-                      <path d="M7 4v3.5l2 2" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="font-body text-[0.75rem] font-medium text-charcoal tracking-wide">Response within 24 hours</p>
-                    <p className="font-body text-[0.72rem] text-charcoal/65 mt-0.5 leading-snug">We personally review every inquiry and follow up by phone or email.</p>
-                  </div>
-                </motion.div>
-              </motion.div>
-
-              {/* ── Right: form ── */}
-              <motion.div
-                initial={rh ? { opacity: 0, y: 32 } : undefined}
-                whileInView={rv ? { opacity: 1, y: 0 } : undefined}
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={VP}
                 transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
+                className="lg:order-2"
               >
-                <p className="font-body text-[0.65rem] tracking-[0.3em] uppercase text-rose-gold mb-8">Inquiry Form</p>
-                <form noValidate className="space-y-8" onSubmit={(e) => { e.preventDefault(); setModalOpen(true); }}>
-
+                <p className="font-body text-[0.65rem] tracking-[0.3em] uppercase text-rose-gold-deep mb-8">Inquiry Form</p>
+                <form
+                  className="space-y-8"
+                  onSubmit={(e) => {
+                    // Demo build: native validation runs first, then we show the
+                    // confirmation instead of posting to FormSubmit.
+                    e.preventDefault();
+                    e.currentTarget.reset();
+                    setService("");
+                    setModalOpen(true);
+                  }}
+                >
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                     <div>
-                      <label htmlFor="pg-name" className="block font-body text-[0.6rem] tracking-[0.28em] uppercase text-charcoal/65 mb-3">Full Name *</label>
-                      <input id="pg-name" type="text" name="name" required aria-required="true" autoComplete="name" placeholder="Your full name" className="w-full bg-transparent border-0 border-b border-charcoal/15 focus:border-rose-gold outline-none py-2.5 font-body text-[0.9375rem] text-charcoal placeholder:text-charcoal/65 transition-colors duration-300" />
+                      <label htmlFor="pg-name" className={LABEL}>Full Name *</label>
+                      <input id="pg-name" type="text" name="name" required autoComplete="name" placeholder="Your full name" className={FIELD} />
                     </div>
                     <div>
-                      <label htmlFor="pg-phone" className="block font-body text-[0.6rem] tracking-[0.28em] uppercase text-charcoal/65 mb-3">Phone</label>
-                      <input id="pg-phone" type="tel" name="phone" autoComplete="tel" placeholder="(555) 000-0000" className="w-full bg-transparent border-0 border-b border-charcoal/15 focus:border-rose-gold outline-none py-2.5 font-body text-[0.9375rem] text-charcoal placeholder:text-charcoal/65 transition-colors duration-300" />
+                      <label htmlFor="pg-phone" className={LABEL}>Phone</label>
+                      <input id="pg-phone" type="tel" name="phone" autoComplete="tel" placeholder="(555) 000-0000" className={FIELD} />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="pg-email" className="block font-body text-[0.6rem] tracking-[0.28em] uppercase text-charcoal/65 mb-3">Email Address *</label>
-                    <input id="pg-email" type="email" name="email" required autoComplete="email" placeholder="your@email.com" className="w-full bg-transparent border-0 border-b border-charcoal/15 focus:border-rose-gold outline-none py-2.5 font-body text-[0.9375rem] text-charcoal placeholder:text-charcoal/65 transition-colors duration-300" />
+                    <label htmlFor="pg-email" className={LABEL}>Email Address *</label>
+                    <input id="pg-email" type="email" name="email" required autoComplete="email" placeholder="your@email.com" className={FIELD} />
                   </div>
 
                   <div>
-                    <label htmlFor="pg-service" className="block font-body text-[0.6rem] tracking-[0.28em] uppercase text-charcoal/65 mb-3">Service of Interest</label>
+                    <label htmlFor="pg-service" className={LABEL}>Service of Interest</label>
                     <div className="relative">
-                      <select id="pg-service" name="service" className="w-full bg-transparent border-0 border-b border-charcoal/15 focus:border-rose-gold outline-none py-2.5 font-body text-[0.9375rem] text-charcoal/70 appearance-none cursor-pointer transition-colors duration-300 pr-5">
+                      <select
+                        id="pg-service"
+                        name="service"
+                        value={service}
+                        onChange={(e) => setService(e.target.value)}
+                        className={`${FIELD} appearance-none cursor-pointer pr-6 ${service ? "" : "text-charcoal/55"}`}
+                      >
                         <option value="">Select a service</option>
                         {SERVICES.map((s) => (<option key={s.id} value={s.name}>{s.name}</option>))}
                         <option value="Not sure yet">Not sure yet, I&apos;d like a consultation</option>
@@ -278,13 +223,13 @@ export default function BookingPage() {
                   </div>
 
                   <div>
-                    <label htmlFor="pg-timing" className="block font-body text-[0.6rem] tracking-[0.28em] uppercase text-charcoal/65 mb-3">Preferred Days / Times</label>
-                    <input id="pg-timing" type="text" name="preferred_time" placeholder="e.g. Weekday mornings, Saturday afternoons" className="w-full bg-transparent border-0 border-b border-charcoal/15 focus:border-rose-gold outline-none py-2.5 font-body text-[0.9375rem] text-charcoal placeholder:text-charcoal/65 transition-colors duration-300" />
+                    <label htmlFor="pg-timing" className={LABEL}>Preferred Days / Times</label>
+                    <input id="pg-timing" type="text" name="preferred_time" placeholder="e.g. Weekday mornings, Saturday afternoons" className={FIELD} />
                   </div>
 
                   <div>
-                    <label htmlFor="pg-message" className="block font-body text-[0.6rem] tracking-[0.28em] uppercase text-charcoal/65 mb-3">Anything else we should know?</label>
-                    <textarea id="pg-message" name="message" rows={4} placeholder="Skin concerns, hair history, questions..." className="w-full bg-transparent border-0 border-b border-charcoal/15 focus:border-rose-gold outline-none py-2.5 font-body text-[0.9375rem] text-charcoal placeholder:text-charcoal/65 transition-colors duration-300 resize-none leading-[1.7]" />
+                    <label htmlFor="pg-message" className={LABEL}>Anything else we should know?</label>
+                    <textarea id="pg-message" name="message" rows={4} placeholder="Skin concerns, hair history, questions..." className={`${FIELD} resize-none leading-[1.7]`} />
                   </div>
 
                   <div className="pt-2">
@@ -301,6 +246,65 @@ export default function BookingPage() {
                   </div>
                 </form>
               </motion.div>
+
+              {/* ── Contact info + area map ── */}
+              <motion.div
+                variants={container}
+                initial="hidden"
+                whileInView="visible"
+                viewport={VP}
+                className="lg:order-1 lg:sticky lg:top-[calc(var(--nav-h,72px)+2rem)] space-y-8"
+              >
+                <motion.div variants={item}>
+                  <h2 className="font-display font-light text-plum mb-6" style={{ fontSize: "clamp(1.5rem,2.5vw,2rem)" }}>Find us</h2>
+                  <div className="grid grid-cols-2 lg:grid-cols-1 gap-x-6 gap-y-6 font-body text-sm text-charcoal/70 leading-relaxed">
+                    <div className="col-span-2 lg:col-span-1">
+                      <p className={EYEBROW}>Location</p>
+                      <p className="text-charcoal">{CONTACT_INFO.area}</p>
+                      <p className="text-[0.8rem] text-charcoal/60 mt-1">{CONTACT_INFO.addressNote}</p>
+                    </div>
+                    <div>
+                      <p className={EYEBROW}>Phone</p>
+                      <a href={CONTACT_INFO.phoneHref} className="inline-block py-1 hover:text-plum transition-colors duration-300">{CONTACT_INFO.phone}</a>
+                    </div>
+                    <div>
+                      <p className={EYEBROW}>Hours</p>
+                      <div className="space-y-0.5">
+                        <p>{CONTACT_INFO.hours.weekday}</p>
+                        <p>{CONTACT_INFO.hours.saturday}</p>
+                        <p>{CONTACT_INFO.hours.sunday}</p>
+                        <p className="text-charcoal/55 text-xs pt-0.5">Closed Mondays</p>
+                      </div>
+                    </div>
+                    <div className="col-span-2 lg:col-span-1">
+                      <p className={EYEBROW}>Email</p>
+                      <a href={`mailto:${CONTACT_INFO.email}`} className="inline-block py-1 hover:text-plum transition-colors duration-300 break-all">{CONTACT_INFO.email}</a>
+                    </div>
+                  </div>
+                </motion.div>
+
+                <motion.div variants={item}>
+                  <AreaMap />
+                </motion.div>
+
+                {/* Quick response promise */}
+                <motion.div
+                  variants={item}
+                  className="rounded-[16px] p-5 flex items-start gap-4"
+                  style={{ background: "rgba(200,149,108,0.08)", border: "1px solid rgba(200,149,108,0.18)" }}
+                >
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-rose-gold shrink-0 mt-0.5" style={{ background: "rgba(200,149,108,0.12)" }}>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
+                      <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.1" />
+                      <path d="M7 4v3.5l2 2" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="font-body text-[0.8rem] font-medium text-charcoal tracking-wide">Response within one business day</p>
+                    <p className="font-body text-[0.78rem] text-charcoal/65 mt-0.5 leading-snug">We personally review every inquiry and follow up by phone or email.</p>
+                  </div>
+                </motion.div>
+              </motion.div>
             </div>
           </div>
         </section>
@@ -308,14 +312,14 @@ export default function BookingPage() {
         {/* ── FAQ accordion ── */}
         <section className="section-py" style={{ background: "#1C0B2E" }}>
           <div className="container-luxury max-w-3xl mx-auto">
-            <motion.div initial={rh ? { opacity: 0, y: 20 } : undefined} whileInView={rv ? { opacity: 1, y: 0 } : undefined} viewport={VP} transition={{ duration: 0.55 }}>
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={VP} transition={{ duration: 0.55 }}>
               <p className="font-body text-[0.65rem] tracking-[0.3em] uppercase text-rose-gold mb-4">Good to Know</p>
               <h2 className="font-display font-light text-ivory mb-12" style={{ fontSize: "clamp(1.75rem,3.5vw,2.5rem)" }}>Frequently asked questions</h2>
             </motion.div>
             <motion.div
-              variants={rm ? undefined : container}
-              initial={rh}
-              whileInView={rv}
+              variants={container}
+              initial="hidden"
+              whileInView="visible"
               viewport={VP}
             >
               {FAQS.map((faq, i) => (
@@ -331,14 +335,14 @@ export default function BookingPage() {
 
             {/* Closing note */}
             <motion.p
-              initial={rh ? { opacity: 0 } : undefined}
-              whileInView={rv ? { opacity: 1 } : undefined}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={VP}
               transition={{ delay: 0.4, duration: 0.5 }}
               className="mt-12 font-body text-sm text-ivory/55 text-center leading-relaxed"
             >
               Still have questions? Call us at{" "}
-              <a href={`tel:${CONTACT_INFO.phone}`} className="text-ivory/50 hover:text-ivory transition-colors duration-200">
+              <a href={CONTACT_INFO.phoneHref} className="text-ivory/80 underline underline-offset-4 decoration-rose-gold/40 hover:text-ivory transition-colors duration-200">
                 {CONTACT_INFO.phone}
               </a>
             </motion.p>

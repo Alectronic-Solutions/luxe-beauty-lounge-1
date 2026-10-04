@@ -4,21 +4,27 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
-const LS_KEY = "lbl-announcement-dismissed-v1";
+const LS_KEY = "lbl-announcement-dismissed-v2";
 
 export function AnnouncementBar() {
   const [dismissed, setDismissed] = useState(false);
 
   // Hydrate from localStorage after mount (avoids SSR mismatch)
   useEffect(() => {
-    if (localStorage.getItem(LS_KEY) === "true") {
-      setDismissed(true);
+    try {
+      if (localStorage.getItem(LS_KEY) === "true") setDismissed(true);
+    } catch {
+      /* storage blocked (private mode), just show the bar */
     }
   }, []);
 
   function dismiss() {
     setDismissed(true);
-    localStorage.setItem(LS_KEY, "true");
+    try {
+      localStorage.setItem(LS_KEY, "true");
+    } catch {
+      /* ignore */
+    }
   }
 
   return (
@@ -44,9 +50,9 @@ export function AnnouncementBar() {
               <div className="w-1 h-1 rounded-full bg-rose-gold/40" />
             </div>
 
-            <p className="font-body text-[0.72rem] tracking-[0.14em] text-ivory/75 text-center">
-              <span className="text-champagne/90 font-medium">New for Summer:</span>
-              {" "}Bridal consultations now booking through October.{" "}
+            <p className="font-body text-[0.72rem] leading-snug tracking-[0.08em] sm:tracking-[0.14em] text-ivory/75 text-center pr-6 sm:pr-0">
+              <span className="text-champagne/90 font-medium">Bridal season:</span>
+              {" "}Now booking consultations for next year&apos;s weddings.{" "}
               <Link
                 href="/booking"
                 className="underline underline-offset-2 text-rose-gold hover:text-champagne transition-colors duration-200 decoration-rose-gold/40 hover:decoration-champagne/60"

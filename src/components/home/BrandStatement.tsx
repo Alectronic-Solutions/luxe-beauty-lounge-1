@@ -110,29 +110,21 @@ const PILLARS = [
 ] as const;
 
 export function BrandStatement() {
-  const rm = useReducedMotion();
+  const wordProps = (i: number) => ({
+    custom: i,
+    variants: wordVariants,
+    initial: "hidden" as const,
+    whileInView: "visible" as const,
+    viewport: viewportOnce,
+  });
 
-  const wordProps = (i: number) =>
-    rm
-      ? {}
-      : {
-          custom: i,
-          variants: wordVariants,
-          initial: "hidden" as const,
-          whileInView: "visible" as const,
-          viewport: viewportOnce,
-        };
-
-  const lineProps = (i: number) =>
-    rm
-      ? {}
-      : {
-          custom: i,
-          variants: lineVariants,
-          initial: "hidden" as const,
-          whileInView: "visible" as const,
-          viewport: viewportOnce,
-        };
+  const lineProps = (i: number) => ({
+    custom: i,
+    variants: lineVariants,
+    initial: "hidden" as const,
+    whileInView: "visible" as const,
+    viewport: viewportOnce,
+  });
 
   return (
     <section
@@ -163,18 +155,18 @@ export function BrandStatement() {
       <div className="container-luxury relative">
         {/* Eyebrow row */}
         <motion.div
-          initial={rm ? undefined : { opacity: 0, y: 16 }}
-          whileInView={rm ? undefined : { opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={viewportOnce}
           transition={{ duration: 0.55, ease: "easeOut" }}
-          className="flex items-center justify-center gap-5 mb-8"
+          className="flex items-center justify-center gap-3 sm:gap-5 mb-8"
         >
           <motion.div
-            initial={rm ? undefined : { scaleX: 0 }}
-            whileInView={rm ? undefined : { scaleX: 1 }}
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
             viewport={viewportOnce}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] }}
-            className="h-px w-16 bg-gradient-to-r from-transparent to-rose-gold/60 origin-right"
+            className="h-px w-8 sm:w-16 bg-gradient-to-r from-transparent to-rose-gold/60 origin-right"
           />
           <svg
             width="18"
@@ -190,15 +182,15 @@ export function BrandStatement() {
               fillOpacity="0.9"
             />
           </svg>
-          <span className="font-body text-[0.68rem] tracking-[0.32em] uppercase text-rose-gold">
+          <span className="font-body text-[0.68rem] tracking-[0.24em] sm:tracking-[0.32em] uppercase text-rose-gold-deep whitespace-nowrap">
             Our Philosophy
           </span>
           <motion.div
-            initial={rm ? undefined : { scaleX: 0 }}
-            whileInView={rm ? undefined : { scaleX: 1 }}
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
             viewport={viewportOnce}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] }}
-            className="h-px w-16 bg-gradient-to-l from-transparent to-rose-gold/60 origin-left"
+            className="h-px w-8 sm:w-16 bg-gradient-to-l from-transparent to-rose-gold/60 origin-left"
           />
         </motion.div>
 
@@ -206,7 +198,7 @@ export function BrandStatement() {
         <div className="text-center max-w-5xl mx-auto">
           <h2
             className="font-display font-light leading-[1.08] text-plum"
-            style={{ fontSize: "clamp(2.5rem, 5.5vw, 5rem)" }}
+            style={{ fontSize: "clamp(2.25rem, 5.5vw, 5rem)" }}
           >
             <span className="block overflow-hidden pb-1">
               <motion.span className="inline-block" {...wordProps(0)}>
@@ -251,22 +243,24 @@ export function BrandStatement() {
           {/* Three pillars */}
           <motion.div
             {...lineProps(1)}
-            className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6 text-left max-w-3xl mx-auto"
+            className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 text-left max-w-3xl mx-auto"
           >
             {PILLARS.map((p) => (
               <motion.div
                 key={p.title}
-                whileHover={rm ? undefined : { y: -4, transition: { duration: 0.22, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] } }}
-                className="group flex flex-col gap-3 p-5 rounded-[18px] transition-all duration-300 hover:bg-champagne/40 cursor-default"
+                whileHover={{ y: -4, transition: { duration: 0.22, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] } }}
+                className="group flex flex-row sm:flex-col items-start gap-4 sm:gap-3 p-4 sm:p-5 rounded-[18px] transition-all duration-300 hover:bg-champagne/40 cursor-default"
                 style={{ border: "1px solid transparent" }}
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.border = "1px solid rgba(200,149,108,0.18)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 24px rgba(28,11,46,0.08)"; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.border = "1px solid transparent"; (e.currentTarget as HTMLElement).style.boxShadow = ""; }}
               >
-                <div className="w-10 h-10 rounded-full flex items-center justify-center text-rose-gold bg-rose-gold/10 group-hover:bg-rose-gold/22 transition-colors duration-300 group-hover:scale-110" style={{ transition: "background 300ms,transform 220ms" }}>
+                <div className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-rose-gold bg-rose-gold/10 group-hover:bg-rose-gold/22 transition-colors duration-300 group-hover:scale-110" style={{ transition: "background 300ms,transform 220ms" }}>
                   {p.icon}
                 </div>
-                <p className="font-display font-light text-plum text-lg leading-tight">{p.title}</p>
-                <p className="font-body text-[0.82rem] text-charcoal/65 leading-[1.7]">{p.body}</p>
+                <div className="flex flex-col gap-1.5 sm:gap-3">
+                  <p className="font-display font-light text-plum text-lg leading-tight">{p.title}</p>
+                  <p className="font-body text-[0.85rem] text-charcoal/70 leading-[1.7]">{p.body}</p>
+                </div>
               </motion.div>
             ))}
           </motion.div>
@@ -274,24 +268,19 @@ export function BrandStatement() {
           {/* Animated stats */}
           <motion.div
             {...lineProps(2)}
-            className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-0"
+            className="mt-12 grid grid-cols-3 max-w-2xl mx-auto divide-x divide-champagne-dark"
           >
-            {STATS.map((stat, i) => (
-              <div key={stat.label} className="flex sm:contents items-center gap-8 sm:gap-0">
-                <div className="text-center px-10">
-                  <p
-                    className="font-display font-light text-plum"
-                    style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
-                  >
-                    <CountUp target={stat.num} suffix={stat.suffix} />
-                  </p>
-                  <p className="font-body text-xs tracking-[0.18em] uppercase text-charcoal/65 mt-1">
-                    {stat.label}
-                  </p>
-                </div>
-                {i < 2 && (
-                  <div className="hidden sm:block w-px h-10 bg-champagne-dark" aria-hidden />
-                )}
+            {STATS.map((stat) => (
+              <div key={stat.label} className="text-center px-2 sm:px-8">
+                <p
+                  className="font-display font-light text-plum leading-none"
+                  style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
+                >
+                  <CountUp target={stat.num} suffix={stat.suffix} />
+                </p>
+                <p className="font-body text-[0.62rem] sm:text-xs tracking-[0.14em] sm:tracking-[0.18em] uppercase text-charcoal/65 mt-2 leading-snug">
+                  {stat.label}
+                </p>
               </div>
             ))}
           </motion.div>

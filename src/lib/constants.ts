@@ -131,17 +131,22 @@ export const TESTIMONIALS = [
   },
 ] as const;
 
+// Single source for the home preview and the full gallery page. Labels and
+// categories match what is actually in each photo; width/height are the real
+// source dimensions so next/image reserves the right box (no layout shift).
 export const GALLERY_ITEMS = [
-  { id: 1, label: "Signature Facial",  category: "Skin",        aspectPct: "133%", bg: "linear-gradient(155deg,#2e1249 0%,#1C0B2E 45%,#0e0517 100%)",   lightX: "40%", lightY: "35%", src: "/images/gallery/gallery-1.webp" },
-  { id: 2, label: "Balayage & Color",  category: "Hair",        aspectPct: "75%",  bg: "linear-gradient(145deg,#1a1010 0%,#2a1a0e 55%,#1a0c08 100%)",   lightX: "65%", lightY: "25%", src: "/images/gallery/gallery-2.webp" },
-  { id: 3, label: "Bridal Morning",    category: "Bridal",      aspectPct: "120%", bg: "linear-gradient(160deg,#8B4A2A 0%,#C8956C 40%,#A87550 100%)",   lightX: "50%", lightY: "20%", src: "/images/gallery/gallery-3.webp" },
-  { id: 4, label: "Brow Lamination",   category: "Brow & Lash", aspectPct: "100%", bg: "linear-gradient(150deg,#3d1a63 0%,#2e1249 50%,#1C0B2E 100%)",   lightX: "30%", lightY: "60%", src: "/images/gallery/gallery-4.webp" },
-  { id: 5, label: "Body Treatment",    category: "Body",        aspectPct: "145%", bg: "linear-gradient(165deg,#1a1a1a 0%,#2d1a10 50%,#120a06 100%)",   lightX: "55%", lightY: "40%", src: "/images/gallery/gallery-5.webp" },
-  { id: 6, label: "Nail Artistry",     category: "Nails",       aspectPct: "80%",  bg: "linear-gradient(135deg,#C8956C 0%,#8B4A2A 50%,#5a2e14 100%)",   lightX: "70%", lightY: "30%", src: "/images/gallery/gallery-6.webp" },
-  { id: 7, label: "Color Correction",  category: "Hair",        aspectPct: "110%", bg: "linear-gradient(155deg,#1C0B2E 0%,#3d1a2e 55%,#1a0a1a 100%)",   lightX: "45%", lightY: "45%", src: "/images/gallery/gallery-7.webp" },
-  { id: 8, label: "Lash Lift",         category: "Brow & Lash", aspectPct: "90%",  bg: "linear-gradient(140deg,#0e0517 0%,#2e1249 60%,#1C0B2E 100%)",   lightX: "60%", lightY: "20%", src: "/images/gallery/gallery-8.webp" },
-  { id: 9, label: "Gel Extensions",    category: "Nails",       aspectPct: "125%", bg: "linear-gradient(150deg,#E8C49A 0%,#C8956C 45%,#8B4A2A 100%)",   lightX: "35%", lightY: "30%", src: "/images/gallery/gallery-9.webp" },
+  { id: 1, label: "Signature Facial",      category: "Skin",        src: "/images/gallery/gallery-1.webp", width: 1600, height: 2133 },
+  { id: 2, label: "Lived-in Balayage",     category: "Hair",        src: "/images/gallery/gallery-2.webp", width: 1600, height: 2133 },
+  { id: 3, label: "Bridal Updo",           category: "Bridal",      src: "/images/gallery/gallery-3.webp", width: 1600, height: 2133 },
+  { id: 4, label: "Chrome & Plum Gel",     category: "Nails",       src: "/images/gallery/gallery-4.webp", width: 1600, height: 1600 },
+  { id: 5, label: "Hot Stone Ritual",      category: "Body",        src: "/images/gallery/gallery-5.webp", width: 1600, height: 2133 },
+  { id: 6, label: "Brow & Lash Lift",      category: "Brow & Lash", src: "/images/gallery/gallery-6.webp", width: 1600, height: 1600 },
+  { id: 7, label: "Rose Petal Soak",       category: "Body",        src: "/images/gallery/gallery-7.webp", width: 1600, height: 900 },
+  { id: 8, label: "Bespoke Serum Edit",    category: "Skin",        src: "/images/gallery/gallery-8.webp", width: 1600, height: 2133 },
+  { id: 9, label: "Soft Almond Extensions", category: "Nails",      src: "/images/gallery/gallery-9.webp", width: 1600, height: 1986 },
 ] as const;
+
+export const GALLERY_CATEGORIES = ["All", "Skin", "Hair", "Bridal", "Brow & Lash", "Body", "Nails"] as const;
 
 export const TEAM = [
   { name: "Isabelle Laurent",    role: "Founder & Creative Director",  specialty: "Advanced Skin Treatments",        years: "12+ yrs",  bg: "linear-gradient(155deg,#2e1249 0%,#1C0B2E 50%,#0e0517 100%)",  src: "/images/team/team-1.webp" },
@@ -168,14 +173,27 @@ export const SOCIAL_LINKS = [
   { label: "Pinterest", href: "https://www.pinterest.com", icon: "pinterest" },
 ] as const;
 
+// The studio's street address is intentionally not published, the site
+// shows the general area only. The exact address goes out with each
+// appointment confirmation.
 export const CONTACT_INFO = {
   phone: "(555) 820-4400",
+  phoneHref: "tel:+15558204400",
   email: "hello@luxebeautylounge.com",
-  address: "142 Meridian Avenue, Suite 200",
-  city: "Westfield, NJ 07090",
+  area: "Westfield, New Jersey",
+  areaShort: "Westfield, NJ",
+  region: "Union County",
+  addressNote: "Private studio in downtown Westfield. The exact address is shared when your appointment is confirmed.",
+  // Approximate town center, used for the area map and structured data.
+  geo: { lat: 40.6589, lng: -74.3474 },
+  areasServed: ["Westfield", "Cranford", "Scotch Plains", "Mountainside", "Summit", "Garwood"],
   hours: {
     weekday: "Tue–Fri: 9am – 7pm",
     saturday: "Saturday: 9am – 6pm",
     sunday: "Sunday: 10am – 4pm",
   },
 } as const;
+
+/** Google Maps embed centered on the town (not a street address). */
+export const AREA_MAP_EMBED = `https://maps.google.com/maps?q=${encodeURIComponent("Westfield, NJ 07090")}&z=13&output=embed`;
+export const AREA_MAP_LINK = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Westfield, NJ")}`;

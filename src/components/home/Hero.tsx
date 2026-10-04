@@ -70,7 +70,7 @@ export function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen flex items-center overflow-hidden"
+      className="relative min-h-[100svh] flex items-center overflow-hidden"
       style={{ background: "#100620" }}
       aria-labelledby="hero-headline"
     >
@@ -164,7 +164,7 @@ export function Hero() {
           initial={{ scaleY: 0, opacity: 0 }}
           animate={{ scaleY: 1, opacity: 1 }}
           transition={{ duration: 1.1, delay: 0.9, ease: EASE }}
-          className="absolute left-8 md:left-14 top-1/2 -translate-y-1/2 h-28 w-px origin-top"
+          className="absolute hidden md:block left-14 top-1/2 -translate-y-1/2 h-28 w-px origin-top"
           style={{ background: "linear-gradient(to bottom, transparent, #C8956C 40%, #C8956C 60%, transparent)" }}
         />
         <motion.div
@@ -180,8 +180,9 @@ export function Hero() {
 
       {/* ── Content ── */}
       <motion.div
-        style={{ opacity: contentOpacity, y: contentY }}
-        className="relative z-10 w-full container-luxury pt-28 pb-16 md:pt-36 md:pb-24"
+        // paddingTop clears the fixed header (announcement + nav) at any size
+        style={{ opacity: contentOpacity, y: contentY, paddingTop: "calc(var(--nav-h, 72px) + 1.5rem)" }}
+        className="relative z-10 w-full container-luxury pb-20 md:pb-24"
       >
         {/* Eyebrow */}
         <motion.div
@@ -220,7 +221,7 @@ export function Hero() {
                 <motion.span
                   key={word + i}
                   className="inline-block mr-[0.25em]"
-                  initial={shouldReduceMotion ? false : { y: 60, opacity: 0 }}
+                  initial={{ y: 60, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.8, ease: EASE, delay: 0.35 + i * 0.1 }}
                 >
@@ -237,7 +238,7 @@ export function Hero() {
                   <motion.span
                     key={word + i}
                     className="inline-block mr-[0.25em]"
-                    initial={shouldReduceMotion ? false : { y: 60, opacity: 0 }}
+                    initial={{ y: 60, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 0.8, ease: EASE, delay: 0.35 + globalIndex * 0.1 }}
                     style={
@@ -350,8 +351,8 @@ function HeroCTA({
       href={href}
       className={
         primary
-          ? "btn-primary px-7 py-3.5 sm:px-8 sm:py-4 text-[0.78rem] sm:text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-champagne"
-          : "btn-ghost inline-flex items-center gap-2 text-[0.78rem] sm:text-sm text-ivory/80 hover:text-ivory border-ivory/30 hover:border-ivory/55 hover:bg-ivory/5 px-7 py-3.5 sm:px-8 sm:py-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-champagne"
+          ? "btn-primary justify-center px-7 py-3.5 sm:px-8 sm:py-4 text-[0.78rem] sm:text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-champagne"
+          : "btn-ghost inline-flex items-center justify-center gap-2 text-[0.78rem] sm:text-sm text-ivory/80 hover:text-ivory border-ivory/30 hover:border-ivory/55 hover:bg-ivory/5 px-7 py-3.5 sm:px-8 sm:py-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-champagne"
       }
     >
       {children}

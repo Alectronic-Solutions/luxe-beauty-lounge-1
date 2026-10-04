@@ -78,11 +78,13 @@ export function Footer() {
             <form
               className="flex-shrink-0 w-full md:w-auto"
               aria-label="Newsletter signup"
-              onSubmit={(e) => { e.preventDefault(); setModalOpen(true); }}
+              onSubmit={(e) => { e.preventDefault(); e.currentTarget.reset(); setModalOpen(true); }}
             >
               <div className="flex gap-0 rounded-pill overflow-hidden border border-ivory/12 focus-within:border-rose-gold/50 transition-colors duration-300 w-full md:w-[360px]">
                 <input
                   type="email"
+                  name="email"
+                  autoComplete="email"
                   required
                   placeholder="Your email address"
                   aria-label="Email address for newsletter"
@@ -101,15 +103,15 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="container-luxury py-14 md:py-18 pb-28 md:pb-16">
+      <div className="container-luxury pt-14 pb-10 md:pb-16">
         {/* ── 4-column grid ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 pb-14 border-b border-ivory/[0.07]">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10 lg:gap-8 pb-14 border-b border-ivory/[0.07]">
 
           {/* Col 1: Logo + tagline + social */}
-          <div className="lg:col-span-1 flex flex-col items-center md:items-start text-center md:text-left">
+          <div className="col-span-2 lg:col-span-1 flex flex-col items-center md:items-start text-center md:text-left">
             <Link
               href="/"
-              className="group inline-flex items-baseline gap-0 mb-5 focus-visible:outline-none"
+              className="group inline-flex items-baseline gap-0 mb-5"
               aria-label="Luxe Beauty Lounge home"
             >
               <span className="font-display text-[1.6rem] font-light tracking-[0.03em] text-ivory group-hover:text-champagne transition-colors duration-300">
@@ -157,16 +159,16 @@ export function Footer() {
           </div>
 
           {/* Col 2: Navigation */}
-          <div className="text-center md:text-left pt-8 border-t border-ivory/[0.07] md:pt-0 md:border-t-0">
+          <div className="pt-8 border-t border-ivory/[0.07] lg:pt-0 lg:border-t-0">
             <p className="font-body text-[0.62rem] tracking-[0.28em] uppercase text-rose-gold/70 mb-5">
               Navigate
             </p>
-            <ul className="space-y-3" role="list">
+            <ul className="space-y-1" role="list">
               {NAV_LINKS.map(({ label, href }) => (
                 <li key={href}>
                   <Link
                     href={href}
-                    className="group inline-flex items-center gap-2 font-body text-[0.85rem] text-ivory/55 hover:text-ivory transition-colors duration-300"
+                    className="group inline-flex items-center gap-2 py-1.5 font-body text-[0.85rem] text-ivory/60 hover:text-ivory transition-colors duration-300"
                   >
                     <span className="hidden md:inline-block w-3 h-px bg-rose-gold/0 group-hover:bg-rose-gold/70 transition-all duration-300 group-hover:w-4" aria-hidden />
                     {label}
@@ -176,7 +178,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/booking"
-                  className="group inline-flex items-center gap-2 font-body text-[0.85rem] text-rose-gold hover:text-rose-gold-light transition-colors duration-300 mt-1"
+                  className="group inline-flex items-center gap-2 py-1.5 font-body text-[0.85rem] text-rose-gold hover:text-rose-gold-light transition-colors duration-300"
                 >
                   <span className="hidden md:inline-block w-3 h-px bg-rose-gold/50 group-hover:bg-rose-gold transition-all duration-300 group-hover:w-4" aria-hidden />
                   Book Now
@@ -186,16 +188,16 @@ export function Footer() {
           </div>
 
           {/* Col 3: Services */}
-          <div className="text-center md:text-left pt-8 border-t border-ivory/[0.07] md:pt-0 md:border-t-0">
+          <div className="pt-8 border-t border-ivory/[0.07] lg:pt-0 lg:border-t-0">
             <p className="font-body text-[0.62rem] tracking-[0.28em] uppercase text-rose-gold/70 mb-5">
               Services
             </p>
-            <ul className="space-y-3" role="list">
+            <ul className="space-y-1" role="list">
               {SERVICES.map((s) => (
                 <li key={s.id}>
                   <Link
                     href={`/services#${s.id}`}
-                    className="group inline-flex items-center gap-2 font-body text-[0.85rem] text-ivory/55 hover:text-ivory transition-colors duration-300"
+                    className="group inline-flex items-center gap-2 py-1.5 font-body text-[0.85rem] text-ivory/60 hover:text-ivory transition-colors duration-300"
                   >
                     <span className="hidden md:inline-block w-3 h-px bg-rose-gold/0 group-hover:bg-rose-gold/70 transition-all duration-300 group-hover:w-4" aria-hidden />
                     {s.name}
@@ -206,34 +208,38 @@ export function Footer() {
           </div>
 
           {/* Col 4: Contact + hours */}
-          <div className="text-center md:text-left pt-8 border-t border-ivory/[0.07] md:pt-0 md:border-t-0">
+          <div className="col-span-2 lg:col-span-1 pt-8 border-t border-ivory/[0.07] lg:pt-0 lg:border-t-0">
             <p className="font-body text-[0.62rem] tracking-[0.28em] uppercase text-rose-gold/70 mb-5">
               Find Us
             </p>
 
-            <address className="not-italic space-y-4 font-body text-[0.85rem] text-ivory/55">
-              <div className="leading-relaxed">
-                <p>{CONTACT_INFO.address}</p>
-                <p>{CONTACT_INFO.city}</p>
-              </div>
-              <div>
-                <a href={`tel:${CONTACT_INFO.phone}`} className="hover:text-ivory transition-colors duration-300">
-                  {CONTACT_INFO.phone}
-                </a>
-              </div>
-              <div>
-                <a href={`mailto:${CONTACT_INFO.email}`} className="hover:text-ivory transition-colors duration-300 break-all">
-                  {CONTACT_INFO.email}
-                </a>
-              </div>
-            </address>
+            <div className="sm:grid sm:grid-cols-2 lg:block gap-x-6">
+              <address className="not-italic space-y-3 font-body text-[0.85rem] text-ivory/60">
+                <div className="leading-relaxed">
+                  <p className="text-ivory/85">{CONTACT_INFO.area}</p>
+                  <p className="text-[0.78rem] text-ivory/50 mt-1 max-w-[260px]">
+                    Private studio. Address shared with your booking confirmation.
+                  </p>
+                </div>
+                <div>
+                  <a href={CONTACT_INFO.phoneHref} className="inline-block py-1 hover:text-ivory transition-colors duration-300">
+                    {CONTACT_INFO.phone}
+                  </a>
+                </div>
+                <div>
+                  <a href={`mailto:${CONTACT_INFO.email}`} className="inline-block py-1 hover:text-ivory transition-colors duration-300 break-all">
+                    {CONTACT_INFO.email}
+                  </a>
+                </div>
+              </address>
 
-            {/* Hours */}
-            <div className="mt-6 pt-5 border-t border-ivory/[0.07] space-y-1.5 font-body text-[0.78rem] text-ivory/60 leading-relaxed">
-              <p>{CONTACT_INFO.hours.weekday}</p>
-              <p>{CONTACT_INFO.hours.saturday}</p>
-              <p>{CONTACT_INFO.hours.sunday}</p>
-              <p className="text-ivory/55">Closed Mondays</p>
+              {/* Hours */}
+              <div className="mt-6 pt-5 border-t border-ivory/[0.07] sm:mt-0 sm:pt-0 sm:border-t-0 lg:mt-6 lg:pt-5 lg:border-t space-y-1 font-body text-[0.8rem] text-ivory/60 leading-relaxed">
+                <p>{CONTACT_INFO.hours.weekday}</p>
+                <p>{CONTACT_INFO.hours.saturday}</p>
+                <p>{CONTACT_INFO.hours.sunday}</p>
+                <p className="text-ivory/50">Closed Mondays</p>
+              </div>
             </div>
           </div>
 
@@ -243,7 +249,7 @@ export function Footer() {
         <div className="pt-8 flex justify-center">
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="group flex items-center gap-2 font-body text-[0.72rem] tracking-[0.18em] uppercase text-ivory/50 hover:text-rose-gold transition-colors duration-300 focus-visible:outline-none focus-visible:text-rose-gold"
+            className="group flex items-center gap-2 font-body text-[0.72rem] tracking-[0.18em] uppercase text-ivory/50 hover:text-rose-gold transition-colors duration-300 focus-visible:text-rose-gold py-2"
             aria-label="Back to top"
           >
             <svg
@@ -265,15 +271,15 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[0.72rem] text-center sm:text-left">
+        <div className="pt-6 flex flex-col lg:flex-row items-center justify-between gap-3 lg:gap-4 text-[0.72rem] text-center lg:text-left">
           <p className="text-ivory/50 tracking-wide">
             &copy; {new Date().getFullYear()} Luxe Beauty Lounge. All rights reserved.
           </p>
 
-          <div className="flex items-center gap-5 text-ivory/55">
-            <Link href="/privacy-policy" className="hover:text-ivory/70 transition-colors duration-300">Privacy Policy</Link>
+          <div className="flex items-center gap-5 text-ivory/60">
+            <Link href="/privacy-policy" className="py-2 hover:text-ivory transition-colors duration-300">Privacy Policy</Link>
             <span aria-hidden>·</span>
-            <Link href="/terms-of-service" className="hover:text-ivory/70 transition-colors duration-300">Terms of Service</Link>
+            <Link href="/terms-of-service" className="py-2 hover:text-ivory transition-colors duration-300">Terms of Service</Link>
           </div>
 
           <p className="text-ivory/55">
@@ -285,7 +291,12 @@ export function Footer() {
         </div>
       </div>
     </footer>
-    <ThankYouModal open={modalOpen} onClose={() => setModalOpen(false)} />
+    <ThankYouModal
+      open={modalOpen}
+      onClose={() => setModalOpen(false)}
+      title="You're on the list."
+      message="Seasonal updates and first access to new treatments will land in your inbox. Nothing more."
+    />
     </>
   );
 }

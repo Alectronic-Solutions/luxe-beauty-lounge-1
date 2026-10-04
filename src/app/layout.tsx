@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Fraunces, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { FloatingBookButton } from "@/components/layout/FloatingBookButton";
 import { CustomCursor } from "@/components/ui/CustomCursor";
+import { MotionProvider } from "@/components/layout/MotionProvider";
 import { assetPath } from "@/lib/assetPath";
 import { SITE_URL, canonical } from "@/lib/site";
 import { CONTACT_INFO, SOCIAL_LINKS, TESTIMONIALS } from "@/lib/constants";
@@ -23,6 +24,14 @@ const dmSans = DM_Sans({
 });
 
 const OG_IMAGE = canonical("/images/og.jpg");
+
+// Tints the mobile browser chrome to match the plum header.
+export const viewport: Viewport = {
+  themeColor: "#1C0B2E",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -80,19 +89,22 @@ const jsonLd = {
   url: canonical("/"),
   telephone: "+1-555-820-4400",
   priceRange: "$$$",
+  // Area only: the street address is shared privately with booked clients.
   address: {
     "@type": "PostalAddress",
-    streetAddress: CONTACT_INFO.address,
     addressLocality: "Westfield",
     addressRegion: "NJ",
-    postalCode: "07090",
     addressCountry: "US",
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: 40.6501,
-    longitude: -74.3474,
+    latitude: CONTACT_INFO.geo.lat,
+    longitude: CONTACT_INFO.geo.lng,
   },
+  areaServed: CONTACT_INFO.areasServed.map((name) => ({
+    "@type": "City",
+    name: `${name}, NJ`,
+  })),
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
@@ -142,9 +154,11 @@ export default function RootLayout({
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
-        <CustomCursor />
-        {children}
-        <FloatingBookButton />
+        <MotionProvider>
+          <CustomCursor />
+          {children}
+          <FloatingBookButton />
+        </MotionProvider>
       </body>
     </html>
   );

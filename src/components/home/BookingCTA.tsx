@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
 import { CONTACT_INFO, SERVICES } from "@/lib/constants";
 import { ThankYouModal } from "@/components/ui/ThankYouModal";
@@ -54,7 +54,6 @@ const SelectChevron = () => (
 );
 
 export function BookingCTA() {
-  const rm = useReducedMotion();
   const [serviceVal, setServiceVal] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -64,6 +63,7 @@ export function BookingCTA() {
       className="relative overflow-hidden section-py"
       style={{ background: "#1C0B2E" }}
       aria-label="Book an appointment"
+      data-hide-float
     >
       {/* Ambient glow, keeps it from feeling flat */}
       <div
@@ -90,14 +90,14 @@ export function BookingCTA() {
               LEFT, Editorial text + contact info
           ═══════════════════════════════════════ */}
           <motion.div
-            variants={rm ? undefined : leftStagger}
-            initial={rm ? undefined : "hidden"}
-            whileInView={rm ? undefined : "visible"}
+            variants={leftStagger}
+            initial={"hidden"}
+            whileInView={"visible"}
             viewport={viewportOnce}
           >
             {/* Eyebrow */}
             <motion.p
-              variants={rm ? undefined : leftChild}
+              variants={leftChild}
               className="font-body text-[0.68rem] tracking-[0.32em] uppercase text-rose-gold mb-6"
             >
               Reserve Your Visit
@@ -105,7 +105,7 @@ export function BookingCTA() {
 
             {/* Headline */}
             <motion.h2
-              variants={rm ? undefined : leftChild}
+              variants={leftChild}
               className="font-display font-light text-ivory leading-[1.06] text-balance"
               style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)" }}
             >
@@ -115,7 +115,7 @@ export function BookingCTA() {
 
             {/* Supporting text */}
             <motion.p
-              variants={rm ? undefined : leftChild}
+              variants={leftChild}
               className="mt-6 font-body font-light text-ivory/55 leading-[1.8] max-w-md"
               style={{ fontSize: "clamp(0.9rem, 1.1vw, 1rem)" }}
             >
@@ -125,8 +125,8 @@ export function BookingCTA() {
 
             {/* ── Large italic pull quote ── */}
             <motion.p
-              variants={rm ? undefined : leftChild}
-              className="mt-10 font-display italic leading-snug text-ivory/55"
+              variants={leftChild}
+              className="hidden sm:block mt-10 font-display italic leading-snug text-ivory/55"
               style={{ fontSize: "clamp(1.5rem, 2.5vw, 2.25rem)" }}
               aria-hidden
             >
@@ -135,8 +135,8 @@ export function BookingCTA() {
 
             {/* ── Contact info, two-row layout ── */}
             <motion.div
-              variants={rm ? undefined : leftChild}
-              className="mt-12"
+              variants={leftChild}
+              className="mt-10 sm:mt-12"
             >
               {/* Thin top rule */}
               <div className="h-px bg-ivory/10 mb-8" />
@@ -148,8 +148,8 @@ export function BookingCTA() {
                     Phone
                   </p>
                   <a
-                    href={`tel:${CONTACT_INFO.phone}`}
-                    className="font-body text-sm text-ivory/65 hover:text-ivory transition-colors duration-300"
+                    href={CONTACT_INFO.phoneHref}
+                    className="inline-block py-1 font-body text-sm text-ivory/75 hover:text-ivory transition-colors duration-300"
                   >
                     {CONTACT_INFO.phone}
                   </a>
@@ -162,22 +162,23 @@ export function BookingCTA() {
                   </p>
                   <a
                     href={`mailto:${CONTACT_INFO.email}`}
-                    className="font-body text-sm text-ivory/65 hover:text-ivory transition-colors duration-300 break-all"
+                    className="inline-block py-1 font-body text-sm text-ivory/75 hover:text-ivory transition-colors duration-300 break-all"
                   >
                     {CONTACT_INFO.email}
                   </a>
                 </div>
 
-                {/* Address */}
+                {/* Area (street address is shared on confirmation) */}
                 <div>
                   <p className="font-body text-[0.6rem] tracking-[0.28em] uppercase text-rose-gold mb-2">
                     Location
                   </p>
-                  <address className="not-italic font-body text-sm text-ivory/65 leading-relaxed">
-                    {CONTACT_INFO.address}
-                    <br />
-                    {CONTACT_INFO.city}
-                  </address>
+                  <p className="font-body text-sm text-ivory/75 leading-relaxed">
+                    {CONTACT_INFO.area}
+                  </p>
+                  <p className="font-body text-[0.75rem] text-ivory/50 leading-relaxed mt-1">
+                    Private studio, address sent with your confirmation.
+                  </p>
                 </div>
 
                 {/* Hours */}
@@ -199,14 +200,14 @@ export function BookingCTA() {
               RIGHT, Form
           ═══════════════════════════════════════ */}
           <motion.div
-            initial={rm ? undefined : { opacity: 0, y: 32 }}
-            whileInView={rm ? undefined : { opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={viewportOnce}
             transition={{ duration: 0.75, delay: 0.2, ease: EASE }}
           >
             {/* Subtle inset card, slightly lighter plum to lift from bg */}
             <div
-              className="rounded-[24px] p-8 lg:p-10"
+              className="rounded-[24px] p-6 sm:p-8 lg:p-10"
               style={{
                 background: "rgba(255,255,255,0.035)",
                 border: "1px solid rgba(200,149,108,0.14)",
@@ -219,9 +220,15 @@ export function BookingCTA() {
               </p>
 
               <form
-                noValidate
                 className="space-y-7"
-                onSubmit={(e) => { e.preventDefault(); setModalOpen(true); }}
+                onSubmit={(e) => {
+                  // Demo build: native validation runs first, then we show the
+                  // confirmation instead of posting to FormSubmit.
+                  e.preventDefault();
+                  e.currentTarget.reset();
+                  setServiceVal("");
+                  setModalOpen(true);
+                }}
               >
 
                 {/* Name + Phone, 2-col */}

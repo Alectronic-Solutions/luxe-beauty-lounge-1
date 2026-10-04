@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { TESTIMONIALS } from "@/lib/constants";
 import { viewportOnce } from "@/lib/animations";
 
@@ -47,7 +47,7 @@ function TestimonialCard({ t }: { t: Testimonial }) {
           <p className="font-body text-[0.7rem] text-charcoal/65 mt-0.5">{t.location}</p>
         </div>
         <span
-          className="shrink-0 font-body text-[0.58rem] tracking-[0.18em] uppercase px-2.5 py-1 rounded-pill text-rose-gold"
+          className="shrink-0 font-body text-[0.58rem] tracking-[0.18em] uppercase px-2.5 py-1 rounded-pill text-rose-gold-deep"
           style={{ background: "rgba(200,149,108,0.10)", border: "1px solid rgba(200,149,108,0.22)" }}
         >
           {t.service}
@@ -66,8 +66,6 @@ const TRACK_A = [...ROW_A, ...ROW_A];
 const TRACK_B = [...ROW_B, ...ROW_B];
 
 export function Testimonials() {
-  const rm = useReducedMotion();
-
   return (
     <section
       className="section-py overflow-hidden relative"
@@ -83,17 +81,17 @@ export function Testimonials() {
       {/* Section header */}
       <div className="container-luxury mb-8 text-center">
         <motion.p
-          initial={rm ? undefined : { opacity: 0, y: 14 }}
-          whileInView={rm ? undefined : { opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={viewportOnce}
           transition={{ duration: 0.5 }}
-          className="font-body text-[0.68rem] tracking-[0.3em] uppercase text-rose-gold mb-3"
+          className="font-body text-[0.68rem] tracking-[0.3em] uppercase text-rose-gold-deep mb-3"
         >
           What Clients Say
         </motion.p>
         <motion.h2
-          initial={rm ? undefined : { opacity: 0, y: 20 }}
-          whileInView={rm ? undefined : { opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={viewportOnce}
           transition={{ duration: 0.65, delay: 0.07, ease: [0.25, 0, 0, 1] }}
           className="font-display font-light text-plum leading-tight"
@@ -102,8 +100,8 @@ export function Testimonials() {
           Words that mean more than five stars
         </motion.h2>
         <motion.p
-          initial={rm ? undefined : { opacity: 0, y: 16 }}
-          whileInView={rm ? undefined : { opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={viewportOnce}
           transition={{ duration: 0.55, delay: 0.17 }}
           className="mt-4 font-body font-light text-charcoal/65 text-sm tracking-wide"
@@ -114,16 +112,16 @@ export function Testimonials() {
 
       {/* Marquee wrapper, hover pauses both rows */}
       <motion.div
-        initial={rm ? undefined : { opacity: 0 }}
-        whileInView={rm ? undefined : { opacity: 1 }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
         viewport={viewportOnce}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="marquee-wrapper flex flex-col gap-4 select-none"
-        aria-hidden={rm ? undefined : "true"}
+        className="marquee-wrapper flex flex-col gap-4 select-none motion-reduce:hidden"
+        aria-hidden="true"
       >
         {/* Row A, scrolls left */}
         <div className="overflow-hidden">
-          <div className={`marquee-track ${rm ? "" : "marquee-left"}`}>
+          <div className="marquee-track marquee-left">
             {TRACK_A.map((t, i) => (
               <TestimonialCard key={`a-${t.id}-${i}`} t={t} />
             ))}
@@ -132,7 +130,7 @@ export function Testimonials() {
 
         {/* Row B, scrolls right */}
         <div className="overflow-hidden">
-          <div className={`marquee-track ${rm ? "" : "marquee-right"}`}>
+          <div className="marquee-track marquee-right">
             {TRACK_B.map((t, i) => (
               <TestimonialCard key={`b-${t.id}-${i}`} t={t} />
             ))}
@@ -140,9 +138,10 @@ export function Testimonials() {
         </div>
       </motion.div>
 
-      {/* Accessible static fallback, only shown to screen readers / reduced-motion */}
-      <div className={`container-luxury mt-10 ${rm ? "" : "sr-only"}`} aria-live="polite">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      {/* Static list: what screen readers get, and what reduced-motion visitors
+          see instead of the marquee. Pure CSS so it is correct from first paint. */}
+      <div className="container-luxury sr-only motion-reduce:not-sr-only">
+        <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 md:grid md:grid-cols-3 md:overflow-visible">
           {TESTIMONIALS.map((t) => (
             <TestimonialCard key={t.id} t={t} />
           ))}
@@ -151,8 +150,8 @@ export function Testimonials() {
 
       <div className="container-luxury mt-8 text-center">
         <motion.p
-          initial={rm ? undefined : { opacity: 0 }}
-          whileInView={rm ? undefined : { opacity: 1 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={viewportOnce}
           transition={{ delay: 0.5 }}
           className="font-body text-sm text-charcoal/65 tracking-wide"

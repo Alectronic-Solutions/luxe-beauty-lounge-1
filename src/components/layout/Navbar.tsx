@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { NAV_LINKS } from "@/lib/constants";
+import { NAV_LINKS, CONTACT_INFO } from "@/lib/constants";
 import { assetPath } from "@/lib/assetPath";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { useFocusTrap } from "@/lib/useFocusTrap";
@@ -14,7 +14,8 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(72);
-  const pathname = usePathname();
+  // trailingSlash: true means the path can arrive as "/services/" or "/services"
+  const pathname = usePathname().replace(/\/+$/, "") || "/";
   const headerRef = useRef<HTMLElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -77,7 +78,7 @@ export function Navbar() {
           {/* ── Logo ── */}
           <Link
             href="/"
-            className="group flex items-center gap-3 focus-visible:outline-none"
+            className="group flex items-center gap-3 rounded-md"
             aria-label="Luxe Beauty Lounge, home"
           >
             <Image
@@ -99,7 +100,7 @@ export function Navbar() {
           </Link>
 
           {/* ── Desktop links ── */}
-          <ul className="hidden md:flex items-center gap-10" role="list">
+          <ul className="hidden lg:flex items-center gap-8 xl:gap-10" role="list">
             {NAV_LINKS.map(({ label, href }) => {
               const active = pathname === href;
               return (
@@ -129,16 +130,16 @@ export function Navbar() {
           </ul>
 
           {/* ── Book Now CTA ── */}
-          <div className="hidden md:flex items-center gap-6">
+          <div className="hidden lg:flex items-center gap-6">
             <a
-              href="tel:+15558204400"
-              className="hidden lg:block font-body text-[0.75rem] tracking-widest text-ivory/50 hover:text-ivory/80 transition-colors duration-300"
+              href={CONTACT_INFO.phoneHref}
+              className="hidden xl:block font-body text-[0.75rem] tracking-widest text-ivory/60 hover:text-ivory transition-colors duration-300"
             >
-              (555) 820-4400
+              {CONTACT_INFO.phone}
             </a>
             <Link
               href="/booking"
-              className="btn-primary px-6 py-2.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-champagne"
+              className="btn-primary whitespace-nowrap px-6 py-2.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-champagne"
             >
               Book Now
             </Link>
@@ -150,7 +151,7 @@ export function Navbar() {
             aria-label={menuOpen ? "Close navigation" : "Open navigation"}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
-            className="md:hidden relative z-50 flex flex-col justify-center gap-[5px] w-10 h-10 -mr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-gold rounded"
+            className="lg:hidden relative z-50 flex flex-col justify-center gap-[5px] w-11 h-11 -mr-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-gold rounded"
           >
             <motion.span
               animate={
@@ -190,7 +191,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-x-0 bottom-0 z-40 flex flex-col bg-plum md:hidden overflow-y-auto"
+            className="fixed inset-x-0 bottom-0 z-[45] flex flex-col bg-plum lg:hidden overflow-y-auto overscroll-contain"
             style={{ top: headerHeight }}
             role="dialog"
             aria-modal="true"
@@ -249,9 +250,12 @@ export function Navbar() {
               className="relative px-8 py-6 flex justify-between items-center border-t border-ivory/10"
               style={{ paddingBottom: "max(1.5rem, env(safe-area-inset-bottom, 1.5rem))" }}
             >
-              <p className="font-body text-xs text-ivory/55 tracking-widest">
-                (555) 820-4400
-              </p>
+              <a
+                href={CONTACT_INFO.phoneHref}
+                className="font-body text-xs text-ivory/60 hover:text-ivory tracking-widest py-2"
+              >
+                {CONTACT_INFO.phone}
+              </a>
               <Image
                 src={assetPath("/images/logo.webp")}
                 alt="Luxe Beauty Lounge"

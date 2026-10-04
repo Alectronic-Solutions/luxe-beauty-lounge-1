@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 
@@ -48,8 +48,6 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 const VP = { once: true, amount: 0.1 } as const;
 
 export default function PrivacyPolicyPage() {
-  const rm = useReducedMotion();
-
   return (
     <>
       <Navbar />
@@ -63,7 +61,7 @@ export default function PrivacyPolicyPage() {
           />
           <div className="container-luxury max-w-3xl">
             <motion.p
-              initial={rm ? undefined : { opacity: 0, y: 14 }}
+              initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: EASE }}
               className="font-body text-[0.68rem] tracking-[0.3em] uppercase text-rose-gold mb-4"
@@ -71,7 +69,7 @@ export default function PrivacyPolicyPage() {
               Legal
             </motion.p>
             <motion.h1
-              initial={rm ? undefined : { opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.65, delay: 0.08, ease: EASE }}
               className="font-display font-light text-ivory leading-tight"
@@ -80,7 +78,7 @@ export default function PrivacyPolicyPage() {
               Privacy Policy
             </motion.h1>
             <motion.p
-              initial={rm ? undefined : { opacity: 0 }}
+              initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               className="font-body text-sm text-ivory/55 mt-4"
@@ -94,7 +92,7 @@ export default function PrivacyPolicyPage() {
         <div className="container-luxury max-w-3xl py-20">
           {/* Intro */}
           <motion.p
-            initial={rm ? undefined : { opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={VP}
             transition={{ duration: 0.6, ease: EASE }}
@@ -110,7 +108,7 @@ export default function PrivacyPolicyPage() {
             {SECTIONS.map((s, i) => (
               <motion.div
                 key={i}
-                initial={rm ? undefined : { opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={VP}
                 transition={{ duration: 0.55, delay: 0.04 * (i % 4), ease: EASE }}
@@ -127,13 +125,13 @@ export default function PrivacyPolicyPage() {
 
           {/* Back link */}
           <motion.div
-            initial={rm ? undefined : { opacity: 0 }}
+            initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={VP}
             transition={{ duration: 0.5 }}
             className="mt-16 pt-8 border-t border-charcoal/10 flex items-center justify-between"
           >
-            <Link href="/" className="group inline-flex items-center gap-2 font-body text-sm text-rose-gold hover:text-plum transition-colors duration-300">
+            <Link href="/" className="group inline-flex items-center gap-2 font-body text-sm text-rose-gold-deep hover:text-plum transition-colors duration-300">
               <svg width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden className="transition-transform duration-200 group-hover:-translate-x-1">
                 <path d="M11 4H1M4 7L1 4L4 1" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
               </svg>

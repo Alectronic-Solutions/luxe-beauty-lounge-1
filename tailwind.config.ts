@@ -32,6 +32,9 @@ const config: Config = {
           light: "#D9AE90",
           DEFAULT: "#C8956C",
           dark: "#A87550",
+          // Small text on ivory/champagne. Plain rose-gold is ~2.6:1 there;
+          // this clears WCAG AA (4.5:1) on both.
+          deep: "#8A5634",
         },
         ivory: {
           DEFAULT: "#FAF7F2",

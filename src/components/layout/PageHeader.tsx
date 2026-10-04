@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { NoiseOverlay } from "@/components/ui/NoiseOverlay";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -14,12 +14,10 @@ interface PageHeaderProps {
 }
 
 export function PageHeader({ eyebrow, title, subtitle, children }: PageHeaderProps) {
-  const rm = useReducedMotion();
-
   return (
     <section
       className="relative overflow-hidden"
-      style={{ background: "#1C0B2E", paddingTop: "clamp(7rem,14vw,11rem)", paddingBottom: "clamp(3.5rem,7vw,5.5rem)" }}
+      style={{ background: "#1C0B2E", paddingTop: "calc(var(--nav-h, 72px) + clamp(2.5rem, 7vw, 5rem))", paddingBottom: "clamp(3rem,7vw,5.5rem)" }}
       aria-label="Page header"
     >
       {/* Ambient mesh, lightweight version of hero blobs */}
@@ -38,18 +36,18 @@ export function PageHeader({ eyebrow, title, subtitle, children }: PageHeaderPro
 
       {/* Left accent rule */}
       <motion.div
-        initial={rm ? undefined : { scaleY: 0, opacity: 0 }}
-        animate={rm ? undefined : { scaleY: 1, opacity: 1 }}
+        initial={{ scaleY: 0, opacity: 0 }}
+        animate={{ scaleY: 1, opacity: 1 }}
         transition={{ duration: 0.9, delay: 0.3, ease: EASE }}
-        className="pointer-events-none absolute left-8 md:left-14 top-1/2 -translate-y-1/2 h-20 w-px origin-top"
+        className="pointer-events-none absolute hidden md:block left-14 top-1/2 -translate-y-1/2 h-20 w-px origin-top"
         style={{ background: "linear-gradient(to bottom, transparent, #C8956C 40%, #C8956C 60%, transparent)" }}
         aria-hidden
       />
 
       <div className="container-luxury relative">
         <motion.p
-          initial={rm ? undefined : { opacity: 0, y: 14 }}
-          animate={rm ? undefined : { opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
           className="font-body text-[0.68rem] tracking-[0.32em] uppercase text-rose-gold mb-5 flex items-center gap-3"
         >
@@ -58,8 +56,8 @@ export function PageHeader({ eyebrow, title, subtitle, children }: PageHeaderPro
         </motion.p>
 
         <motion.h1
-          initial={rm ? undefined : { opacity: 0, y: 28 }}
-          animate={rm ? undefined : { opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.75, delay: 0.25, ease: EASE }}
           className="font-display font-light text-ivory text-balance max-w-3xl"
           style={{ fontSize: "clamp(2.25rem, 5.5vw, 5rem)", lineHeight: 1.06, letterSpacing: "-0.015em" }}
@@ -69,8 +67,8 @@ export function PageHeader({ eyebrow, title, subtitle, children }: PageHeaderPro
 
         {subtitle && (
           <motion.p
-            initial={rm ? undefined : { opacity: 0, y: 18 }}
-            animate={rm ? undefined : { opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mt-6 font-body font-light text-ivory/55 leading-[1.8] max-w-xl"
             style={{ fontSize: "clamp(0.95rem, 1.3vw, 1.05rem)" }}
@@ -81,8 +79,8 @@ export function PageHeader({ eyebrow, title, subtitle, children }: PageHeaderPro
 
         {children && (
           <motion.div
-            initial={rm ? undefined : { opacity: 0, y: 14 }}
-            animate={rm ? undefined : { opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.5 }}
             className="mt-8"
           >

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
@@ -39,12 +39,8 @@ const item = {
 };
 
 export default function ServicesPage() {
-  const rm = useReducedMotion();
   const featured = SERVICES.find((s) => s.featured)!;
   const rest     = SERVICES.filter((s) => !s.featured);
-
-  const rv = rm ? undefined : "visible";
-  const rh = rm ? undefined : "hidden";
 
   return (
     <>
@@ -60,8 +56,8 @@ export default function ServicesPage() {
         <section className="section-py" style={{ background: "#FAF7F2" }}>
           <div className="container-luxury">
             <motion.div
-              initial={rh ? { opacity: 0, y: 32 } : undefined}
-              whileInView={rv ? { opacity: 1, y: 0 } : undefined}
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={VP}
               transition={{ duration: 0.7, ease: EASE }}
               id={featured.id}
@@ -109,13 +105,13 @@ export default function ServicesPage() {
                   <p>This treatment begins with a comprehensive skin assessment, followed by a tailored protocol using pharmaceutical-grade actives. Deep cleanse, exfoliation, extractions, mask, and a lymphatic facial massage are standard, everything else is specific to you.</p>
                   <p>Results are visible from the first session. With regular monthly visits, clients report sustained improvements in texture, tone, and luminosity that no topical routine alone can achieve.</p>
                 </div>
-                <motion.div whileHover={rm ? undefined : { x: 3 }} transition={{ duration: 0.2 }} className="self-start mt-10">
+                <motion.div whileHover={{ x: 3 }} transition={{ duration: 0.2 }} className="self-start mt-10">
                   <Link
-                    href="/booking"
+                    href={`/booking?service=${featured.id}`}
                     className="inline-flex items-center gap-2.5 font-body text-[0.8rem] tracking-[0.12em] uppercase text-ivory bg-rose-gold hover:bg-rose-gold-dark rounded-pill px-8 py-4 transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-plum"
                   >
                     Book This Service
-                    <motion.svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden animate={rm ? undefined : { x: [0, 3, 0] }} transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}><path d="M1 5H13M9 1L13 5L9 9" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" /></motion.svg>
+                    <motion.svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden animate={{ x: [0, 3, 0] }} transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}><path d="M1 5H13M9 1L13 5L9 9" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" /></motion.svg>
                   </Link>
                 </motion.div>
               </div>
@@ -127,23 +123,23 @@ export default function ServicesPage() {
         <section className="section-py-sm" style={{ background: "#F0EBE0" }}>
           <div className="container-luxury">
             <motion.p
-              initial={rh ? { opacity: 0 } : undefined}
-              whileInView={rv ? { opacity: 1 } : undefined}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={VP}
               transition={{ duration: 0.5 }}
-              className="font-body text-[0.65rem] tracking-[0.3em] uppercase text-rose-gold mb-10 text-center"
+              className="font-body text-[0.65rem] tracking-[0.3em] uppercase text-rose-gold-deep mb-10 text-center"
             >
               How Every Visit Works
             </motion.p>
             <motion.div
-              variants={rm ? undefined : container}
-              initial={rh}
-              whileInView={rv}
+              variants={container}
+              initial="hidden"
+              whileInView="visible"
               viewport={VP}
               className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8"
             >
               {PROCESS_STEPS.map((step) => (
-                <motion.div key={step.num} variants={rm ? undefined : item} className="flex flex-col gap-3">
+                <motion.div key={step.num} variants={item} className="flex flex-col gap-3">
                   <span className="font-display font-light text-rose-gold/50" style={{ fontSize: "2.25rem", lineHeight: 1 }}>{step.num}</span>
                   <div className="h-px w-8 bg-rose-gold/30" />
                   <h3 className="font-display font-light text-plum text-xl">{step.label}</h3>
@@ -158,41 +154,41 @@ export default function ServicesPage() {
         <section className="section-py" style={{ background: "#FAF7F2" }}>
           <div className="container-luxury">
             <motion.div
-              initial={rh ? { opacity: 0, y: 20 } : undefined}
-              whileInView={rv ? { opacity: 1, y: 0 } : undefined}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={VP}
               transition={{ duration: 0.55, ease: EASE }}
               className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12"
             >
               <div>
-                <p className="font-body text-[0.65rem] tracking-[0.3em] uppercase text-rose-gold mb-3">Full Menu</p>
+                <p className="font-body text-[0.65rem] tracking-[0.3em] uppercase text-rose-gold-deep mb-3">Full Menu</p>
                 <h2 className="font-display font-light text-plum" style={{ fontSize: "clamp(1.75rem,3.5vw,2.75rem)" }}>All Services</h2>
               </div>
               <p className="font-body text-sm text-charcoal/65 max-w-xs leading-relaxed">All services include a complimentary consultation.</p>
             </motion.div>
 
             <motion.div
-              variants={rm ? undefined : container}
-              initial={rh}
-              whileInView={rv}
+              variants={container}
+              initial="hidden"
+              whileInView="visible"
               viewport={VP}
               className="grid grid-cols-1 md:grid-cols-2 gap-4"
             >
               {rest.map((s) => (
                 <motion.article
                   key={s.id}
-                  variants={rm ? undefined : item}
+                  variants={item}
                   id={s.id}
                   className="group relative rounded-[20px] overflow-hidden"
                   style={{ boxShadow: "0 2px 8px rgba(28,11,46,0.06)" }}
-                  whileHover={rm ? undefined : { y: -3, boxShadow: "0 8px 24px rgba(28,11,46,0.12)" }}
+                  whileHover={{ y: -3, boxShadow: "0 8px 24px rgba(28,11,46,0.12)" }}
                   transition={{ duration: 0.25 }}
                 >
                   <div className="absolute left-0 inset-y-0 w-1.5" style={{ background: SERVICE_BG[s.id] }} aria-hidden />
                   <div className="ml-1.5 p-7 md:p-8 bg-ivory flex flex-col gap-4">
                     <div className="flex items-start justify-between gap-4">
                       <div>
-                        <span className="font-body text-[0.62rem] tracking-[0.24em] uppercase text-rose-gold">{s.category}</span>
+                        <span className="font-body text-[0.62rem] tracking-[0.24em] uppercase text-rose-gold-deep">{s.category}</span>
                         <h3 className="font-display font-light text-plum mt-1.5 leading-tight" style={{ fontSize: "clamp(1.3rem,2vw,1.75rem)" }}>{s.name}</h3>
                         <p className="font-display italic text-charcoal/65 mt-1" style={{ fontSize: "clamp(0.875rem,1.1vw,1rem)" }}>{s.tagline}</p>
                       </div>
@@ -204,8 +200,8 @@ export default function ServicesPage() {
                     <p className="font-body text-sm text-charcoal/65 leading-[1.75]">{s.description}</p>
                     <div className="flex items-center justify-between pt-1">
                       <Link
-                        href="/booking"
-                        className="group/link inline-flex items-center gap-2 font-body text-[0.75rem] tracking-[0.15em] uppercase text-rose-gold hover:text-rose-gold-dark transition-colors duration-300 border-b border-rose-gold/25 hover:border-rose-gold/60 pb-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-gold"
+                        href={`/booking?service=${s.id}`}
+                        className="group/link inline-flex items-center gap-2 font-body text-[0.75rem] tracking-[0.15em] uppercase text-rose-gold-deep hover:text-plum transition-colors duration-300 border-b border-rose-gold/25 hover:border-rose-gold/60 pb-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-gold"
                       >
                         Inquire
                         <svg width="11" height="8" viewBox="0 0 11 8" fill="none" aria-hidden className="transition-transform duration-200 group-hover/link:translate-x-1"><path d="M1 4H10M7 1L10 4L7 7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -220,8 +216,8 @@ export default function ServicesPage() {
 
         {/* ── Closing CTA ── */}
         <motion.section
-          initial={rh ? { opacity: 0 } : undefined}
-          whileInView={rv ? { opacity: 1 } : undefined}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={VP}
           transition={{ duration: 0.6 }}
           className="section-py-sm text-center"
@@ -230,7 +226,7 @@ export default function ServicesPage() {
           <div className="container-luxury max-w-xl mx-auto">
             <p className="font-body text-[0.65rem] tracking-[0.3em] uppercase text-rose-gold mb-4">Ready?</p>
             <h2 className="font-display font-light text-ivory mb-8" style={{ fontSize: "clamp(1.75rem,3.5vw,2.75rem)" }}>Your appointment is waiting.</h2>
-            <motion.div whileHover={rm ? undefined : { scale: 1.03 }} whileTap={rm ? undefined : { scale: 0.97 }} style={{ display: "inline-flex" }}>
+            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} style={{ display: "inline-flex" }}>
               <Link
                 href="/booking"
                 className="inline-flex items-center gap-2.5 font-body text-[0.82rem] tracking-[0.12em] uppercase text-ivory bg-rose-gold hover:bg-rose-gold-dark rounded-pill px-10 py-4 transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-champagne"

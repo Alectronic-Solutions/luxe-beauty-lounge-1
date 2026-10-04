@@ -4,7 +4,20 @@ import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useFocusTrap } from "@/lib/useFocusTrap";
 
-export function ThankYouModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+const DEFAULT_MESSAGE =
+  "Your inquiry has been received. We’ll be in touch within one business day to confirm your appointment.";
+
+export function ThankYouModal({
+  open,
+  onClose,
+  title = "Thank you!",
+  message = DEFAULT_MESSAGE,
+}: {
+  open: boolean;
+  onClose: () => void;
+  title?: string;
+  message?: string;
+}) {
   const panelRef = useRef<HTMLDivElement>(null);
 
   // Trap focus inside the dialog and restore it to the trigger on close.
@@ -47,7 +60,7 @@ export function ThankYouModal({ open, onClose }: { open: boolean; onClose: () =>
             <div
               ref={panelRef}
               tabIndex={-1}
-              className="pointer-events-auto w-full max-w-md rounded-2xl p-10 text-center relative outline-none"
+              className="pointer-events-auto w-full max-w-md rounded-2xl p-8 sm:p-10 text-center relative outline-none"
               style={{
                 background: "#FAF7F2",
                 boxShadow: "0 32px 80px rgba(28,11,46,0.35)",
@@ -57,7 +70,7 @@ export function ThankYouModal({ open, onClose }: { open: boolean; onClose: () =>
               <button
                 onClick={onClose}
                 aria-label="Close"
-                className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-charcoal/65 hover:text-charcoal/70 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-gold rounded-full"
+                className="absolute top-3 right-3 w-11 h-11 flex items-center justify-center text-charcoal/65 hover:text-charcoal/70 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-gold rounded-full"
               >
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
                   <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -75,7 +88,7 @@ export function ThankYouModal({ open, onClose }: { open: boolean; onClose: () =>
               </div>
 
               <h2 id="modal-title" className="font-display font-light text-plum leading-tight" style={{ fontSize: "clamp(1.75rem, 4vw, 2.25rem)" }}>
-                Thank you!
+                {title}
               </h2>
 
               <div className="mx-auto my-4 flex items-center justify-center gap-2" aria-hidden>
@@ -84,7 +97,7 @@ export function ThankYouModal({ open, onClose }: { open: boolean; onClose: () =>
               </div>
 
               <p className="font-body text-charcoal/65 leading-relaxed text-[0.95rem]">
-                Your submission has been received. We&rsquo;ll be in touch within one business day to confirm your appointment.
+                {message}
               </p>
 
               <button

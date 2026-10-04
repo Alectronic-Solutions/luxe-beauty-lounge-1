@@ -1,322 +1,100 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import type { Variants } from "framer-motion";
-import Image from "next/image";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { viewportOnce } from "@/lib/animations";
-import { assetPath } from "@/lib/assetPath";
-import { NoiseOverlay } from "@/components/ui/NoiseOverlay";
 import { GALLERY_ITEMS } from "@/lib/constants";
+import { GalleryTile, GalleryLightbox } from "@/components/ui/Gallery";
 
 const EASE: [number, number, number, number] = [0.25, 0, 0, 1];
 
-interface GalleryItem {
-  id: number;
-  label: string;
-  category: string;
-  aspectPct: string;
-  bg: string;
-  lightX: string;
-  lightY: string;
-  src?: string;
-}
+// Curated for the home page: one of each discipline, ordered so the two
+// masonry columns on phones (and three on desktop) balance visually.
+const PREVIEW_IDS = [1, 4, 3, 6, 2, 5] as const;
+const PREVIEW = PREVIEW_IDS.map((id) => GALLERY_ITEMS.find((g) => g.id === id)!);
 
-const ITEMS: GalleryItem[] = GALLERY_ITEMS.map((item) => ({
-  ...item,
-  src: assetPath(item.src),
-}));
-
-const CATEGORIES = ["All", "Skin", "Hair", "Bridal", "Brow & Lash", "Body", "Nails"] as const;
-type Category = (typeof CATEGORIES)[number];
-
-/* Per-card hover variants */
-const overlayVariants: Variants = {
-  rest:  { opacity: 0 },
-  hover: { opacity: 1, transition: { duration: 0.4, ease: "easeOut" } },
-};
-const zoomVariants: Variants = {
-  rest:  { scale: 1 },
-  hover: { scale: 1.06, transition: { duration: 0.65, ease: EASE } },
-};
-const labelVariants: Variants = {
-  rest:  { y: 10, opacity: 0 },
-  hover: { y: 0, opacity: 1, transition: { duration: 0.3, ease: EASE } },
-};
-const badgeVariants: Variants = {
-  rest:  { opacity: 1 },
-  hover: { opacity: 0, transition: { duration: 0.2 } },
-};
-
-/* ── Individual gallery card ── */
-function GalleryCard({
-  item,
-  index,
-  onOpen,
-}: {
-  item: GalleryItem;
-  index: number;
-  onOpen: (item: GalleryItem) => void;
-}) {
-  const rm = useReducedMotion();
-
-  return (
-    <motion.div
-      layout
-      className="gallery-item mb-3 md:mb-4"
-      initial={rm ? undefined : { opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.45, delay: (index % 3) * 0.06, ease: EASE }}
-    >
-      <motion.div
-        layoutId={`gallery-card-${item.id}`}
-        className="relative overflow-hidden rounded-[18px] w-full cursor-zoom-in"
-        style={{ paddingBottom: item.aspectPct }}
-        initial="rest"
-        whileHover={rm ? undefined : "hover"}
-        animate="rest"
-        onClick={() => onOpen(item)}
-        role="button"
-        aria-label={`View ${item.label}, ${item.category}`}
-        tabIndex={0}
-        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onOpen(item); }}
-      >
-        {/* Background: real photo or gradient fallback */}
-        <motion.div
-          variants={rm ? undefined : zoomVariants}
-          className="absolute inset-0 will-change-transform"
-          style={item.src ? undefined : { background: item.bg }}
-        >
-          {item.src ? (
-            <Image
-              src={item.src}
-              alt={item.label}
-              fill
-              sizes="(max-width: 768px) 50vw, 33vw"
-              className="object-cover object-center"
-              unoptimized
-            />
-          ) : (
-            <>
-              <div className="absolute inset-0" aria-hidden style={{ backgroundImage: `radial-gradient(ellipse at ${item.lightX} ${item.lightY},rgba(245,230,200,0.20) 0%,rgba(200,149,108,0.10) 30%,transparent 65%)` }} />
-              <NoiseOverlay opacity={0.04} size={120} />
-            </>
-          )}
-        </motion.div>
-
-        {/* Hover overlay */}
-        <motion.div
-          variants={rm ? undefined : overlayVariants}
-          className="absolute inset-0 flex flex-col justify-end p-5 pb-6"
-          style={{ background: "linear-gradient(to top,rgba(28,11,46,0.82) 0%,rgba(28,11,46,0.30) 50%,transparent 100%)" }}
-        >
-          <motion.span variants={rm ? undefined : labelVariants} className="block font-body text-[0.62rem] tracking-[0.25em] uppercase text-rose-gold mb-1.5">
-            {item.category}
-          </motion.span>
-          <motion.div variants={rm ? undefined : labelVariants} className="relative">
-            <p className="font-display text-xl font-light text-ivory leading-tight">{item.label}</p>
-            <span className="absolute -bottom-1 left-0 w-full h-px bg-rose-gold/70" />
-          </motion.div>
-          <motion.div variants={rm ? undefined : labelVariants} className="mt-3 flex items-center gap-1.5">
-            <span className="font-body text-[0.7rem] tracking-widest uppercase text-ivory/60">View</span>
-            <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden>
-              <path d="M1 5H13M9 1L13 5L9 9" stroke="rgba(245,230,200,0.6)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </motion.div>
-        </motion.div>
-
-        {/* Bottom vignette */}
-        <div className="absolute inset-x-0 bottom-0 h-16 pointer-events-none" style={{ background: "linear-gradient(to top,rgba(28,11,46,0.35) 0%,transparent 100%)" }} aria-hidden />
-
-        {/* Category badge */}
-        <motion.div variants={rm ? undefined : badgeVariants} className="absolute top-4 left-4">
-          <span className="font-body text-[0.6rem] tracking-[0.2em] uppercase px-2.5 py-1 rounded-pill" style={{ background: "rgba(28,11,46,0.55)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", border: "1px solid rgba(200,149,108,0.15)", color: "rgba(245,230,200,0.7)" }}>
-            {item.category}
-          </span>
-        </motion.div>
-      </motion.div>
-    </motion.div>
-  );
-}
-
-/* ── Lightbox ── */
-function Lightbox({ item, onClose }: { item: GalleryItem; onClose: () => void }) {
-  return (
-    <motion.div
-      key="lightbox-backdrop"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.25 }}
-      className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-10"
-      style={{ background: "rgba(28,11,46,0.88)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)" }}
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label={`Lightbox: ${item.label}`}
-    >
-      <motion.div
-        layoutId={`gallery-card-${item.id}`}
-        className="relative rounded-[20px] overflow-hidden w-full max-w-2xl"
-        style={{ maxHeight: "80vh" }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="w-full" style={{ paddingBottom: "66.67%", background: item.bg, position: "relative" }}>
-          {item.src ? (
-            <Image src={item.src} alt={item.label} fill sizes="80vw" className="object-cover object-center" unoptimized />
-          ) : (
-            <div className="absolute inset-0" style={{ backgroundImage: `radial-gradient(ellipse at ${item.lightX} ${item.lightY},rgba(245,230,200,0.25) 0%,rgba(200,149,108,0.12) 30%,transparent 65%)` }} />
-          )}
-        </div>
-        <div className="bg-plum px-6 py-5 flex items-center justify-between gap-4">
-          <div>
-            <p className="font-body text-[0.62rem] tracking-[0.25em] uppercase text-rose-gold mb-1">{item.category}</p>
-            <p className="font-display text-2xl font-light text-ivory">{item.label}</p>
-          </div>
-          <Link
-            href="/booking"
-            className="shrink-0 font-body text-[0.78rem] tracking-[0.12em] uppercase text-ivory bg-rose-gold hover:bg-rose-gold-dark rounded-pill px-5 py-2.5 transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-champagne"
-            onClick={onClose}
-          >
-            Book Now
-          </Link>
-        </div>
-      </motion.div>
-
-      <button
-        onClick={onClose}
-        aria-label="Close lightbox"
-        className="absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 flex items-center justify-center rounded-full text-ivory/60 hover:text-ivory border border-ivory/15 hover:border-ivory/35 transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-rose-gold"
-        style={{ background: "rgba(28,11,46,0.6)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)" }}
-      >
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
-          <path d="M1 1L11 11M11 1L1 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        </svg>
-      </button>
-    </motion.div>
-  );
-}
-
-/* ── Section ── */
 export function GalleryPreview() {
-  const [active, setActive] = useState<GalleryItem | null>(null);
-  const [activeCategory, setActiveCategory] = useState<Category>("All");
-  const close = useCallback(() => setActive(null), []);
-
-  const filtered = activeCategory === "All"
-    ? ITEMS
-    : ITEMS.filter((item) => item.category === activeCategory);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <>
-      <section
-        className="section-py overflow-hidden relative"
-        style={{ background: "#EDE8E0" }}
-        aria-label="Gallery preview"
-      >
-        {/* Section blend, bottom fades into Testimonials champagne */}
-        <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-24 z-10"
-          style={{ background: "linear-gradient(to top, #F5E6C8 0%, transparent 100%)" }}
-          aria-hidden
-        />
-        <div className="container-luxury">
-          {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-5 mb-8">
-            <div>
-              <motion.p
-                initial={{ opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={viewportOnce}
-                transition={{ duration: 0.5 }}
-                className="font-body text-[0.68rem] tracking-[0.3em] uppercase text-rose-gold mb-3"
-              >
-                The Work
-              </motion.p>
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={viewportOnce}
-                transition={{ duration: 0.6, delay: 0.07, ease: EASE }}
-                className="font-display font-light text-plum leading-tight"
-                style={{ fontSize: "clamp(2.25rem,4.5vw,4rem)" }}
-              >
-                A window into the craft
-              </motion.h2>
-            </div>
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+    <section
+      className="section-py overflow-hidden relative"
+      style={{ background: "#EDE8E0" }}
+      aria-labelledby="gallery-preview-heading"
+    >
+      {/* Section blend, bottom fades into Testimonials champagne */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-24 z-10"
+        style={{ background: "linear-gradient(to top, #F5E6C8 0%, transparent 100%)" }}
+        aria-hidden
+      />
+      <div className="container-luxury relative">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-5 mb-8 md:mb-10">
+          <div>
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={viewportOnce}
-              transition={{ delay: 0.25 }}
-              whileHover={{ x: 2 }}
+              transition={{ duration: 0.5 }}
+              className="font-body text-[0.68rem] tracking-[0.3em] uppercase text-rose-gold-deep mb-3"
             >
-              <Link
-                href="/gallery"
-                className="group/gal inline-flex items-center gap-2.5 font-body text-[0.78rem] tracking-[0.14em] uppercase text-plum/60 hover:text-plum border-b border-plum/20 hover:border-plum/50 pb-0.5 transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-gold"
-              >
-                Full gallery
-                <svg width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden className="transition-transform duration-200 group-hover/gal:translate-x-1">
-                  <path d="M1 4H11M8 1L11 4L8 7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </Link>
-            </motion.div>
+              The Work
+            </motion.p>
+            <motion.h2
+              id="gallery-preview-heading"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={viewportOnce}
+              transition={{ duration: 0.6, delay: 0.07, ease: EASE }}
+              className="font-display font-light text-plum leading-tight"
+              style={{ fontSize: "clamp(2.25rem,4.5vw,4rem)" }}
+            >
+              A window into the craft
+            </motion.h2>
           </div>
-
-          {/* Category filter tabs */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={viewportOnce}
-            transition={{ duration: 0.45, delay: 0.1 }}
-            className="flex items-center gap-2 overflow-x-auto pb-2 mb-8"
-            style={{ scrollbarWidth: "none" }}
-            role="tablist"
-            aria-label="Filter gallery by category"
+            transition={{ delay: 0.25 }}
           >
-            {CATEGORIES.map((cat) => {
-              const isActive = cat === activeCategory;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  role="tab"
-                  aria-selected={isActive}
-                  className={`shrink-0 font-body text-[0.7rem] tracking-[0.15em] uppercase px-4 py-1.5 rounded-pill transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-rose-gold ${
-                    isActive
-                      ? "bg-plum text-ivory"
-                      : "text-charcoal/65 hover:text-charcoal border border-charcoal/12 hover:border-charcoal/30 bg-transparent"
-                  }`}
-                >
-                  {cat}
-                </button>
-              );
-            })}
+            <Link
+              href="/gallery"
+              className="group/gal inline-flex items-center gap-2.5 py-1 font-body text-[0.78rem] tracking-[0.14em] uppercase text-plum/70 hover:text-plum border-b border-plum/20 hover:border-plum/50 transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-gold"
+            >
+              Full gallery
+              <svg width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden className="transition-transform duration-200 group-hover/gal:translate-x-1">
+                <path d="M1 4H11M8 1L11 4L8 7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
           </motion.div>
-
-          {/* CSS Columns masonry with AnimatePresence for filter transitions */}
-          <motion.div layout className="columns-1 sm:columns-2 lg:columns-3" style={{ columnGap: "12px" }}>
-            <AnimatePresence>
-              {filtered.map((item, index) => (
-                <GalleryCard key={item.id} item={item} index={index} onOpen={setActive} />
-              ))}
-            </AnimatePresence>
-          </motion.div>
-
-          {filtered.length === 0 && (
-            <div className="text-center py-16">
-              <p className="font-display font-light text-plum/65 text-xl">No works in this category yet.</p>
-            </div>
-          )}
         </div>
-      </section>
 
-      {/* Lightbox */}
-      <AnimatePresence>
-        {active && <Lightbox item={active} onClose={close} />}
-      </AnimatePresence>
-    </>
+        {/* Masonry: CSS columns, 2 on phones, 3 from lg */}
+        <div className="columns-2 lg:columns-3 gap-3 md:gap-4">
+          {PREVIEW.map((item, i) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={viewportOnce}
+              transition={{ duration: 0.55, delay: (i % 3) * 0.08, ease: EASE }}
+              className="gallery-item mb-3 md:mb-4"
+            >
+              <GalleryTile item={item} onOpen={() => setOpenIndex(i)} />
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      <GalleryLightbox
+        items={PREVIEW}
+        index={openIndex}
+        onClose={() => setOpenIndex(null)}
+        onIndexChange={setOpenIndex}
+      />
+    </section>
   );
 }

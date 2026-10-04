@@ -17,8 +17,18 @@
   --radius-card-lg: 24px;
   --radius-pill: 9999px;
 
+  /* Fixed header height (announcement bar + nav). Navbar.tsx overwrites this
+     with the measured value; these defaults keep the first paint close. */
+  --nav-h: 124px;
+
   --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (min-width: 640px) {
+  :root {
+    --nav-h: 110px;
+  }
 }
 
 /* ─── Base Reset ─────────────────────────────────────────────── */
@@ -50,9 +60,17 @@
     line-height: 1.08;
   }
 
-  p {
-    font-size: 1.0625rem;
-    line-height: 1.75;
+  /* Paragraphs inherit size/leading from body or their parent. Setting a
+     font-size here would silently override text-* utilities on wrappers. */
+
+  /* In-page anchors (e.g. /services#brow-lash) land below the fixed header */
+  [id] {
+    scroll-margin-top: calc(var(--nav-h, 72px) + 1.5rem);
+  }
+
+  /* Avoid the grey tap flash on iOS for custom-styled controls */
+  a, button {
+    -webkit-tap-highlight-color: transparent;
   }
 
   /* Focus styles, visible on keyboard nav, hidden on mouse */
@@ -90,6 +108,16 @@
     .skip-link {
       transition: none;
     }
+  }
+}
+
+/* iOS Safari zooms the page when a focused field is under 16px. Keep form
+   text at 16px on phones so tapping into a field never jumps the layout. */
+@media (max-width: 767px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
   }
 }
 

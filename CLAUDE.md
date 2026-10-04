@@ -46,16 +46,9 @@ Portfolio demo site for Alectronic Solutions showcasing a premium web presence f
 - **Hover:** subtle scale (`1.02–1.04`), smooth 300ms transitions
 - **Parallax:** hero image subtle parallax on scroll via `useScroll` + `useTransform`
 - **Stagger children:** 0.1s delay increments via `staggerChildren`
-- **Reduced motion:** always wrap animation variants with `@media (prefers-reduced-motion)` — use `shouldReduceMotion` from Framer Motion
-
-```ts
-// Pattern for reduced-motion-safe animations
-const shouldReduceMotion = useReducedMotion();
-const variants = {
-  hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 40 },
-  visible: { opacity: 1, y: 0 },
-};
-```
+- **Reduced motion:** handled globally by `MotionProvider` (`<MotionConfig reducedMotion="user">` in `layout.tsx`), which drops transforms but keeps opacity fades. Write `initial` / `whileInView` / `variants` unconditionally.
+  - **Never** toggle them on `useReducedMotion()` (e.g. `initial={rm ? undefined : "hidden"}`). The server renders the hidden state (`opacity: 0`); if the client then drops the animation props, the element stays invisible for reduced-motion visitors.
+  - `useReducedMotion()` is fine for non-render decisions (skip autoplay video, jump a counter to its final value). For CSS-only effects use Tailwind `motion-reduce:` / `motion-safe:` variants.
 
 ## Pages
 

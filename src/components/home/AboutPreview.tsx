@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import type { Variants } from "framer-motion";
 import { assetPath } from "@/lib/assetPath";
@@ -26,8 +26,6 @@ const textChild: Variants = {
 };
 
 export function AboutPreview() {
-  const rm = useReducedMotion();
-
   return (
     <section
       className="relative overflow-hidden section-py"
@@ -41,33 +39,33 @@ export function AboutPreview() {
 
           {/* ═══ LEFT, Editorial text ═══ */}
           <motion.div
-            variants={rm ? undefined : textStagger}
-            initial={rm ? undefined : "hidden"}
-            whileInView={rm ? undefined : "visible"}
+            variants={textStagger}
+            initial={"hidden"}
+            whileInView={"visible"}
             viewport={viewportOnce}
             className="lg:max-w-[560px]"
           >
             {/* Eyebrow */}
             <motion.p
-              variants={rm ? undefined : textChild}
-              className="font-body text-[0.68rem] tracking-[0.32em] uppercase text-rose-gold mb-8"
+              variants={textChild}
+              className="font-body text-[0.68rem] tracking-[0.32em] uppercase text-rose-gold-deep mb-8"
             >
               Our Story
             </motion.p>
 
             {/* Headline */}
             <motion.h2
-              variants={rm ? undefined : textChild}
+              variants={textChild}
               className="font-display font-light text-plum leading-[1.07] text-balance"
               style={{ fontSize: "clamp(2.25rem, 4.5vw, 4rem)" }}
             >
               Built on the belief that luxury is a standard,
-              <span className="italic text-rose-gold"> not an exception.</span>
+              <span className="italic text-rose-gold-dark"> not an exception.</span>
             </motion.h2>
 
             {/* Body copy with drop cap */}
             <motion.div
-              variants={rm ? undefined : textChild}
+              variants={textChild}
               className="mt-7 space-y-4 text-charcoal/65 leading-[1.8] font-light"
               style={{ fontSize: "clamp(0.9rem, 1.1vw, 1rem)" }}
             >
@@ -105,7 +103,7 @@ export function AboutPreview() {
 
             {/* Pull quote */}
             <motion.blockquote
-              variants={rm ? undefined : textChild}
+              variants={textChild}
               className="mt-7 pl-5 border-l-2 border-rose-gold/50"
             >
               <p
@@ -122,7 +120,7 @@ export function AboutPreview() {
 
             {/* CTA row */}
             <motion.div
-              variants={rm ? undefined : textChild}
+              variants={textChild}
               className="mt-7 flex flex-wrap items-center gap-5"
             >
               <Link
@@ -145,11 +143,11 @@ export function AboutPreview() {
 
           {/* ═══ RIGHT, Image with rose-gold border treatment ═══ */}
           <motion.div
-            initial={rm ? undefined : { opacity: 0, x: 40 }}
-            whileInView={rm ? undefined : { opacity: 1, x: 0 }}
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={viewportOnce}
             transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
-            className="relative lg:sticky lg:top-32 w-full lg:w-[380px] xl:w-[420px] shrink-0"
+            className="relative lg:sticky lg:top-32 w-full max-w-md mx-auto lg:mx-0 lg:w-[380px] xl:w-[420px] shrink-0 mb-6 lg:mb-0"
           >
             {/* Offset decorative shadow-frame behind the image */}
             <div
@@ -205,11 +203,11 @@ export function AboutPreview() {
 
             {/* Floating stats chip, bottom-left overflow */}
             <motion.div
-              initial={rm ? undefined : { opacity: 0, y: 16, x: 8 }}
-              whileInView={rm ? undefined : { opacity: 1, y: 0, x: 0 }}
+              initial={{ opacity: 0, y: 16, x: 8 }}
+              whileInView={{ opacity: 1, y: 0, x: 0 }}
               viewport={viewportOnce}
               transition={{ delay: 0.55, duration: 0.6, ease: EASE }}
-              className="absolute -bottom-6 -right-6 rounded-[14px] py-4 px-5 z-10"
+              className="hidden sm:block absolute -bottom-6 -right-6 rounded-[14px] py-4 px-5 z-10"
               style={{
                 background: "rgba(28,11,46,0.92)",
                 backdropFilter: "blur(12px)",
@@ -231,11 +229,11 @@ export function AboutPreview() {
 
             {/* Corner bracket accent, top right of frame */}
             <motion.div
-              initial={rm ? undefined : { opacity: 0, scale: 0.8 }}
-              whileInView={rm ? undefined : { opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={viewportOnce}
               transition={{ delay: 0.7, duration: 0.5 }}
-              className="absolute -top-5 -right-5 w-14 h-14 pointer-events-none"
+              className="absolute -top-4 -right-2 sm:-top-5 sm:-right-5 w-14 h-14 pointer-events-none"
               aria-hidden
             >
               <div className="absolute top-0 right-0 w-full h-px bg-rose-gold/50" />

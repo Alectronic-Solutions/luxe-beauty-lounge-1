@@ -101,7 +101,7 @@ const SERVICE_THEME: Record<
 function ServiceCard({
   service,
   index,
-  fixedHeight = "clamp(160px, 22vw, 220px)",
+  fixedHeight = "clamp(170px, 22vw, 220px)",
   fullWidth = false,
 }: {
   service: (typeof SERVICES)[number];
@@ -192,15 +192,20 @@ function ServiceCard({
           </div>
 
           {/* Hover reveal, both states always in DOM, no layout shift */}
-          <div className="relative z-10 flex-1">
-            {/* Tagline, fades out on hover */}
-            <p
-              className="font-display italic text-ivory/65 text-sm mt-2 transition-opacity duration-200"
+          <div className="relative z-10 flex-1 flex flex-col min-h-0">
+            {/* Tagline + price, fades out on hover (always shown on touch) */}
+            <div
+              className="flex-1 flex flex-col transition-opacity duration-200"
               style={{ opacity: hovered ? 0 : 1 }}
               aria-hidden={hovered}
             >
-              {service.tagline}
-            </p>
+              <p className="font-display italic text-ivory/70 text-sm mt-1.5 line-clamp-1">
+                {service.tagline}
+              </p>
+              <p className="mt-auto pt-2 font-body text-[0.7rem] tracking-wider text-champagne/80 whitespace-nowrap">
+                From {service.priceFrom} <span className="text-ivory/40 mx-1">·</span> {service.duration}
+              </p>
+            </div>
             {/* Expanded, fades + slides in on hover, absolute so it doesn't push layout */}
             <div
               className="absolute bottom-0 left-0 right-0 transition-all duration-300"
@@ -280,7 +285,7 @@ export function ServicesGrid() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={viewportOnce}
               transition={{ duration: 0.5 }}
-              className="font-body text-[0.7rem] tracking-[0.3em] uppercase text-rose-gold mb-3"
+              className="font-body text-[0.7rem] tracking-[0.3em] uppercase text-rose-gold-deep mb-3"
             >
               What We Do
             </motion.p>
@@ -325,11 +330,11 @@ export function ServicesGrid() {
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
-          className="grid grid-cols-2 md:grid-cols-3 gap-4"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4"
           style={{ gridTemplateRows: "auto" }}
         >
           {/* Featured, full width on mobile, 2×2 on desktop */}
-          <div className="col-span-2 md:col-span-2 md:row-span-2">
+          <div className="sm:col-span-2 md:row-span-2">
             <Link
               href="/services#signature-facial"
               className="group block h-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-gold rounded-card-lg"
@@ -378,7 +383,7 @@ export function ServicesGrid() {
                     <p className="font-display font-light text-champagne" style={{ fontSize: "clamp(1.35rem, 2.5vw, 2rem)" }}>{SERVICES[0].priceFrom}</p>
                   </div>
                   <div className="flex items-center gap-2 text-ivory/50 group-hover:text-ivory transition-colors duration-300">
-                    <span className="font-body text-sm tracking-wider hidden sm:inline">Book now</span>
+                    <span className="font-body text-sm tracking-wider hidden sm:inline">Explore</span>
                     <svg width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden>
                       <path d="M1 6H15M10 1L15 6L10 11" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
@@ -397,14 +402,14 @@ export function ServicesGrid() {
           </div>
 
           {/* Cards B & C, right column top two on desktop, 2-col on mobile */}
-          <ServiceCard service={rest[0]} index={0} fixedHeight="clamp(160px, 25vw, 250px)" />
-          <ServiceCard service={rest[1]} index={1} fixedHeight="clamp(160px, 25vw, 250px)" />
+          <ServiceCard service={rest[0]} index={0} fixedHeight="clamp(170px, 25vw, 250px)" />
+          <ServiceCard service={rest[1]} index={1} fixedHeight="clamp(170px, 25vw, 250px)" />
 
           {/* Bottom row, 3 equal cards on desktop, 2-col + full-width on mobile */}
-          <ServiceCard service={rest[2]} index={2} fixedHeight="clamp(160px, 22vw, 220px)" />
-          <ServiceCard service={rest[3]} index={3} fixedHeight="clamp(160px, 22vw, 220px)" />
-          <div className="col-span-2 md:col-span-1">
-            <ServiceCard service={rest[4]} index={4} fixedHeight="clamp(160px, 22vw, 220px)" fullWidth />
+          <ServiceCard service={rest[2]} index={2} fixedHeight="clamp(170px, 22vw, 220px)" />
+          <ServiceCard service={rest[3]} index={3} fixedHeight="clamp(170px, 22vw, 220px)" />
+          <div className="sm:col-span-2 md:col-span-1">
+            <ServiceCard service={rest[4]} index={4} fixedHeight="clamp(170px, 22vw, 220px)" fullWidth />
           </div>
         </motion.div>
 

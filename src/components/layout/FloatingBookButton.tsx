@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 
 export function FloatingBookButton() {
   const pathname = usePathname();
-  const rm = useReducedMotion();
   const [visible, setVisible] = useState(false);
+  const [covered, setCovered] = useState(false);
 
   // Show after scrolling 120px, hide on booking page
   useEffect(() => {
@@ -18,24 +18,40 @@ export function FloatingBookButton() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const isBookingPage = pathname === "/booking" || pathname === "/booking/";
-  const show = visible && !isBookingPage;
+  // Get out of the way when a booking form or the footer is on screen, so the
+  // pill never sits on top of form fields, links, or the submit button.
+  useEffect(() => {
+    const targets = document.querySelectorAll("[data-hide-float], footer");
+    if (!targets.length) return;
+    const onScreen = new Set<Element>();
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => (e.isIntersecting ? onScreen.add(e.target) : onScreen.delete(e.target)));
+      setCovered(onScreen.size > 0);
+    });
+    targets.forEach((t) => io.observe(t));
+    return () => {
+      io.disconnect();
+      setCovered(false);
+    };
+  }, [pathname]);
+
+  const isBookingPage = pathname.startsWith("/booking");
+  const show = visible && !covered && !isBookingPage;
 
   return (
     <AnimatePresence>
       {show && (
         <motion.div
-          initial={rm ? undefined : { opacity: 0, y: 16, scale: 0.92 }}
-          animate={rm ? undefined : { opacity: 1, y: 0, scale: 1 }}
-          exit={rm ? undefined : { opacity: 0, y: 12, scale: 0.94 }}
+          initial={{ opacity: 0, y: 16, scale: 0.92 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 12, scale: 0.94 }}
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed bottom-0 inset-x-0 flex justify-center z-40 md:hidden pointer-events-none"
+          className="fixed bottom-0 inset-x-0 flex justify-center z-40 lg:hidden pointer-events-none"
           style={{ paddingBottom: "max(1.5rem, env(safe-area-inset-bottom, 1.5rem))" }}
-          aria-hidden={!show}
         >
           <motion.div
-            whileHover={rm ? undefined : { scale: 1.04 }}
-            whileTap={rm ? undefined : { scale: 0.96 }}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
             className="pointer-events-auto"
           >
             <Link

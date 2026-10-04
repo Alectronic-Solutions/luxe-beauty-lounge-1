@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { viewportOnce } from "@/lib/animations";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -13,7 +13,7 @@ const BADGES = [
       </svg>
     ),
     label: "Top Rated",
-    sub: "Westfield, NJ 2024",
+    sub: "Union County, NJ",
   },
   {
     icon: (
@@ -59,8 +59,6 @@ const BADGES = [
 ] as const;
 
 export function TrustStrip() {
-  const rm = useReducedMotion();
-
   return (
     <section
       className="relative overflow-hidden"
@@ -82,19 +80,19 @@ export function TrustStrip() {
       />
 
       <div className="container-luxury py-10 md:py-14">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-x-4 gap-y-8 md:gap-4">
           {BADGES.map((badge, i) => (
             <motion.div
               key={badge.label}
-              initial={rm ? undefined : { opacity: 0, y: 24 }}
-              whileInView={rm ? undefined : { opacity: 1, y: 0 }}
-              whileHover={rm ? undefined : { y: -5, transition: { duration: 0.22, ease: EASE } }}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ y: -5, transition: { duration: 0.22, ease: EASE } }}
               viewport={viewportOnce}
               transition={{ duration: 0.55, delay: i * 0.09, ease: EASE }}
-              className="flex flex-col items-center gap-3 text-center group cursor-default"
+              className={`flex flex-col items-center gap-3 text-center group cursor-default ${i === BADGES.length - 1 ? "col-span-2 md:col-span-1" : ""}`}
             >
               <motion.div
-                whileHover={rm ? undefined : { scale: 1.1, transition: { duration: 0.22 } }}
+                whileHover={{ scale: 1.1, transition: { duration: 0.22 } }}
                 className="w-14 h-14 rounded-full flex items-center justify-center text-rose-gold transition-colors duration-300 border border-rose-gold/15 group-hover:border-rose-gold/40"
                 style={{ background: "rgba(200,149,108,0.08)" }}
               >
